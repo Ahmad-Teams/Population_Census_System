@@ -16,6 +16,10 @@ html{zoom:67%}
     float:right
 }
 
+#hi{
+	    margin-left: 40px;
+}
+
 .header .navbar ul li {float:left;padding: 10px;font-size: 22px;margin-top: 13px}
 
 .header .navbar ul li a {color:#FFF;text-decoration: none}
