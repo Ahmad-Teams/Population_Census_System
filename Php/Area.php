@@ -1,8 +1,8 @@
 <?php
 class Area {
   // Properties
-  public $areaID;
-  public $areaName;
+  private $areaID;
+  private $areaName;
 
   // Methods
   function get_areaID() {

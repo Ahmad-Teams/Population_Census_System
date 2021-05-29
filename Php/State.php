@@ -1,8 +1,8 @@
 <?php
 class State {
   // Properties
-  public $stateID;
-  public $stateName;
+  private $stateID;
+  private $stateName;
 
   // Methods
   function get_stateID() {
