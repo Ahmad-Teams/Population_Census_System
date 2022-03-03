@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author PC
  */
-public class FamilyMember {
+public class FamilyMember extends Person{
 
     private String city;
     private String address;

@@ -12,24 +12,26 @@ import java.util.ArrayList;
  * @author PC
  */
 public class UserDB {
-    public static void addUserRequest(UserRequest request){
-        
+
+    public static void addUserRequest(UserRequest request) {
+
     }
-    
-    public static ArrayList<member> getMembers(){
-        
+
+    public static ArrayList<Member> getMembers() {
+        return new ArrayList<Member>();
     }
-    
-    public static ArrayList<userRequest> getUserRequests(){
-        
+
+    public static ArrayList<UserRequest> getUserRequests() {
+        return new ArrayList<UserRequest>();
+
     }
-    
-    public static ArrayList<correctionRequest> getCorrectionRequests(){
-        
+
+    public static ArrayList<CorrectionRequest> getCorrectionRequests() {
+        return new ArrayList<CorrectionRequest>();
     }
-    
-    public static String check(String username, String password){
-        
+
+    public static String check(String username, String password) {
+        return "";
     }
-    
+
 }

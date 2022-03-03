@@ -5,11 +5,13 @@
  */
 package project.implementation;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author PC
  */
 public interface Observable {
-    public Observer getObservers();
+    public void getObservers();
     public void notifyUpdate();
 }

@@ -2,10 +2,17 @@ package project.implementation;
 
 import java.util.ArrayList;
 
-public class Officer {
+public class Officer extends Person implements System_user, Observable {
 
     private int OID;
+    
+    private ArrayList<Observer> observers;
 
+
+    private void setObservers(ArrayList<Observer> observers) {
+        this.observers = observers;
+    }
+    
     public int getOID() {
         return OID;
     }
@@ -54,15 +61,27 @@ public class Officer {
     public void viewFamilyMember(ArrayList<FamilyMember> FamilyMembers) {
 
     }
-    
+
     public void viewUserRequests(ArrayList<UserRequest> UserRequests) {
 
     }
+
     public ArrayList<Observer> viewUserRequests() {
 
+        return new ArrayList<Observer>();
     }
-    public notifyUpdate() {
 
+
+    @Override
+    public void notifyUpdate() {
+        User.Update();
     }
-    
+
+    @Override
+    public void getObservers() {
+        ArrayList<Observer> observers = new ArrayList<Observer>();
+        //here we find the observers of the officer (users) by matching the common area and adding them to the arraylist (observers)
+        this.setObservers(observers);
+    }
+
 }

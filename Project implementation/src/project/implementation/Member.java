@@ -9,7 +9,7 @@ package project.implementation;
  *
  * @author PC
  */
-public class Member {
+public class Member extends FamilyMember {
 
     private int MID;
     private String DocName;
