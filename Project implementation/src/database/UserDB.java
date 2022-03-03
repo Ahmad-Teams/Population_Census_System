@@ -3,9 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package project.implementation;
+package database;
 
 import java.util.ArrayList;
+import project.CorrectionRequest;
+import project.Member;
+import project.UserRequest;
 
 /**
  *

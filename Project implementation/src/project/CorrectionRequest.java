@@ -1,4 +1,4 @@
-package project.implementation;
+package project;
 
 public class CorrectionRequest {
 
