@@ -33,8 +33,8 @@ public class UserDB {
         return new ArrayList<CorrectionRequest>();
     }
 
-    public static String check(String username, String password) {
-        return "";
+    public boolean check(String username, String password) {
+         return OfficerDB.check(username, password);
     }
 
 }
