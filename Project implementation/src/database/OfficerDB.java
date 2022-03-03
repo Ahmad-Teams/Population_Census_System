@@ -19,7 +19,7 @@ public class OfficerDB {
         return new ArrayList<CorrectionRequest>();
     }
 
-    public static String check(String username, String password) {
-        return "";
+    public static boolean check(String username, String password) {
+        return false;
     }
 }

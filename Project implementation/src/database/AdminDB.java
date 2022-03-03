@@ -26,8 +26,7 @@ public class AdminDB {
         return new ArrayList<FamilyMember>();
     }
 
-    public static String check(String username, String password) {
-        OfficerDB.check(username, password);
-        return "";
+    public static boolean check(String username, String password) {
+        return OfficerDB.check(username, password);
     }
 }
