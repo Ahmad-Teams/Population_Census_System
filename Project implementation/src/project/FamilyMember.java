@@ -11,15 +11,58 @@ import java.util.Date;
  *
  * @author PC
  */
-public class FamilyMember extends Person{
+public class FamilyMember extends Person {
 
     private String city;
     private String address;
     private String education;
     private String email;
-    private Area area;
     private String sex;
     private String occupation;
+    private String DocName;
+    private int stateID;
+    private Date DOB;
+    private int areaID;
+
+    public FamilyMember(String city, String address, String education, String email, String sex, String occupation, String DocName, int stateID, Date DOB, int areaID, String name, int phone, String imageName, String Email, String Sex) {
+        super(name, phone, imageName, Email, Sex);
+        this.city = city;
+        this.address = address;
+        this.education = education;
+        this.email = email;
+        this.sex = sex;
+        this.occupation = occupation;
+        this.DocName = DocName;
+        this.stateID = stateID;
+        this.DOB = DOB;
+        this.areaID = areaID;
+    }
+
+
+
+    public int getareaID() {
+        return areaID;
+    }
+
+    public void setareaID(int AreaID) {
+        this.areaID = AreaID;
+    }
+
+    public int getStateID() {
+        return stateID;
+    }
+
+    public void setStateID(int stateID) {
+        this.stateID = stateID;
+    }
+
+    public String getDocName() {
+        return DocName;
+    }
+
+    public void setDocName(String DocName) {
+        this.DocName = DocName;
+    }
 
     public String getAddress() {
         return address;
@@ -52,7 +95,6 @@ public class FamilyMember extends Person{
     public void setEmail(String email) {
         this.email = email;
     }
-    private Date DOB;
 
     public Date getDOB() {
         return DOB;
@@ -60,14 +102,6 @@ public class FamilyMember extends Person{
 
     public void setDOB(Date DOB) {
         this.DOB = DOB;
-    }
-
-    public Area getArea() {
-        return area;
-    }
-
-    public void setArea(Area area) {
-        this.area = area;
     }
 
     public String getSex() {

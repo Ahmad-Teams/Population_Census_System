@@ -3,11 +3,18 @@ package project;
 public class Person {
 
     private String name;
-    private State state;
     private int phone;
     private String imageName;
     private String Email;
     private String Sex;
+
+    public Person(String name, int phone, String imageName, String Email, String Sex) {
+        this.name = name;
+        this.phone = phone;
+        this.imageName = imageName;
+        this.Email = Email;
+        this.Sex = Sex;
+    }
 
     public String getName() {
         return name;
@@ -31,14 +38,6 @@ public class Person {
 
     public String getSex() {
         return Sex;
-    }
-
-    public State getState() {
-        return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
     }
 
     public int getPhone() {

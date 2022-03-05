@@ -6,13 +6,35 @@ public class Officer extends Person implements System_user, Observable {
 
     private int OID;
     private int AID;
+    private Area area;
+    private String username;
+    private String password;
     private ArrayList<Observer> observers;
+    private int areaID;
 
+    public Officer(int OID, int AID, Area area, String username, String password, ArrayList<Observer> observers, int areaID, String name, int phone, String imageName, String Email, String Sex) {
+        super(name, phone, imageName, Email, Sex);
+        this.OID = OID;
+        this.AID = AID;
+        this.area = area;
+        this.username = username;
+        this.password = password;
+        this.observers = observers;
+        this.areaID = areaID;
+    }
+
+    public int getAreaID() {
+        return areaID;
+    }
+
+    public void setAreaID(int areaID) {
+        this.areaID = areaID;
+    }
 
     private void setObservers(ArrayList<Observer> observers) {
         this.observers = observers;
     }
-    
+
     public int getOID() {
         return OID;
     }
@@ -20,6 +42,7 @@ public class Officer extends Person implements System_user, Observable {
     public void setOID(int OID) {
         this.OID = OID;
     }
+
     public int getAID() {
         return AID;
     }
@@ -27,8 +50,6 @@ public class Officer extends Person implements System_user, Observable {
     public void setAID(int AID) {
         this.AID = AID;
     }
-
-    private Area area;
 
     public Area getArea() {
         return area;
@@ -38,8 +59,6 @@ public class Officer extends Person implements System_user, Observable {
         this.area = area;
     }
 
-    private String username;
-
     public String getUsername() {
         return username;
     }
@@ -48,27 +67,12 @@ public class Officer extends Person implements System_user, Observable {
         this.username = username;
     }
 
-    private String password;
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Officer(int OID,String name,State StateName,int Phone, String username, String password,Area area,String Email,String Sex,int AID) {
-        this.OID = OID;
-        this.setName(name);
-        this.setState(StateName);
-        this.setPhone(Phone);
-        this.username = username;
-        this.password = password;
-        this.area = area;
-        this.setEmail(Email);
-        this.setSex(Sex);
-        this.setAID(AID);
     }
 
     public void viewFamilyMember(ArrayList<FamilyMember> FamilyMembers) {
@@ -83,7 +87,6 @@ public class Officer extends Person implements System_user, Observable {
 
         return new ArrayList<Observer>();
     }
-
 
     @Override
     public void notifyUpdate() {
