@@ -5,6 +5,11 @@ public class State {
     private int stateID;
     private String stateName;
 
+    public State(int stateID, String stateName) {
+        this.stateID = stateID;
+        this.stateName = stateName;
+    }
+
     public int getStateID() {
         return stateID;
     }

@@ -6,7 +6,8 @@ public class Person {
     private State state;
     private int phone;
     private String imageName;
-    
+    private String Email;
+    private String Sex;
 
     public String getName() {
         return name;
@@ -14,6 +15,22 @@ public class Person {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setEmail(String Email) {
+        this.Email = Email;
+    }
+
+    public String getEmail() {
+        return (Email);
+    }
+
+    public void setSex(String Sex) {
+        this.Sex = Sex;
+    }
+
+    public String getSex() {
+        return Sex;
     }
 
     public State getState() {
