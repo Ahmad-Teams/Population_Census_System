@@ -8,13 +8,14 @@ package database;
 import java.util.ArrayList;
 import project.CorrectionRequest;
 import project.Member;
+import project.Observer;
 import project.UserRequest;
 
 /**
  *
  * @author PC
  */
-public class UserDB {
+public class UserDB implements Observer{
 
     public static void addUserRequest(UserRequest request) {
 
@@ -35,6 +36,11 @@ public class UserDB {
 
     public boolean check(String username, String password) {
          return OfficerDB.check(username, password);
+    }
+
+    @Override
+    public void update() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

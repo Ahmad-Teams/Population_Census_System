@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author PC
  */
-public class FamilyMember extends Person {
+public class FamilyMember extends Person implements Observer{
 
     private String city;
     private String address;
@@ -118,6 +118,11 @@ public class FamilyMember extends Person {
 
     public void setOccupation(String occupation) {
         this.occupation = occupation;
+    }
+
+    @Override
+    public void update() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

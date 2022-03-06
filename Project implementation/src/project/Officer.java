@@ -1,29 +1,28 @@
 package project;
 
 import java.util.ArrayList;
-
-public class Officer extends Person implements System_user, Observable {
+import database.OfficerDB;
+public class Officer extends Person implements System_user, Observable,Observer {
 
     private int OID;
     private int AID;
-    private Area area;
     private String username;
     private String password;
     private ArrayList<Observer> observers;
     private int areaID;
-
-    public Officer(int OID, int AID, Area area, String username, String password, ArrayList<Observer> observers, int areaID, String name, int phone, String imageName, String Email, String Sex) {
+// list.add(new Officer(r.getInt("Phone"), r.getString("Email"),r.getInt("OID"),r.getString("Name") ,r.getString("AreaID"),r.getString("Sex"),r.getString("Username"), r.getString("Password"),r.getInt("AID")));
+    public Officer(int OID, int AID,  String username, String password,  int areaID, String name, int phone, String imageName, String Email, String Sex) {
         super(name, phone, imageName, Email, Sex);
         this.OID = OID;
         this.AID = AID;
-        this.area = area;
         this.username = username;
         this.password = password;
-        this.observers = observers;
         this.areaID = areaID;
+        this.getObservers();
     }
+  
 
-    public int getAreaID() {
+        public int getAreaID() {
         return areaID;
     }
 
@@ -49,14 +48,6 @@ public class Officer extends Person implements System_user, Observable {
 
     public void setAID(int AID) {
         this.AID = AID;
-    }
-
-    public Area getArea() {
-        return area;
-    }
-
-    public void setArea(Area area) {
-        this.area = area;
     }
 
     public String getUsername() {
@@ -95,9 +86,14 @@ public class Officer extends Person implements System_user, Observable {
 
     @Override
     public void getObservers() {
-        ArrayList<Observer> observers = new ArrayList<Observer>();
+        ArrayList<Observer> observers = OfficerDB.
         //here we find the observers of the officer (users) by matching the common area and adding them to the arraylist (observers)
         this.setObservers(observers);
+    }
+
+    @Override
+    public void update() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

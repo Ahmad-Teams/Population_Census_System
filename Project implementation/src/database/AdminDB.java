@@ -9,10 +9,11 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import project.FamilyMember;
+import project.Observable;
 import project.Officer;
 import project.State;
 
-public class AdminDB {
+public class AdminDB implements Observable {
 
     public static Connection connect() throws SQLException {
         try {
@@ -26,18 +27,17 @@ public class AdminDB {
     public static void addOfficer(Officer officer) {
          try (
                 Connection con = connect();
-                PreparedStatement p = con.prepareStatement("insert into Officer(StateName,Phone,Email,Name,AreaName,Sex,Username,Password,AID) values(?,?,?,?,?,?,?,?,?)");
+                PreparedStatement p = con.prepareStatement("insert into Officer(Phone,Email,Name,AreaID,Sex,Username,Password,AID) values(?,?,?,?,?,?,?,?)");
                 PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
-            p.setString(1, officer.getState().getStateName());
-            p.setInt(2, officer.getPhone());
-            p.setString(3, officer.getEmail());
-            p.setString(4, officer.getName());
-            p.setString(5, officer.getArea().getAreaName());
-            p.setString(6, officer.getSex());
-            p.setString(7, officer.getUsername());
-            p.setString(8, officer.getPassword());
-            p.setInt(9, officer.getAID());
+            p.setInt(1, officer.getPhone());
+            p.setString(2, officer.getEmail());
+            p.setString(3, officer.getName());
+            p.setInt(4, officer.getAreaID());
+            p.setString(5, officer.getSex());
+            p.setString(6, officer.getUsername());
+            p.setString(7, officer.getPassword());
+            p.setInt(8, officer.getAID());
             p.execute();
         } catch (SQLException ee) {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here
@@ -61,22 +61,21 @@ public class AdminDB {
         }
     
 
-    public static void updateOfficer(int OID, String name, String StateName, int Phone, String Username,
-            String Password, String AreaName,String Email,String Sex,int AID) {
+    public static void updateOfficer(int OID, int Phone,String Email,String Name,int AreaID,String Sex,String Username,
+            String Password,int AID) {
         try (
                 Connection con = connect();
-                PreparedStatement p = con.prepareStatement("UPDATE Officer SET name = ?, StateName = ?, Phone = ?, Username = ?,password = ?, AreaName = ?, Email = ?, Sex = ?,AID = ? WHERE OID = ?");
+                PreparedStatement p = con.prepareStatement("UPDATE Officer SET  Phone = ? , Email = ?,Name = ?, AreaID = ?, Sex = ?,Username = ?,password = ?,AID = ? WHERE OID = ?");
                 PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
-            p.setString(1, name);
-            p.setString(2, StateName);
-            p.setInt(3, Phone);
-            p.setString(4, Username);
-            p.setString(5, Password);
-            p.setString(6, AreaName);
-            p.setString(7, Email);
-            p.setString(8, Sex);
-            p.setInt(9, AID);
+            p.setInt(1, Phone);
+            p.setString(2, Email);
+            p.setString(3, Name);
+            p.setInt(4, AreaID);
+            p.setString(5, Sex);
+            p.setString(6, Username);
+            p.setString(7, Password);
+            p.setInt(8, AID);
 
             p.execute();
         } catch (SQLException ee) {
@@ -93,9 +92,9 @@ public class AdminDB {
                 PreparedStatement p = con.prepareStatement("select * from Officer");) {
             {
                 ResultSet r = p.executeQuery();
-                while (r.next()) {
+                while (r.next()) {      //return  one row of officer table 
                    
-                        list.add(new Officer(r.getInt("OID"), r.getString("name"),new State(r.getString("StateName")),r.getInt("Phone") ,r.getString("Username"), r.getString("Password"),r.getString("AreaName"),r.getString("Email") ,r.getString("Sex"),r.getInt("AID")));
+                        list.add(new Officer(r.getInt("Phone"), r.getString("Email"),r.getInt("OID"),r.getString("Name") ,r.getString("AreaID"),r.getString("Sex"),r.getString("Username"), r.getString("Password"),r.getInt("AID")));
                    
                     
                 }
@@ -113,5 +112,15 @@ public class AdminDB {
 
     public static boolean check(String username, String password) {
         return OfficerDB.check(username, password);
+    }
+
+    @Override
+    public void getObservers() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyUpdate() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

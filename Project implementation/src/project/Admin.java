@@ -2,7 +2,7 @@ package project;
 
 import java.util.ArrayList;
 
-public class Admin extends Person implements System_user {
+public class Admin extends Person implements System_user ,Observable{
 
     private int AID;
     private String Name;
@@ -80,6 +80,16 @@ public class Admin extends Person implements System_user {
 
     public void viewFamilyMember(ArrayList<FamilyMember> FamilyMembers) {
 
+    }
+
+    @Override
+    public void getObservers() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyUpdate() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
