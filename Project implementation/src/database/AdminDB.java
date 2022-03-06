@@ -9,11 +9,9 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import project.FamilyMember;
-import project.Observable;
 import project.Officer;
-import project.State;
 
-public class AdminDB implements Observable {
+public class AdminDB {
 
     public static Connection connect() throws SQLException {
         try {
@@ -114,13 +112,9 @@ public class AdminDB implements Observable {
         return OfficerDB.check(username, password);
     }
 
-    @Override
-    public void getObservers() {
+    public static void getObservers() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void notifyUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 }

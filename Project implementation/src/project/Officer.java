@@ -86,7 +86,7 @@ public class Officer extends Person implements System_user, Observable,Observer 
 
     @Override
     public void getObservers() {
-        ArrayList<Observer> observers = OfficerDB.
+        ArrayList<Observer> observers = OfficerDB.getObservers();
         //here we find the observers of the officer (users) by matching the common area and adding them to the arraylist (observers)
         this.setObservers(observers);
     }
