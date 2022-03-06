@@ -23,10 +23,8 @@ public class AdminDB {
     }
 
     public static void addOfficer(Officer officer) {
-         try (
-                Connection con = connect();
-                PreparedStatement p = con.prepareStatement("insert into Officer(Phone,Email,Name,AreaID,Sex,Username,Password,AID) values(?,?,?,?,?,?,?,?)");
-                PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+        try (
+                 Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into Officer(Phone,Email,Name,AreaID,Sex,Username,Password,AID,imageName) values(?,?,?,?,?,?,?,?,?)");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setInt(1, officer.getPhone());
             p.setString(2, officer.getEmail());
@@ -36,19 +34,16 @@ public class AdminDB {
             p.setString(6, officer.getUsername());
             p.setString(7, officer.getPassword());
             p.setInt(8, officer.getAID());
+            p.setString(9, officer.getImageName());
             p.execute();
         } catch (SQLException ee) {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here
         }
     }
-     
-    
 
     public static void deleteOfficer(int OID) {
         try (
-                Connection con = connect();
-                PreparedStatement p = con.prepareStatement("delete from Officer where OID = ? ");
-                PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+                 Connection con = connect();  PreparedStatement p = con.prepareStatement("delete from Officer where OID = ? ");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setInt(1, OID);
 
@@ -56,45 +51,40 @@ public class AdminDB {
         } catch (SQLException ee) {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here
         }
-        }
-    
-
-    public static void updateOfficer(int OID, int Phone,String Email,String Name,int AreaID,String Sex,String Username,
-            String Password,int AID) {
-        try (
-                Connection con = connect();
-                PreparedStatement p = con.prepareStatement("UPDATE Officer SET  Phone = ? , Email = ?,Name = ?, AreaID = ?, Sex = ?,Username = ?,password = ?,AID = ? WHERE OID = ?");
-                PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+    }
+           
+    public static void updateOfficer(Officer officer) {
+       try (
+                 Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE Officer SET Phone = ?,Email = ?,Name = ?,AreaID = ?,Sex = ?,Username = ?,Password = ?,AID = ?,imageName = ? WHERE OID = ?"); 
+                 PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
-            p.setInt(1, Phone);
-            p.setString(2, Email);
-            p.setString(3, Name);
-            p.setInt(4, AreaID);
-            p.setString(5, Sex);
-            p.setString(6, Username);
-            p.setString(7, Password);
-            p.setInt(8, AID);
-
+            p.setInt(1, officer.getPhone());
+            p.setString(2, officer.getEmail());
+            p.setString(3, officer.getName());
+            p.setInt(4, officer.getAreaID());
+            p.setString(5, officer.getSex());
+            p.setString(6, officer.getUsername());
+            p.setString(7, officer.getPassword());
+            p.setInt(8, officer.getAID());
+            p.setString(9, officer.getImageName());
             p.execute();
         } catch (SQLException ee) {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here
         }
 
     }
-//(int OID, String name, String StateName, int Phone, String Username,
-          //  String Password, String AreaName,String Email,String Sex,int AID)
+
     public ArrayList<Officer> getOfficers() {
         ArrayList<Officer> list = new ArrayList<>();
         try (
-                Connection con = connect();
+                 Connection con = connect(); 
                 PreparedStatement p = con.prepareStatement("select * from Officer");) {
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {      //return  one row of officer table 
-                   
-                        list.add(new Officer(r.getInt("Phone"), r.getString("Email"),r.getInt("OID"),r.getString("Name") ,r.getString("AreaID"),r.getString("Sex"),r.getString("Username"), r.getString("Password"),r.getInt("AID")));
-                   
-                    
+
+                    list.add(new Officer(r.getInt("Phone"), r.getString("Email"), r.getInt("OID"), r.getString("Name"), r.getInt("AreaID"), r.getString("Sex"), r.getString("Username"), r.getString("Password"), r.getInt("AID"), r.getString("imageName")));
+
                 }
             }
         } catch (SQLException ee) {
@@ -105,6 +95,7 @@ public class AdminDB {
     }
 
     public ArrayList<FamilyMember> getFamilyMembers() {
+        
         return new ArrayList<FamilyMember>();
     }
 
@@ -115,6 +106,5 @@ public class AdminDB {
     public static void getObservers() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 
 }

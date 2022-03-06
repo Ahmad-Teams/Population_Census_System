@@ -10,8 +10,8 @@ public class Officer extends Person implements System_user, Observable,Observer 
     private String password;
     private ArrayList<Observer> observers;
     private int areaID;
-// list.add(new Officer(r.getInt("Phone"), r.getString("Email"),r.getInt("OID"),r.getString("Name") ,r.getString("AreaID"),r.getString("Sex"),r.getString("Username"), r.getString("Password"),r.getInt("AID")));
-    public Officer(int OID, int AID,  String username, String password,  int areaID, String name, int phone, String imageName, String Email, String Sex) {
+    
+    public Officer(int phone,String Email,int OID,String name,int areaID,String Sex,String username, String password,int AID,String imageName  ) {
         super(name, phone, imageName, Email, Sex);
         this.OID = OID;
         this.AID = AID;
