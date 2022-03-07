@@ -17,12 +17,13 @@ public class CorrectionRequest {
         this.userRequestID = userRequestID;
     }
 
-    public CorrectionRequest(int requestID, int OID, String requestTitle, String requestContent, int UID) {
+    public CorrectionRequest(int requestID,int userRequestID,String requestTitle, String requestContent,int UID, int OID) {
         this.requestID = requestID;
-        this.OID = OID;
+        this.userRequestID=userRequestID;
         this.requestTitle = requestTitle;
         this.requestContent = requestContent;
         this.UID = UID;
+        this.OID = OID;
     }
 
     public int getUID() {

@@ -24,8 +24,8 @@ public class FamilyMember extends Person implements Observer{
     private Date DOB;
     private int areaID;
 
-    public FamilyMember(String city, String address, String education, String email, String sex, String occupation, String DocName, int stateID, Date DOB, int areaID, String name, int phone, String imageName, String Email, String Sex) {
-        super(name, phone, imageName, Email, Sex);
+    public FamilyMember(String city, String address, String education, String email, String sex, String occupation, String DocName, Date DOB, int areaID, String name, int phone, String imageName, String Email) {
+        super(name, phone, imageName, Email, sex);
         this.city = city;
         this.address = address;
         this.education = education;

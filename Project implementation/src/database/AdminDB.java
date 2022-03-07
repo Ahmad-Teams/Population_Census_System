@@ -24,7 +24,7 @@ public class AdminDB {
 
     public static void addOfficer(Officer officer) {
         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into Officer(Phone,Email,Name,AreaID,Sex,Username,Password,AID,imageName) values(?,?,?,?,?,?,?,?,?)");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+                 Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into Officer(Phone,Email,Name,AreaID,Sex,Username,Password,AID,ImageName) values(?,?,?,?,?,?,?,?,?)");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setInt(1, officer.getPhone());
             p.setString(2, officer.getEmail());
@@ -55,7 +55,7 @@ public class AdminDB {
            
     public static void updateOfficer(Officer officer) {
        try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE Officer SET Phone = ?,Email = ?,Name = ?,AreaID = ?,Sex = ?,Username = ?,Password = ?,AID = ?,imageName = ? WHERE OID = ?"); 
+                 Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE Officer SET Phone = ?,Email = ?,Name = ?,AreaID = ?,Sex = ?,Username = ?,Password = ?,AID = ?,ImageName = ? WHERE OID = ?"); 
                  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setInt(1, officer.getPhone());
@@ -91,7 +91,7 @@ public class AdminDB {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here
         }
 
-        return new ArrayList<Officer>();
+        return list;
     }
 
     public ArrayList<FamilyMember> getFamilyMembers() {

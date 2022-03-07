@@ -7,8 +7,10 @@ package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import project.Area;
@@ -23,7 +25,7 @@ public class AreaDB {
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AdminDB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AreaDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return DriverManager.getConnection("jdbc:sqlite:Population Census System DB.db");
     }
@@ -70,6 +72,25 @@ public class AreaDB {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here
         }
 
+    }
+    public ArrayList<Area> getAreas() {
+        ArrayList<Area> list = new ArrayList<>();
+        try (
+                 Connection con = connect(); 
+                PreparedStatement p = con.prepareStatement("select * from Area");) {
+            {
+                ResultSet r = p.executeQuery();
+                while (r.next()) {      //return  one row of Area table 
+
+                    list.add(new Area(r.getString("AreaName"), r.getInt("AreaID"), r.getInt("StateID")));
+
+                }
+            }
+        } catch (SQLException ee) {
+            System.out.println(ee.getMessage());// we will put out custimize exption massages here
+        }
+
+        return list;
     }
 
 }

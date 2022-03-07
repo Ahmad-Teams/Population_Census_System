@@ -14,14 +14,23 @@ import java.util.Date;
 public class Member extends FamilyMember {
 
     private int MID;
-
+    private int UID;
     public int getMID() {
         return MID;
     }
-
-    public Member(int MID, String city, String address, String education, String email, String sex, String occupation, String DocName, int stateID, Date DOB, int areaID, String name, int phone, String imageName, String Email, String Sex) {
-        super(city, address, education, email, sex, occupation, DocName, stateID, DOB, areaID, name, phone, imageName, Email, Sex);
+      //(Adderss,City,Education,Phone,Email,DOB,Name,AreaID,Sex,Occupation,UID,DocName,ImageName)
+    public Member(String address,String city,String education,int phone,String email,int MID,Date DOB,String name,int areaID,String sex,String occupation,int UID,String DocName,String imageName) {
+        super(city, address, education, email, sex, occupation, DocName, DOB, areaID, name, phone, imageName, email);
         this.MID = MID;
+        this.UID=UID;
+    }
+
+    public int getUID() {
+        return UID;
+    }
+
+    public void setUID(int UID) {
+        this.UID = UID;
     }
 
     

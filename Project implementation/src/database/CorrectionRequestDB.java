@@ -11,6 +11,7 @@ import project.CorrectionRequest;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import project.CorrectionRequest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +25,7 @@ public class CorrectionRequestDB {
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AdminDB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CorrectionRequestDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return DriverManager.getConnection("jdbc:sqlite:Population Census System DB.db");
     }
@@ -79,6 +80,25 @@ public class CorrectionRequestDB {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here
         }
 
+    }
+     public ArrayList<CorrectionRequest> getCorrectionRequests() {
+        ArrayList<CorrectionRequest> list = new ArrayList<>();
+        try (
+                 Connection con = connect(); 
+                PreparedStatement p = con.prepareStatement("select * from CorrectionRequest");) {
+            {
+                ResultSet r = p.executeQuery();
+                while (r.next()) {      //return  one row of Area table 
+
+                    list.add(new CorrectionRequest(r.getInt("RequestID"), r.getInt("UserRequestID"), r.getString("RequestTitle"),r.getString("RequestContent"),r.getInt("UID"),r.getInt("OID")));
+
+                }
+            }
+        } catch (SQLException ee) {
+            System.out.println(ee.getMessage());// we will put out custimize exption massages here
+        }
+
+        return list;
     }
     
 }
