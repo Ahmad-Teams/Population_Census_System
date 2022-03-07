@@ -14,68 +14,53 @@ import java.util.Date;
 public class UserRequest {
 
     private int requestID;
-    private String requestTitle;
-    private String requestType;
     private String requestState;
-    private int MID;
-    private int DocName;
     private String address;
     private String city;
     private String education;
     private int phone;
     private String email;
+    private int MID;
     private Date DOB;
-    private String area;
+    private String DocName;
+    private int areaID;
     private String sex;
     private String occupation;
+    private int UID;
+    //RequestState,Adderss,City,Education,Phone,Email,MID,DOB,DocName,AreaID,Sex,Occupation,UID)
 
-    public UserRequest(int requestID, String requestTitle, String requestType, String requestState, int MID, int DocName, String address, String city, String education, int phone, String email, String area, String sex, String occupation, Date DOB) {
+    public UserRequest(int requestID, String requestState, String address, String city, String education, int phone, String email, int MID, Date DOB, String DocName, int areaID, String sex, String occupation, int UID) {
         this.requestID = requestID;
-        this.requestTitle = requestTitle;
-        this.requestType = requestType;
         this.requestState = requestState;
-        this.MID = MID;
-        this.DocName = DocName;
         this.address = address;
         this.city = city;
         this.education = education;
         this.phone = phone;
         this.email = email;
+        this.MID = MID;
         this.DOB = DOB;
-        this.area = area;
+        this.DocName = DocName;
+        this.areaID = areaID;
         this.sex = sex;
         this.occupation = occupation;
+        this.UID = UID;
     }
-    
-    public void updateMember(Member member){
-        
+
+    public void updateMember(Member member) {
+
     }
-    
-    public void addMember(Member member){
-        
+
+    public int getUID() {
+        return UID;
     }
-    
-    
+
+    public void addMember(Member member) {
+
+    }
+
     public int getRequestID() {
         return requestID;
     }
-
-    public String getRequestTitle() {
-        return requestTitle;
-    }
-
-    public void setRequestTitle(String requestTitle) {
-        this.requestTitle = requestTitle;
-    }
-
-    public String getRequestType() {
-        return requestType;
-    }
-
-    public void setRequestType(String requestType) {
-        this.requestType = requestType;
-    }
-
 
     public String getRequestState() {
         return requestState;
@@ -84,6 +69,7 @@ public class UserRequest {
     public void setRequestState(String requestState) {
         this.requestState = requestState;
     }
+
     public int getMID() {
         return MID;
     }
@@ -92,11 +78,11 @@ public class UserRequest {
         this.MID = MID;
     }
 
-    public int getDocName() {
+    public String getDocName() {
         return DocName;
     }
 
-    public void setDocName(int DocName) {
+    public void setDocName(String DocName) {
         this.DocName = DocName;
     }
 
@@ -124,7 +110,6 @@ public class UserRequest {
         this.education = education;
     }
 
-
     public int getPhone() {
         return phone;
     }
@@ -141,7 +126,6 @@ public class UserRequest {
         this.email = email;
     }
 
-
     public Date getDOB() {
         return DOB;
     }
@@ -150,12 +134,8 @@ public class UserRequest {
         this.DOB = DOB;
     }
 
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
+    public int getAreaID() {
+        return areaID;
     }
 
     public String getSex() {
@@ -166,7 +146,6 @@ public class UserRequest {
         this.sex = sex;
     }
 
-
     public String getOccupation() {
         return occupation;
     }
@@ -174,6 +153,5 @@ public class UserRequest {
     public void setOccupation(String occupation) {
         this.occupation = occupation;
     }
-
 
 }
