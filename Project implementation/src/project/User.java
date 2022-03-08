@@ -6,7 +6,7 @@ import java.util.Date;
 public class User extends FamilyMember implements System_user{
 
     public User(int UID, String city, String address, String education, String email, String sex, String occupation, String DocName, int stateID, Date DOB, int areaID, String name, int phone, String imageName, String Email) {
-        super(city, address, education, email, sex, occupation, DocName, DOB, areaID, name, phone, imageName, Email);
+        super(city, address, education, email, sex, occupation, DocName, DOB, areaID, name, phone, imageName);
         this.UID = UID;
     }
 

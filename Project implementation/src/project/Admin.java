@@ -5,15 +5,13 @@ import java.util.ArrayList;
 public class Admin extends Person implements System_user ,Observable{
 
     private int AID;
-    private String Name;
     private int stateID;
     private String username;
     private String password;
 
-    public Admin(int AID, String Name, int stateID, String username, String password, String name, int phone, String imageName, String Email, String Sex) {
+    public Admin(int AID, int stateID, String username, String password, String name, int phone, String imageName, String Email, String Sex) {
         super(name, phone, imageName, Email, Sex);
         this.AID = AID;
-        this.Name = Name;
         this.stateID = stateID;
         this.username = username;
         this.password = password;
@@ -25,15 +23,6 @@ public class Admin extends Person implements System_user ,Observable{
 
     public void setStateID(int stateID) {
         this.stateID = stateID;
-    }
-
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String Name) {
-        this.Name = Name;
     }
 
     public int getAID() {

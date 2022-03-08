@@ -11,12 +11,11 @@ import java.util.Date;
  *
  * @author PC
  */
-public class FamilyMember extends Person implements Observer{
+public class FamilyMember extends Person{
 
     private String city;
     private String address;
     private String education;
-    private String email;
     private String sex;
     private String occupation;
     private String DocName;
@@ -24,12 +23,11 @@ public class FamilyMember extends Person implements Observer{
     private Date DOB;
     private int areaID;
 
-    public FamilyMember(String city, String address, String education, String email, String sex, String occupation, String DocName, Date DOB, int areaID, String name, int phone, String imageName, String Email) {
-        super(name, phone, imageName, Email, sex);
+    public FamilyMember(String city, String address, String education, String email, String sex, String occupation, String DocName, Date DOB, int areaID, String name, int phone, String imageName) {
+        super(name, phone, imageName, email, sex);
         this.city = city;
         this.address = address;
         this.education = education;
-        this.email = email;
         this.sex = sex;
         this.occupation = occupation;
         this.DocName = DocName;
@@ -88,13 +86,7 @@ public class FamilyMember extends Person implements Observer{
         this.education = education;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    
 
     public Date getDOB() {
         return DOB;
@@ -120,7 +112,6 @@ public class FamilyMember extends Person implements Observer{
         this.occupation = occupation;
     }
 
-    @Override
     public void update() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

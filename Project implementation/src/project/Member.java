@@ -20,7 +20,7 @@ public class Member extends FamilyMember {
     }
       //(Adderss,City,Education,Phone,Email,DOB,Name,AreaID,Sex,Occupation,UID,DocName,ImageName)
     public Member(String address,String city,String education,int phone,String email,int MID,Date DOB,String name,int areaID,String sex,String occupation,int UID,String DocName,String imageName) {
-        super(city, address, education, email, sex, occupation, DocName, DOB, areaID, name, phone, imageName, email);
+        super(city, address, education, email, sex, occupation, DocName, DOB, areaID, name, phone, imageName);
         this.MID = MID;
         this.UID=UID;
     }
