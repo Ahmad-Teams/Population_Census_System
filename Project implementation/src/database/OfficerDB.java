@@ -103,8 +103,4 @@ public class OfficerDB {
         return false;
     }
 
-    public static ArrayList<Observer> getObservers() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
 }

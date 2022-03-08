@@ -26,7 +26,7 @@ public class AdminDB {
 
     public static void addOfficer(Officer officer) {
         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into Officer(Phone,Email,Name,AreaID,Sex,Username,Password,AID,ImageName) values(?,?,?,?,?,?,?,?,?)");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("insert into Officer(Phone,Email,Name,AreaID,Sex,Username,Password,AID,ImageName) values(?,?,?,?,?,?,?,?,?)"); PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setInt(1, officer.getPhone());
             p.setString(2, officer.getEmail());
@@ -45,7 +45,7 @@ public class AdminDB {
 
     public static void deleteOfficer(int OID) {
         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("delete from Officer where OID = ? ");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("delete from Officer where OID = ? "); PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setInt(1, OID);
 
@@ -57,7 +57,7 @@ public class AdminDB {
 
     public static void updateOfficer(Officer officer) {
         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE Officer SET Phone = ?,Email = ?,Name = ?,AreaID = ?,Sex = ?,Username = ?,Password = ?,AID = ?,ImageName = ? WHERE OID = ?");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("UPDATE Officer SET Phone = ?,Email = ?,Name = ?,AreaID = ?,Sex = ?,Username = ?,Password = ?,AID = ?,ImageName = ? WHERE OID = ?"); PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setInt(1, officer.getPhone());
             p.setString(2, officer.getEmail());
@@ -78,7 +78,7 @@ public class AdminDB {
     public ArrayList<Officer> getOfficers() {
         ArrayList<Officer> officers = new ArrayList<>();
         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("select * from Officer");) {
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("select * from Officer");) {
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {      //return  one row of officer table 
@@ -96,7 +96,7 @@ public class AdminDB {
 
     public static void addArea(Area area) {
         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into Area(AreaName,AreaID,StateID) values(?,?,?)");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("insert into Area(AreaName,AreaID,StateID) values(?,?,?)"); PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setString(1, area.getAreaName());
             p.setInt(2, area.getAreaID());
@@ -111,7 +111,7 @@ public class AdminDB {
 
     public static void deleteArea(int areaID) {
         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("delete from Area where AreaID = ? ");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("delete from Area where AreaID = ? "); PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setInt(1, areaID);
 
@@ -124,7 +124,7 @@ public class AdminDB {
 
     public static void updateArea(Area area) {
         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE Area SET AreaName = ?,AreaID = ?,StateID = ? WHERE AreaID= ?");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("UPDATE Area SET AreaName = ?,AreaID = ?,StateID = ? WHERE AreaID= ?"); PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setString(1, area.getAreaName());
             p.setInt(2, area.getAreaID());
@@ -140,7 +140,7 @@ public class AdminDB {
     public ArrayList<Area> getAreas() {
         ArrayList<Area> areas = new ArrayList<>();
         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("select * from Area");) {
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("select * from Area");) {
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {      //return  one row of Area table 
@@ -158,7 +158,7 @@ public class AdminDB {
 
     public static void addState(State state) {
         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into State(StateName) values(?)");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("insert into State(StateName) values(?)"); PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setString(1, state.getStateName());
 
@@ -171,7 +171,7 @@ public class AdminDB {
 
     public static void deleteState(int StateID) {
         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("delete from State where StateID = ? ");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("delete from State where StateID = ? "); PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setInt(1, StateID);
 
@@ -184,7 +184,7 @@ public class AdminDB {
 
     public static void updateState(State state) {
         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE State SET StateName = ? WHERE StateID = ?");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("UPDATE State SET StateName = ? WHERE StateID = ?"); PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setString(1, state.getStateName());
             p.setInt(2, state.getStateID());
@@ -199,7 +199,7 @@ public class AdminDB {
     public ArrayList<State> getStates(State state) {
         ArrayList<State> states = new ArrayList<>();
         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("select * from State");) {
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("select * from State");) {
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {      //return  one row of State table 
@@ -223,10 +223,6 @@ public class AdminDB {
 
     public static boolean check(String username, String password) {
         return OfficerDB.check(username, password);
-    }
-
-    public static void getObservers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
