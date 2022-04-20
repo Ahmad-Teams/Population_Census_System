@@ -2,15 +2,15 @@ package project;
 
 import java.util.ArrayList;
 
-public class Admin extends Person implements System_user ,Observable{
+public class Admin extends Person implements Observable{
 
     private int AID;
     private int stateID;
     private String username;
     private String password;
 
-    public Admin(int AID, int stateID, String username, String password, String name, int phone, String imageName, String Email, String Sex) {
-        super(name, phone, imageName, Email, Sex);
+    public Admin(int AID, int stateID, String username, String password, String name, String phone, String imageName, String Email, String Sex) {
+        super(name, phone, Email, Sex);
         this.AID = AID;
         this.stateID = stateID;
         this.username = username;

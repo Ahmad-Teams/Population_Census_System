@@ -56,7 +56,7 @@ import login.Login;
  *
  * @author user
  */
-public class Officer extends Application {
+public class OfficerGUI extends Application {
     Stage S1;
     TableView table=new TableView();
     Text t=new Text();;

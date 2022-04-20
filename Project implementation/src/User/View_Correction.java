@@ -3,19 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Admin;
+package User;
 
-import login.Login;
-import Admin.Admin;
+import Admin.Admin_Add;
+import Admin.Admin_OfficerList;
 import Admin.Make_Report;
-import java.awt.geom.Area;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -27,7 +23,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -37,23 +32,24 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import login.Login;
-
+import User.View_Correction;
+import User.View_Your_Request;
+import User.View_Family_Members;
+import User.Make_Request;
+import javafx.scene.control.DatePicker;
 
 /**
  *
  * @author user
  */
-public class Admin_OfficerList extends Application   {
-        Stage S1;
+public class View_Correction extends Application {
+    Stage S1;
         TableView table=new TableView();
     @Override
          public void start(Stage stage) {
@@ -67,52 +63,63 @@ public class Admin_OfficerList extends Application   {
         section1.setPrefSize(170, 500);
 
         
-        Button Add_Officer = new Button("Add Officer");
-        Button Officers_list = new Button("Officers list");
-        Button Make_report = new Button("Make a report");
+      Button View_my_family = new Button("View My Family\n" +"Members");
+        Button Make_request = new Button("Make a request\n" +"for Adding New\n" +"member");
+        Button view_request = new Button("View Your\n" +"Requests");
+        Button View_Correction  = new Button("View Correction\n" +"Requests");
         Button Logout = new Button("Logout");
         
         
-        Add_Officer.setMinSize(170, 175);
-        Add_Officer.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
-        Add_Officer.setOnAction(new EventHandler<ActionEvent>() {
+        View_my_family.setMinSize(170, 140);
+        View_my_family.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
+        View_my_family.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                Admin_Add c2=new Admin_Add();
-                S1.close();
-                c2.start(new Stage());
-            }
-        });
-        
-        Officers_list.setMinSize(170, 175);
-        Officers_list.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
-         Officers_list.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent even) {
-                Admin_OfficerList c2=new Admin_OfficerList();
-                S1.close();
-                c2.start(new Stage());
-            }
-        });
-
-        
-        Make_report.setMinSize(170, 175);
-        Make_report.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
-        Make_report.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent even) {
-                Make_Report c2=new Make_Report();
+                View_Family_Members c2=new View_Family_Members();
                 S1.close();
                 c2.start(new Stage());
             }
         });
         
         
-        Logout.setMinSize(170, 175);
+        Make_request.setMinSize(170, 140);
+        Make_request.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
+        Make_request.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent even) {
+                Make_Request c2=new Make_Request();
+                S1.close();
+                c2.start(new Stage());
+            }
+        });
+        
+        view_request.setMinSize(170, 140);
+        view_request.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
+        view_request.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent even) {
+                View_Your_Request c2=new View_Your_Request();
+                S1.close();
+                c2.start(new Stage());
+            }
+        });
+        
+        View_Correction.setMinSize(170, 140);
+        View_Correction.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
+        View_Correction.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent even) {
+                View_Correction c2=new View_Correction();
+                S1.close();
+                c2.start(new Stage());
+            }
+        });
+        
+        Logout.setMinSize(170, 160);
         Logout.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#bf1f21"), CornerRadii.EMPTY, Insets.EMPTY)));
         Logout.setBorder(new Border(new BorderStroke((javafx.scene.paint.Color.web("#79b5d9")), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         Logout.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
-       Logout.setOnAction(new EventHandler<ActionEvent>() {
+        Logout.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
                 Login c2=new Login();
@@ -122,33 +129,37 @@ public class Admin_OfficerList extends Application   {
         });
 
         
-        section1.getChildren().addAll(Add_Officer,Officers_list,Make_report,Logout);
-        
+        section1.getChildren().addAll(View_my_family,Make_request,view_request,View_Correction,Logout);
+
 //second section
 
         VBox section2 = new VBox(15);
-        section2.setPrefSize(600, 500);
+        section2.setPrefSize(700, 550);
+        //section2.setPadding(new Insets(5, 0, 0, 20));
         VBox NameField=new VBox(15);
         VBox PassField=new VBox(20);
-        HBox horiz=new HBox(15);
-        Label H=new Label("Office List");
+        HBox horiz=new HBox(50);
+        horiz.setPadding(new Insets(5, 0, 0, 25));
+        Label H=new Label("Correction Requests");
         H.setFont(Font.font("Garamond", FontWeight.BOLD, 30));
-        H.setPadding(new Insets(5, 0, 0, 250));
+        H.setPadding(new Insets(5, 0, 0, 200));
         table.setEditable(true);
         TableColumn FristName =new TableColumn("ID");
         TableColumn SecondName =new TableColumn("Name");
         SecondName.setPrefWidth(500);
         table.getColumns().addAll(FristName,SecondName);
-        table.setMinHeight(1000);
+        table.setMinHeight(800);
+        table.setMinWidth(900);
         
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(table);
         scrollPane.pannableProperty().set(true);
         scrollPane.fitToWidthProperty().set(true);
         scrollPane.fitToHeightProperty().set(true);
-        scrollPane.setPrefHeight(350);
+        scrollPane.setPrefHeight(300);
         scrollPane.setMaxWidth(900);
-        scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
         /////Name field//////
         HBox Name=new HBox(30);
         Label l1=new Label("Name : ");
@@ -159,12 +170,26 @@ public class Admin_OfficerList extends Application   {
         name.setMaxWidth(300);
         Name.getChildren().addAll(l1,name);
         ///////Area////////////
-        HBox area=new HBox(50);
+        HBox area=new HBox(55);
         Label l2=new Label("Area: ");
         l2.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 16));
         ComboBox Area=new ComboBox();
         Area.setPrefWidth(150);
         area.getChildren().addAll(l2,Area);
+        /////////////State//////////////////
+        HBox state=new HBox(50);
+        Label s1=new Label("State: ");
+        s1.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 16));
+        ComboBox State=new ComboBox();
+        State.setPrefWidth(150);
+        state.getChildren().addAll(s1,State);
+        //////education///////////////
+        HBox Education=new HBox(15);
+        Label e1=new Label("Education: ");
+        e1.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 16));
+        ComboBox edu=new ComboBox();
+        edu.setPrefWidth(150);
+        Education.getChildren().addAll(e1,edu);
         //////email //////////
         HBox Email = new HBox(40);
         Label email =new Label("Email : ");
@@ -195,6 +220,7 @@ public class Admin_OfficerList extends Application   {
         ///////////sex /////////////
         HBox S=new HBox(50);
         Label s =new Label("SEX :");
+        s.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 17));
         ToggleGroup tg = new ToggleGroup();
         RadioButton Male=new RadioButton("Male: ");
         RadioButton Female=new RadioButton("Female");
@@ -209,11 +235,35 @@ public class Admin_OfficerList extends Application   {
         Phone.setPromptText("Phone");
         Phone.setMaxWidth(300);
         mobile.getChildren().addAll(ph,Phone);
+        ///////////////////////////////////
+        HBox Occupation =new HBox(10);
+        Label O=new Label("Occupation : ");
+        O.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 17));
+        TextField Occupat=new TextField();
+        Occupat.setStyle("-fx-background-radius: 30px ;");
+        Occupat.setPromptText("Occupation");
+        Occupat.setMaxWidth(300);
+        Occupation.getChildren().addAll(O,Occupat);
+        ///////////////////////////////////////
+        HBox Address =new HBox(30);
+        Label A=new Label("Address : ");
+        A.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 17));
+        TextField Addr=new TextField();
+        Addr.setStyle("-fx-background-radius: 30px ;");
+        Addr.setPromptText("Address");
+        Addr.setMaxWidth(300);
+        Address.getChildren().addAll(A,Addr);
+        //////Date////////////////
+        HBox Dt =new HBox(40);
+        Label data=new Label("Date : ");
+        data.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 17));
+        DatePicker Date=new DatePicker();
+        Dt.getChildren().addAll(data,Date);
         //////////////////button///////
         HBox B=new HBox(100);
-        B.setPadding(new Insets(10, 0, 0, 80));
-        Button D=new Button("Delete Officer");
-        Button U=new Button("Update Officer");
+        B.setPadding(new Insets(10, 0, 0, 150));
+        Button D=new Button(" Reject ");
+        Button U=new Button(" Accept ");
         D.setStyle("-fx-background-radius: 300px ;-fx-background-color:Red; ");
         U.setStyle("-fx-background-radius: 300px ;-fx-background-color:Orange;");
         D.setMinWidth(120);
@@ -224,8 +274,8 @@ public class Admin_OfficerList extends Application   {
         U.setTextFill(javafx.scene.paint.Color.BLACK);
         B.getChildren().addAll(D,U);
         ////////////////////////
-        NameField.getChildren().addAll(Name,area,Email,User);
-        PassField.getChildren().addAll(S,mobile,password);
+        NameField.getChildren().addAll(Name,area,state,Education,Email,User);
+        PassField.getChildren().addAll(S,Occupation,Address,Dt,mobile,password);
         horiz.getChildren().addAll(NameField,PassField);
         section2.getChildren().addAll(H,scrollPane,horiz,B);
         all.add(section1, 0, 0);
@@ -233,9 +283,9 @@ public class Admin_OfficerList extends Application   {
         all.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#a5cee5"), CornerRadii.EMPTY, Insets.EMPTY)));
 
         
-        Scene scene = new Scene(all,800,700);           
+        Scene scene = new Scene(all,900,700);           
         stage.setScene(scene);;
-        stage.setTitle("Admin Screen");
+        stage.setTitle("User Screen");
         stage.setResizable(false);
         
         stage.show();
@@ -248,6 +298,5 @@ public class Admin_OfficerList extends Application   {
     public static void main(String[] args) {
         launch(args);
     }
-
     
 }

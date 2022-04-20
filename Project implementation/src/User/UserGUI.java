@@ -36,7 +36,7 @@ import login.Login;
  *
  * @author user
  */
-public class User extends Application {
+public class UserGUI extends Application {
      Stage S1;
     TableView table=new TableView();
     Text t=new Text();;

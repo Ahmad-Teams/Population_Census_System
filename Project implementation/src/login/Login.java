@@ -5,9 +5,9 @@
  */
 package login;
 
-import Admin.Admin;
+import Admin.AdminGUI;
 import Admin.Admin_Add;
-import Officer.Officer;
+import Officer.OfficerGUI;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -38,8 +38,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.omg.PortableServer.IdAssignmentPolicyValue;
-import User.User;
+import User.UserGUI;
 /**
  *
  * @author user
@@ -120,17 +119,17 @@ public class Login extends Application{
             public void handle(ActionEvent even) {
         t=user.getText();
       if(t.equals("Admin")){  
-      Admin c1=new Admin();
+      AdminGUI c1=new AdminGUI();
       S1.close();
       c1.start(new Stage());
             }
       else if(t.equals("officer")){
-      Officer c1=new Officer();
+      OfficerGUI c1=new OfficerGUI();
       S1.close();
       c1.start(new Stage());
       }
       else if (t.equals("User")){
-      User c1=new User();
+      UserGUI c1=new UserGUI();
       S1.close();
       c1.start(new Stage());   
       }

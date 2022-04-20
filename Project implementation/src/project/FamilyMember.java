@@ -18,19 +18,18 @@ public class FamilyMember extends Person{
     private String education;
     private String sex;
     private String occupation;
-    private String DocName;
     private int stateID;
-    private Date DOB;
+    private String DOB;
     private int areaID;
+    
 
-    public FamilyMember(String city, String address, String education, String email, String sex, String occupation, String DocName, Date DOB, int areaID, String name, int phone, String imageName) {
-        super(name, phone, imageName, email, sex);
+    public FamilyMember(String city, String address, String education, String email, String sex, String occupation, String DOB, int areaID, String name, String phone) {
+        super(name, phone, email, sex);
         this.city = city;
         this.address = address;
         this.education = education;
         this.sex = sex;
         this.occupation = occupation;
-        this.DocName = DocName;
         this.stateID = stateID;
         this.DOB = DOB;
         this.areaID = areaID;
@@ -54,14 +53,7 @@ public class FamilyMember extends Person{
         this.stateID = stateID;
     }
 
-    public String getDocName() {
-        return DocName;
-    }
-
-    public void setDocName(String DocName) {
-        this.DocName = DocName;
-    }
-
+  
     public String getAddress() {
         return address;
     }
@@ -88,11 +80,11 @@ public class FamilyMember extends Person{
 
     
 
-    public Date getDOB() {
+    public String getDOB() {
         return DOB;
     }
 
-    public void setDOB(Date DOB) {
+    public void setDOB(String DOB) {
         this.DOB = DOB;
     }
 

@@ -3,15 +3,14 @@ package project;
 public class Person {
 
     private String name;
-    private int phone;
-    private String imageName;
+    private String phone;
+    
     private String Email;
     private String Sex;
 
-    public Person(String name, int phone, String imageName, String Email, String Sex) {
+    public Person(String name, String phone, String Email, String Sex) {
         this.name = name;
         this.phone = phone;
-        this.imageName = imageName;
         this.Email = Email;
         this.Sex = Sex;
     }
@@ -40,22 +39,13 @@ public class Person {
         return Sex;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
-
-    public String getImageName() {
-        return imageName;
-    }
-
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
-    }
-
     public boolean login(String userName, String password) {
         return false;
     }

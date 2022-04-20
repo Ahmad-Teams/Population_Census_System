@@ -2,7 +2,7 @@ package project;
 
 import java.util.ArrayList;
 import database.OfficerDB;
-public class Officer extends Person implements System_user{
+public class Officer extends Person{
 
     private int OID;
     private int AID;
@@ -11,8 +11,8 @@ public class Officer extends Person implements System_user{
     private ArrayList<Observer> observers;
     private int areaID;
     
-    public Officer(int phone,String Email,int OID,String name,int areaID,String Sex,String username, String password,int AID,String imageName  ) {
-        super(name, phone, imageName, Email, Sex);
+    public Officer(String phone,String Email,int OID,String name,int areaID,String Sex,String username, String password,int AID) {
+        super(name, phone, Email, Sex);
         this.OID = OID;
         this.AID = AID;
         this.username = username;

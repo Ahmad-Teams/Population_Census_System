@@ -1,5 +1,6 @@
 package database;
 
+import static database.UserDB.connect;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,9 +11,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import project.CorrectionRequest;
 import project.FamilyMember;
-import project.Observable;
-import project.Observer;
+import project.Member;
+import project.System_user;
+import project.User;
 import project.UserRequest;
+
 
 public class OfficerDB {
 
@@ -90,17 +93,105 @@ public class OfficerDB {
 
         return CorrectionRequests;
     }
+    public static ArrayList<System_user> getSystemUsers() {
+         ArrayList<System_user> systemUsers = new ArrayList<>();
+        try ( 
+                 Connection con = connect();  PreparedStatement p = con.prepareStatement("SELECT Username,Password,AID\n"
+                        + "FROM Admin\n");
+                        PreparedStatement p1 = con.prepareStatement("SELECT Username,Password,UID\n"
+                        + "FROM User\n");
+                PreparedStatement p2 = con.prepareStatement("SELECT Username,Password,OID\n"
+                        + "FROM Officer\n");) {
+            {
+                ResultSet r = p.executeQuery();
+                while (r.next()) {     
 
-    public static ArrayList<FamilyMember> getFamilyMembers() {
-        return new ArrayList<FamilyMember>();
+                    systemUsers.add(new System_user(r.getString("Username"), r.getString("Password"),"Admin",r.getInt("AID")));
+
+                }
+                r.close();
+                ResultSet r1 = p1.executeQuery();
+                while (r1.next()) {      
+
+                    systemUsers.add(new System_user(r1.getString("Username"), r1.getString("Password"),"User",r1.getInt("UID")));
+
+                }
+                r1.close();
+                ResultSet r2 = p2.executeQuery();
+                while (r2.next()) {      
+
+                    systemUsers.add(new System_user(r2.getString("Username"), r2.getString("Password"),"Officer",r2.getInt("OID")));
+
+                }
+                r2.close();
+            }
+        } catch (SQLException ee) {
+            System.out.println(ee.getMessage());// we will put out custimize exption massages here
+        }
+
+        return systemUsers;
+        
+    }
+    public static ArrayList<FamilyMember> getFamilyMembers(int OID) {
+         ArrayList<FamilyMember> FamilyMembers = new ArrayList<>();
+        try ( //(String city, String address, String education, String email, String sex, String occupation, String DocName, Date DOB, int areaID, String name, int phone, String imageName, String Email
+                 Connection con = connect();  PreparedStatement p = con.prepareStatement("SELECT *\n"
+                        + "FROM User\n"
+                        + "WHERE User.OID="+OID); 
+                 PreparedStatement p1 = con.prepareStatement("SELECT *\n"
+                        + "FROM Member,User\n"
+                        + "WHERE Member.UID=User.UID AND User.OID="+OID);) {
+            {
+                ResultSet r = p.executeQuery();
+                while (r.next()) {   
+                    FamilyMembers.add(new User(r.getInt("UID"),r.getString("City"), r.getString("Adderss"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getString("Phone")));
+
+                }
+                ResultSet r2 = p1.executeQuery();
+                while (r2.next()) {     
+
+                    FamilyMembers.add(new Member(r2.getString("Adderss"), r2.getString("City"), r2.getString("Education"),r2.getString("Phone"),r2.getString("Email"),r2.getInt("MID"),r2.getString("DOB"),r2.getString("Name"), r2.getInt("AreaID"), r2.getString("Sex"),r2.getString("Occupation"),r2.getInt("UID")));
+
+                }
+            }
+        } catch (SQLException ee) {
+            System.out.println(ee.getMessage());// we will put out custimize exption massages here
+        }
+
+        return FamilyMembers;
+        
+    }
+     public static boolean check(String username, String password) {
+        ArrayList<System_user> users=OfficerDB.getSystemUsers();
+        for(int i=0;i<users.size();i++){
+              if(username.equals(users.get(i).getUsername())&&password.equals(users.get(i).getPassword()))
+                  return true;
+        }
+         return false;
     }
 
-    public static ArrayList<UserRequest> getUserRequests() {
-        return new ArrayList<UserRequest>();
+    public static ArrayList<UserRequest> getUserRequests(int OID) {
+         ArrayList<UserRequest> userRequests = new ArrayList<>();
+        try (
+                 Connection con = connect(); 
+                PreparedStatement p = con.prepareStatement("select * from UserRequest,User,Officer\n"
+                        + "WHERE UserRequest.UID=User.UID AND User.OID="+OID);) {
+            {
+                ResultSet r = p.executeQuery();
+                while (r.next()) {     
+                    userRequests.add(new UserRequest(r.getInt("RequestID"),r.getString("RequestState"),r.getString("Adderss"), r.getString("City"), r.getString("Education"),r.getString("Phone"),r.getString("Email"),r.getInt("MID"),r.getString("DOB"), r.getInt("AreaID"), r.getString("Sex"),r.getString("Occupation"),r.getInt("UID")));
+
+                }
+                r.close();
+            }
+        } catch (SQLException ee) {
+            System.out.println(ee.getMessage());
+        }
+
+        return userRequests;
+       
+       
     }
 
-    public static boolean check(String username, String password) {
-        return false;
-    }
-
+    
 }

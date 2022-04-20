@@ -18,18 +18,17 @@ public class UserRequest {
     private String address;
     private String city;
     private String education;
-    private int phone;
+    private String phone;
     private String email;
     private int MID;
-    private Date DOB;
-    private String DocName;
+    private String DOB;
     private int areaID;
     private String sex;
     private String occupation;
     private int UID;
     //RequestState,Adderss,City,Education,Phone,Email,MID,DOB,DocName,AreaID,Sex,Occupation,UID)
 
-    public UserRequest(int requestID, String requestState, String address, String city, String education, int phone, String email, int MID, Date DOB, String DocName, int areaID, String sex, String occupation, int UID) {
+    public UserRequest(int requestID, String requestState, String address, String city, String education, String phone, String email, int MID, String DOB, int areaID, String sex, String occupation, int UID) {
         this.requestID = requestID;
         this.requestState = requestState;
         this.address = address;
@@ -39,7 +38,6 @@ public class UserRequest {
         this.email = email;
         this.MID = MID;
         this.DOB = DOB;
-        this.DocName = DocName;
         this.areaID = areaID;
         this.sex = sex;
         this.occupation = occupation;
@@ -78,13 +76,7 @@ public class UserRequest {
         this.MID = MID;
     }
 
-    public String getDocName() {
-        return DocName;
-    }
-
-    public void setDocName(String DocName) {
-        this.DocName = DocName;
-    }
+    
 
     public String getAddress() {
         return address;
@@ -110,11 +102,11 @@ public class UserRequest {
         this.education = education;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -126,11 +118,11 @@ public class UserRequest {
         this.email = email;
     }
 
-    public Date getDOB() {
+    public String getDOB() {
         return DOB;
     }
 
-    public void setDOB(Date DOB) {
+    public void setDOB(String DOB) {
         this.DOB = DOB;
     }
 

@@ -26,9 +26,9 @@ public class AdminDB {
 
     public static void addOfficer(Officer officer) {
         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into Officer(Phone,Email,Name,AreaID,Sex,Username,Password,AID,ImageName) values(?,?,?,?,?,?,?,?,?)");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+                 Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into Officer(Phone,Email,Name,AreaID,Sex,Username,Password,AID) values(?,?,?,?,?,?,?,?)");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
-            p.setInt(1, officer.getPhone());
+            p.setString(1, officer.getPhone());
             p.setString(2, officer.getEmail());
             p.setString(3, officer.getName());
             p.setInt(4, officer.getAreaID());
@@ -36,7 +36,6 @@ public class AdminDB {
             p.setString(6, officer.getUsername());
             p.setString(7, officer.getPassword());
             p.setInt(8, officer.getAID());
-            p.setString(9, officer.getImageName());
             p.execute();
         } catch (SQLException ee) {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here
@@ -57,9 +56,9 @@ public class AdminDB {
 
     public static void updateOfficer(Officer officer) {
         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE Officer SET Phone = ?,Email = ?,Name = ?,AreaID = ?,Sex = ?,Username = ?,Password = ?,AID = ?,ImageName = ? WHERE OID = ?");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+                 Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE Officer SET Phone = ?,Email = ?,Name = ?,AreaID = ?,Sex = ?,Username = ?,Password = ?,AID = ? WHERE OID = ?");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
-            p.setInt(1, officer.getPhone());
+            p.setString(1, officer.getPhone());
             p.setString(2, officer.getEmail());
             p.setString(3, officer.getName());
             p.setInt(4, officer.getAreaID());
@@ -67,7 +66,6 @@ public class AdminDB {
             p.setString(6, officer.getUsername());
             p.setString(7, officer.getPassword());
             p.setInt(8, officer.getAID());
-            p.setString(9, officer.getImageName());
             p.execute();
         } catch (SQLException ee) {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here
@@ -83,7 +81,7 @@ public class AdminDB {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {      //return  one row of officer table 
 
-                    officers.add(new Officer(r.getInt("Phone"), r.getString("Email"), r.getInt("OID"), r.getString("Name"), r.getInt("AreaID"), r.getString("Sex"), r.getString("Username"), r.getString("Password"), r.getInt("AID"), r.getString("imageName")));
+                    officers.add(new Officer(r.getString("Phone"), r.getString("Email"), r.getInt("OID"), r.getString("Name"), r.getInt("AreaID"), r.getString("Sex"), r.getString("Username"), r.getString("Password"), r.getInt("AID")));
 
                 }
             }
@@ -220,22 +218,22 @@ public class AdminDB {
 
         ArrayList<FamilyMember> FamilyMembers = new ArrayList<>();
         try ( //(String city, String address, String education, String email, String sex, String occupation, String DocName, Date DOB, int areaID, String name, int phone, String imageName, String Email
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("SELECT User.City,User.Adderss,User.Education,User.Email,User.Sex,User.Occupation,User.DocName,User.DOB,User.AreaID,User.Name,User.Phone,User.ImageName\n"
+                 Connection con = connect();  PreparedStatement p = con.prepareStatement("SELECT User.City,User.Adderss,User.Education,User.Email,User.Sex,User.Occupation,User.DOB,User.AreaID,User.Name,User.Phone\n"
                         + "FROM User,Area,Admin\n"
-                        + "WHERE User.AreaID=Area.AreaID AND Area.StateID=Admin.StateID");  PreparedStatement p1 = con.prepareStatement("SELECT Member.City,Member.Adderss,Member.Education,Member.Email,Member.Sex,Member.Occupation,Member.DocName,Member.DOB,Member.AreaID,Member.Name,Member.Phone,Member.ImageName\n"
+                        + "WHERE User.AreaID=Area.AreaID AND Area.StateID=Admin.StateID"); PreparedStatement p1 = con.prepareStatement("SELECT Member.City,Member.Adderss,Member.Education,Member.Email,Member.Sex,Member.Occupation,Member.DOB,Member.AreaID,Member.Name,Member.Phone\n"
                         + "FROM Member,Area,Admin\n"
                         + "WHERE Member.AreaID=Area.AreaID AND Area.StateID=Admin.StateID");) {
             {
                 ResultSet r = p.executeQuery();
-                while (r.next()) {      //return  one row of State table 
+                while (r.next()) {       
 
-                    FamilyMembers.add(new FamilyMember(r.getString("City"), r.getString("Adderss"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DocName"), r.getDate("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getInt("Phone"), r.getString("ImageName")));
+                    FamilyMembers.add(new FamilyMember(r.getString("City"), r.getString("Adderss"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getString("Phone")));
 
                 }
                 ResultSet r2 = p1.executeQuery();
-                while (r2.next()) {      //return  one row of State table 
+                while (r2.next()) {     
 
-                    FamilyMembers.add(new FamilyMember(r2.getString("City"), r2.getString("Adderss"), r2.getString("Education"), r2.getString("Email"), r2.getString("Sex"), r2.getString("Occupation"), r2.getString("DocName"), r2.getDate("DOB"), r2.getInt("AreaID"), r2.getString("Name"), r2.getInt("Phone"), r2.getString("ImageName")));
+                    FamilyMembers.add(new FamilyMember(r2.getString("City"), r2.getString("Adderss"), r2.getString("Education"), r2.getString("Email"), r2.getString("Sex"), r2.getString("Occupation"), r2.getString("DOB"), r2.getInt("AreaID"), r2.getString("Name"), r2.getString("Phone")));
 
                 }
             }

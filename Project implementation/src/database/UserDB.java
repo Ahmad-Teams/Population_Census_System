@@ -18,7 +18,7 @@ import project.CorrectionRequest;
 import project.Member;
 import project.Observer;
 import project.UserRequest;
-
+import project.System_user;
 /**
  *
  * @author PC
@@ -37,23 +37,20 @@ public class UserDB implements Observer{
 
     public static void addMember(Member member) {
         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into Member(Adderss,City,Education,Phone,Email,DOB,Name,AreaID,Sex,Occupation,UID,DocName,ImageName) values(?,?,?,?,?,?,?,?,?,?,?,?,?)"); 
+                 Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into Member(Adderss,City,Education,Phone,Email,DOB,Name,AreaID,Sex,Occupation,UID) values(?,?,?,?,?,?,?,?,?,?,?)"); 
                 PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setString(1, member.getAddress());
             p.setString(2, member.getCity());
             p.setString(3, member.getEducation());
-            p.setInt(4, member.getPhone());
+            p.setString(4, member.getPhone());
             p.setString(5, member.getEmail());
-            p.setDate(6, (Date) member.getDOB());
+            p.setString(6,member.getDOB());
             p.setString(7, member.getName());
             p.setInt(8, member.getareaID());
             p.setString(9, member.getSex());
             p.setString(10, member.getOccupation());
             p.setInt(11, member.getUID());
-            p.setString(12, member.getDocName());
-            p.setString(13, member.getImageName());
-
             p.execute();
         } catch (SQLException ee) {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here
@@ -77,23 +74,21 @@ public class UserDB implements Observer{
 //(Adderss,City,Education,Phone,Email,DOB,Name,AreaID,Sex,Occupation,UID,DocName,ImageName)
     public static void updateMember(Member member) {
          try (                                                             
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE Member SET Adderss = ?,City = ?,Education = ?,Phone = ? ,Email = ?,DOB = ?,Name = ?,AreaID = ?,Sex = ?,Occupation = ?,UID = ?,DocName = ?,ImageName = ? WHERE MID= ?");  
+                 Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE Member SET Adderss = ?,City = ?,Education = ?,Phone = ? ,Email = ?,DOB = ?,Name = ?,AreaID = ?,Sex = ?,Occupation = ?,UID = ? WHERE MID= ?");  
                  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setString(1, member.getAddress());
             p.setString(2, member.getCity());
             p.setString(3, member.getEducation());
-            p.setInt(4, member.getPhone());
+            p.setString(4, member.getPhone());
             p.setString(5, member.getEmail());
-            p.setDate(6, (Date) member.getDOB());
+            p.setString(6,member.getDOB());
             p.setString(7, member.getName());
             p.setInt(8, member.getareaID());
             p.setString(9, member.getSex());
             p.setString(10, member.getOccupation());
             p.setInt(11, member.getUID());
-            p.setString(12, member.getDocName());
-            p.setString(13, member.getImageName());
-
+            
             p.execute();
         } catch (SQLException ee) {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here
@@ -109,7 +104,7 @@ public class UserDB implements Observer{
                 ResultSet r = p.executeQuery();
                 while (r.next()) {      //return  one row of Area table 
                                                 
-                    members.add(new Member(r.getString("Adderss"), r.getString("City"), r.getString("Education"),r.getInt("Phone"),r.getString("Email"),r.getInt("MID"),r.getDate("DOB"),r.getString("Name"), r.getInt("AreaID"), r.getString("Sex"),r.getString("Occupation"),r.getInt("UID"),r.getString("DocName"),r.getString("ImageName")));
+                    members.add(new Member(r.getString("Adderss"), r.getString("City"), r.getString("Education"),r.getString("Phone"),r.getString("Email"),r.getInt("MID"),r.getString("DOB"),r.getString("Name"), r.getInt("AreaID"), r.getString("Sex"),r.getString("Occupation"),r.getInt("UID")));
 
                 }
             }
@@ -122,22 +117,21 @@ public class UserDB implements Observer{
 
         public static void addUserRequest(UserRequest userRequest) {
          try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into UserRequest(RequestState,Adderss,City,Education,Phone,Email,MID,DOB,DocName,AreaID,Sex,Occupation,UID) values(?,?,?,?,?,?,?,?,?,?,?,?,?)"); 
+                 Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into UserRequest(RequestState,Adderss,City,Education,Phone,Email,MID,DOB,AreaID,Sex,Occupation,UID) values(?,?,?,?,?,?,?,?,?,?,?,?)"); 
                 PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setString(1, userRequest.getRequestState());
             p.setString(2, userRequest.getAddress());
             p.setString(3, userRequest.getCity());
             p.setString(4, userRequest.getEducation());
-            p.setInt(5, userRequest.getPhone());
+            p.setString(5, userRequest.getPhone());
             p.setString(6, userRequest.getEmail());
-            p.setDate(7, (Date) userRequest.getDOB());
+            p.setString(7,userRequest.getDOB());
             p.setInt(8, userRequest.getMID());
-            p.setString(9, userRequest.getDocName());
-            p.setInt(10, userRequest.getAreaID());
-            p.setString(11, userRequest.getSex());
-            p.setString(12, userRequest.getOccupation());
-            p.setInt(13, userRequest.getUID());
+            p.setInt(9, userRequest.getAreaID());
+            p.setString(10, userRequest.getSex());
+            p.setString(11, userRequest.getOccupation());
+            p.setInt(12, userRequest.getUID());
             
 
             p.execute();
@@ -157,7 +151,7 @@ public class UserDB implements Observer{
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {      //return  one row of Area table 
-                    userRequests.add(new UserRequest(r.getInt("RequestID"),r.getString("RequestState"),r.getString("Adderss"), r.getString("City"), r.getString("Education"),r.getInt("Phone"),r.getString("Email"),r.getInt("MID"),r.getDate("DOB"),r.getString("DocName"), r.getInt("AreaID"), r.getString("Sex"),r.getString("Occupation"),r.getInt("UID")));
+                    userRequests.add(new UserRequest(r.getInt("RequestID"),r.getString("RequestState"),r.getString("Adderss"), r.getString("City"), r.getString("Education"),r.getString("Phone"),r.getString("Email"),r.getInt("MID"),r.getString("DOB"), r.getInt("AreaID"), r.getString("Sex"),r.getString("Occupation"),r.getInt("UID")));
 
                 }
             }
@@ -189,8 +183,10 @@ public class UserDB implements Observer{
         return correctionRequests;
         
     }
-
-    public boolean check(String username, String password) {
+    
+    public static boolean check(String username, String password) {
+        
+       
          return OfficerDB.check(username, password);
     }
 

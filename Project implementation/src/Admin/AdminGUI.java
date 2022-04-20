@@ -6,8 +6,6 @@
 package Admin;
 
 import login.Login;
-import Admin.Admin;
-import Admin.Make_Report;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,15 +15,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -50,13 +42,13 @@ import login.Login;
  *
  * @author user
  */
-public class Make_Report extends Application {
-            Stage S1;
-        TableView table=new TableView();
+public class AdminGUI extends Application  {
+    Stage S1;
     @Override
-    public void start(Stage stage) {
-               GridPane all = new GridPane();
-        all.setHgap(10);
+        public void start(Stage stage) {
+        
+        HBox all = new HBox();
+
         
 // side btn section
         
@@ -70,7 +62,7 @@ public class Make_Report extends Application {
         Button Logout = new Button("Logout");
         
         
-        Add_Officer.setMinSize(170, 175);
+        Add_Officer.setPrefSize(170, 175);
         Add_Officer.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
         Add_Officer.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -81,9 +73,10 @@ public class Make_Report extends Application {
             }
         });
         
-        Officers_list.setMinSize(170, 175);
+        
+        Officers_list.setPrefSize(170, 175);
         Officers_list.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
-         Officers_list.setOnAction(new EventHandler<ActionEvent>() {
+        Officers_list.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
                 Admin_OfficerList c2=new Admin_OfficerList();
@@ -91,9 +84,8 @@ public class Make_Report extends Application {
                 c2.start(new Stage());
             }
         });
-
         
-        Make_report.setMinSize(170, 175);
+        Make_report.setPrefSize(170, 175);
         Make_report.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
         Make_report.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -104,11 +96,11 @@ public class Make_Report extends Application {
             }
         });
         
-        Logout.setMinSize(170, 175);
+        Logout.setPrefSize(170, 175);
         Logout.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#bf1f21"), CornerRadii.EMPTY, Insets.EMPTY)));
         Logout.setBorder(new Border(new BorderStroke((javafx.scene.paint.Color.web("#79b5d9")), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         Logout.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
-       Logout.setOnAction(new EventHandler<ActionEvent>() {
+        Logout.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
                 Login c2=new Login();
@@ -120,67 +112,38 @@ public class Make_Report extends Application {
         
         section1.getChildren().addAll(Add_Officer,Officers_list,Make_report,Logout);
         
-        //second section
+//second section
 
-        VBox section2 = new VBox(30);
+        VBox section2 = new VBox();
         section2.setPrefSize(530, 500);
-        Label H=new Label("Report on Family members");
-        H.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.ITALIC, 22));
-        H.setPadding(new Insets(5, 0, 0, 100));
-        table.setEditable(true);
-        TableColumn FristName =new TableColumn("ID");
-        TableColumn SecondName =new TableColumn("Name");
-        SecondName.setPrefWidth(500);
-        table.getColumns().addAll(FristName,SecondName);
-        table.setMinHeight(1000);
+       
         
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setContent(table);
-        scrollPane.pannableProperty().set(true);
-        scrollPane.fitToWidthProperty().set(true);
-        scrollPane.fitToHeightProperty().set(true);
-        scrollPane.setPrefHeight(350);
-        scrollPane.setMaxWidth(900);
-        scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        /////searching on//////
-        HBox search=new HBox(15);
-        Label Searching=new Label("Searching on: ");
-        Searching.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 18));
-        ComboBox Search=new ComboBox();
-        Search.setPrefWidth(100);
-        search.setPadding(new Insets(10, 0, 0, 70));
-        search.getChildren().addAll(Searching,Search);
-        /////////////Select an option to display////////////////
-        HBox Display_search=new HBox(15);
-        Label display=new Label("Select an option to display: ");
-        display.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 18));
-        ComboBox Select_display=new ComboBox();
-        Select_display.setPrefWidth(100);
-        Display_search.setPadding(new Insets(0, 0, 20, 20));
-        Display_search.getChildren().addAll(display,Select_display);
-        /////Select an option to sort on/////////////
-        HBox option_search=new HBox(15);
-        Label option=new Label("Select an option to sort on: ");
-        option.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 18));
-        ComboBox Select_option=new ComboBox();
-        Select_option.setPrefWidth(100);
-        option_search.setPadding(new Insets(10, 0, 0, 20));
-        option_search.getChildren().addAll(option,Select_option);
-        ////////////////////////
-        section2.getChildren().addAll(H,search,Display_search,option_search,scrollPane);
-        all.add(section1, 0, 0);
-        all.add(section2, 1, 0);
+        ImageView assitant_Image = new ImageView("admin.png");
+        assitant_Image.setFitHeight(250);
+        assitant_Image.setFitWidth(250);
+        
+        
+        Label word =new Label("welcome in Adminstrator part \n\n click any button to start work");
+        word.setFont(Font.font("Garamond", FontWeight.BOLD, 30));
+        word.setTextFill(javafx.scene.paint.Color.BLACK);
+        word.setPadding(new Insets(20));
+        
+        section2.getChildren().addAll(assitant_Image,word);
+        section2.setAlignment(Pos.CENTER);
+        
+        all.getChildren().addAll(section1,section2);
         all.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#a5cee5"), CornerRadii.EMPTY, Insets.EMPTY)));
 
         
-        Scene scene = new Scene(all,700,700);           
-        stage.setScene(scene);;
+        Scene scene = new Scene(all);           
+        stage.setScene(scene);
+        stage.setMinWidth(700);
+        stage.setMinHeight(700);
         stage.setTitle("Admin Screen");
         stage.setResizable(false);
         
         stage.show();
         S1=stage;
-        
     }
 
     /**
@@ -189,5 +152,5 @@ public class Make_Report extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
 }
+
