@@ -88,7 +88,7 @@ public class UserDB implements Observer{
             p.setString(9, member.getSex());
             p.setString(10, member.getOccupation());
             p.setInt(11, member.getUID());
-            
+            p.setInt(11, member.getMID());
             p.execute();
         } catch (SQLException ee) {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here

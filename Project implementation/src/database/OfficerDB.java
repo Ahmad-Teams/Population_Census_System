@@ -60,13 +60,13 @@ public class OfficerDB {
 
     public static void updateCorrectionRequest(CorrectionRequest cRequest) {
         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE CorrectionRequest SET UserRequestID = ?,RequestTitle = ?,RequestContent = ?,UID = ?,OID = ? WHERE RequestID = ?");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+                 Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE CorrectionRequest SET RequestTitle = ?,RequestContent = ?,UID = ?,OID = ? WHERE RequestID = ?");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
-            p.setInt(1, cRequest.getUserRequestID());
-            p.setString(2, cRequest.getRequestTitle());
-            p.setString(3, cRequest.getRequestContent());
-            p.setInt(4, cRequest.getUID());
-            p.setInt(5, cRequest.getOID());
+            p.setString(1, cRequest.getRequestTitle());
+            p.setString(2, cRequest.getRequestContent());
+            p.setInt(3, cRequest.getUID());
+            p.setInt(4, cRequest.getOID());
+            p.setInt(5, cRequest.getUserRequestID());
 
             p.execute();
         } catch (SQLException ee) {

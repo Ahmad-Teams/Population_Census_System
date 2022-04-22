@@ -67,7 +67,7 @@ public class AdminGUI extends Application  {
         Add_Officer.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                Admin_Add c2=new Admin_Add();
+                Admin_AddOfficer c2=new Admin_AddOfficer();
                 S1.close();
                 c2.start(new Stage());
             }

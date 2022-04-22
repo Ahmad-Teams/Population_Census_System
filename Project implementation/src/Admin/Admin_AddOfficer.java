@@ -52,10 +52,20 @@ import project.*;
  *
  * @author user
  */
-public class Admin_Add extends Application {
+public class Admin_AddOfficer extends Application {
 
     Stage S1;
+    Admin admin=new Admin(0, 0, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_CASPIAN, STYLESHEET_MODENA);
+//remove the above instailization later
+    public Admin_AddOfficer() {
+    }
 
+    
+    public Admin_AddOfficer(Admin admin) {
+        this.admin = admin;
+    }
+    
+    
     @Override
     public void start(Stage stage) {
         HBox all = new HBox();
@@ -74,7 +84,7 @@ public class Admin_Add extends Application {
         Add_Officer.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                Admin_Add c2 = new Admin_Add();
+                Admin_AddOfficer c2 = new Admin_AddOfficer();
                 S1.close();
                 c2.start(new Stage());
             }
@@ -126,7 +136,7 @@ public class Admin_Add extends Application {
 
 //user name field
         HBox h_name = new HBox();
-        h_name.setPadding(new Insets(40, 0, 0, 0));
+        h_name.setPadding(new Insets(30, 0, 0, 0));
         h_name.setAlignment(Pos.CENTER);
 
         Label name = new Label("NAME       ");
@@ -141,7 +151,7 @@ public class Admin_Add extends Application {
 //radio box
         HBox gender = new HBox();
         gender.setAlignment(Pos.CENTER);
-        gender.setPadding(new Insets(40, 0, 0, 0));
+        gender.setPadding(new Insets(30, 0, 0, 0));
         gender.setAlignment(Pos.CENTER);
         ToggleGroup tg = new ToggleGroup();
 
@@ -160,7 +170,7 @@ public class Admin_Add extends Application {
         tg.getToggles().addAll(male, female);
 //combo box
         HBox area_section = new HBox();
-        area_section.setPadding(new Insets(40, 0, 0, 0));
+        area_section.setPadding(new Insets(30, 0, 0, 0));
         area_section.setAlignment(Pos.CENTER);
 
         Label area = new Label("Area       ");
@@ -179,21 +189,34 @@ public class Admin_Add extends Application {
 
 //email box
         HBox h_email = new HBox();
-        h_email.setPadding(new Insets(40, 0, 0, 0));
+        h_email.setPadding(new Insets(30, 0, 0, 0));
         h_email.setAlignment(Pos.CENTER);
 
         Label Email = new Label("Email       ");
         Email.setFont(Font.font("arial", FontWeight.MEDIUM, 15));
 
-        TextField Email_Field = new TextField();
-        Email_Field.setPromptText("Officer Email  ");
-        Email_Field.setPrefSize(300, 40);
+        TextField Email_field = new TextField();
+        Email_field.setPromptText("Officer Email  ");
+        Email_field.setPrefSize(300, 40);
 
-        h_email.getChildren().addAll(Email, Email_Field);
+        h_email.getChildren().addAll(Email, Email_field);
+//phone box
+        HBox h_phone = new HBox();
+        h_phone.setPadding(new Insets(30, 0, 0, 0));
+        h_phone.setAlignment(Pos.CENTER);
+
+        Label phone = new Label("Phone       ");
+        phone.setFont(Font.font("arial", FontWeight.MEDIUM, 15));
+
+        TextField phone_field = new TextField();
+        phone_field.setPromptText("Officer Phone number  ");
+        phone_field.setPrefSize(300, 40);
+
+        h_phone.getChildren().addAll(phone, phone_field);
 
 //user name field
         HBox h_user_name = new HBox();
-        h_user_name.setPadding(new Insets(40, 30, 0, 0));
+        h_user_name.setPadding(new Insets(30, 30, 0, 0));
         h_user_name.setAlignment(Pos.CENTER);
 
         Label user_name = new Label("User Name");
@@ -208,7 +231,7 @@ public class Admin_Add extends Application {
 
 //password field
         HBox h_pass = new HBox();
-        h_pass.setPadding(new Insets(40, 30, 40, 0));
+        h_pass.setPadding(new Insets(30, 30, 40, 0));
         h_pass.setAlignment(Pos.CENTER);
 
         Label pass = new Label("password");
@@ -217,7 +240,7 @@ public class Admin_Add extends Application {
 
         PasswordField pass_field = new PasswordField();
         pass_field.setPrefSize(300, 40);
-
+        pass_field.setPromptText("Officer Password");
         h_pass.getChildren().addAll(pass, pass_field);
 
 // add officer btn
@@ -228,25 +251,27 @@ public class Admin_Add extends Application {
                 String name = name_field.getText();
                 String sex = "male";
                 String area = area_cbox.getSelectionModel().getSelectedItem().toString();
-                String email = Email_Field.getText();
+                String email = Email_field.getText();
+                String phone = phone_field.getText();
                 String username = user_name_field.getText();
                 String password = pass_field.getText(); //we should add them later to the table of usernaems and passwords
                 if (female.isSelected()) {
                     sex = "female";
                 }
-                
+
                 name_field.setText("");
-                Email_Field.setText("");
+                Email_field.setText("");
                 user_name_field.setText("");
+                phone_field.setText("");
                 pass_field.setText("");
                 male.setSelected(false);
                 female.setSelected(false);
-                System.out.println(name+" "+sex+" "+area+" "+username+" "+password);
+                AdminDB.addOfficer(new Officer(phone,email,name,AdminDB.getAreaID(area),sex,username,password,admin.getAID()));
             }
         });
         add_officer_btn.setPrefSize(200, 50);
 
-        section2.getChildren().addAll(stage2_title, h_name, gender, area_section, h_email, h_user_name, h_pass, add_officer_btn);
+        section2.getChildren().addAll(stage2_title, h_name, gender, area_section, h_email,h_phone, h_user_name, h_pass, add_officer_btn);
 
         all.getChildren().addAll(section1, section2);
         all.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#a5cee5"), CornerRadii.EMPTY, Insets.EMPTY)));

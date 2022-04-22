@@ -75,7 +75,7 @@ public class Make_Report extends Application {
         Add_Officer.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                Admin_Add c2=new Admin_Add();
+                Admin_AddOfficer c2=new Admin_AddOfficer();
                 S1.close();
                 c2.start(new Stage());
             }
@@ -167,7 +167,16 @@ public class Make_Report extends Application {
         option_search.setPadding(new Insets(10, 0, 0, 20));
         option_search.getChildren().addAll(option,Select_option);
         ////////////////////////
-        section2.getChildren().addAll(H,search,Display_search,option_search,scrollPane);
+        HBox B = new HBox(100);
+        B.setPadding(new Insets(0, 0, 0, 180));
+        Button D = new Button("Make a Report");
+        D.setStyle("-fx-background-radius: 300px ;-fx-background-color:yellow; ");
+        D.setMinWidth(120);
+        D.setFont(Font.font("tahoma", FontWeight.BOLD, 15.5));
+        D.setTextFill(javafx.scene.paint.Color.BLACK);
+        B.getChildren().add(D);
+        
+        section2.getChildren().addAll(H,search,Display_search,option_search,B,scrollPane);
         all.add(section1, 0, 0);
         all.add(section2, 1, 0);
         all.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#a5cee5"), CornerRadii.EMPTY, Insets.EMPTY)));

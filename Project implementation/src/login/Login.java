@@ -6,7 +6,7 @@
 package login;
 
 import Admin.AdminGUI;
-import Admin.Admin_Add;
+import Admin.Admin_AddOfficer;
 import Officer.OfficerGUI;
 import javafx.application.Application;
 import javafx.event.ActionEvent;

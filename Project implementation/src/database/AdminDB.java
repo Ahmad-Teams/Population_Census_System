@@ -66,6 +66,7 @@ public class AdminDB {
             p.setString(6, officer.getUsername());
             p.setString(7, officer.getPassword());
             p.setInt(8, officer.getAID());
+            p.setInt(9, officer.getOID());
             p.execute();
         } catch (SQLException ee) {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here
@@ -122,12 +123,11 @@ public class AdminDB {
 
     public static void updateArea(Area area) {
         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE Area SET AreaName = ?,AreaID = ?,StateID = ? WHERE AreaID= ?");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+                 Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE Area SET AreaName = ?,StateID = ? WHERE AreaID= ?");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setString(1, area.getAreaName());
-            p.setInt(2, area.getAreaID());
-            p.setInt(3, area.getStateID());
-
+            p.setInt(2, area.getStateID());
+            p.setInt(3, area.getAreaID());
             p.execute();
         } catch (SQLException ee) {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here
@@ -154,6 +154,44 @@ public class AdminDB {
         return areas;
     }
 
+    public static int getAreaID(String areaName) {
+        int areaID =0;
+        try (
+                 Connection con = connect();  PreparedStatement p = con.prepareStatement("select AreaID from Area where AreaName = ?");
+                
+                ) {
+                p.setString(1, areaName);
+                ResultSet r = p.executeQuery();
+                while (r.next()) {      
+                    areaID= r.getInt("AreaID");
+                }
+            
+        } catch (SQLException ee) {
+            System.out.println(ee.getMessage());// we will put out custimize exption massages here
+        }
+
+        return areaID;
+    }
+    
+    public static String getAreaName(int areaID) {
+        String areaName ="";
+        try (
+                 Connection con = connect();  PreparedStatement p = con.prepareStatement("select AreaName from Area where AreaID = ?");
+                
+                ) {
+                p.setInt(1, areaID);
+                ResultSet r = p.executeQuery();
+                while (r.next()) {      
+                    areaName= r.getString("AreaName");
+                }
+            
+        } catch (SQLException ee) {
+            System.out.println(ee.getMessage());// we will put out custimize exption massages here
+        }
+
+        return areaName;
+    }
+    
     public static void addState(State state) {
         try (
                  Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into State(StateName) values(?)");  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {

@@ -20,7 +20,14 @@ public class Officer extends Person{
         this.areaID = areaID;
     }
   
-
+    public Officer(String phone,String Email,String name,int areaID,String Sex,String username, String password,int AID) {
+        super(name, phone, Email, Sex);
+        this.AID = AID;
+        this.username = username;
+        this.password = password;
+        this.areaID = areaID;
+    }
+    
         public int getAreaID() {
         return areaID;
     }

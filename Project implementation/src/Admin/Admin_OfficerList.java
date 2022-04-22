@@ -8,8 +8,12 @@ package Admin;
 import login.Login;
 import Admin.AdminGUI;
 import Admin.Make_Report;
+import database.AdminDB;
 import java.awt.geom.Area;
+import java.util.ArrayList;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -27,6 +31,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -46,6 +51,10 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import login.Login;
+import project.Observer;
+import project.Officer;
+import Admin.OfficerTableColumn;
+import project.Admin;
 
 /**
  *
@@ -54,7 +63,25 @@ import login.Login;
 public class Admin_OfficerList extends Application {
 
     Stage S1;
-    TableView table = new TableView();
+    TableView<OfficerTableColumn> table = new TableView();
+    OfficerTableColumn selectedColumn;
+    TextField nameField;
+    TextField user;
+    TextField user1;
+    PasswordField P;
+    RadioButton Female;
+    RadioButton Male;
+    TextField Phone;
+    ComboBox Area;
+    Admin admin = new Admin(0, 0, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_CASPIAN, STYLESHEET_MODENA);
+//remove the above instailization later
+
+    public Admin_OfficerList() {
+    }
+
+    public Admin_OfficerList(Admin admin) {
+        this.admin = admin;
+    }
 
     @Override
     public void start(Stage stage) {
@@ -76,7 +103,7 @@ public class Admin_OfficerList extends Application {
         Add_Officer.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                Admin_Add c2 = new Admin_Add();
+                Admin_AddOfficer c2 = new Admin_AddOfficer();
                 S1.close();
                 c2.start(new Stage());
             }
@@ -129,27 +156,46 @@ public class Admin_OfficerList extends Application {
         H.setFont(Font.font("Garamond", FontWeight.BOLD, 30));
         H.setPadding(new Insets(5, 0, 0, 250));
         table.setEditable(true);
-        TableColumn ID = new TableColumn("ID");
-        TableColumn name = new TableColumn("Name");
-        TableColumn sex = new TableColumn("Sex");
-        TableColumn email = new TableColumn("Email");
-        TableColumn phone = new TableColumn("Phone");
-        TableColumn areaName = new TableColumn("Area");
-        TableColumn username = new TableColumn("Username");
-        TableColumn password = new TableColumn("Password");
-        
-        ID.setPrefWidth(50);
+
+        TableColumn<OfficerTableColumn, Integer> ID = new TableColumn<>("ID");
+        ID.setCellValueFactory(new PropertyValueFactory("OID"));
+
+        TableColumn<OfficerTableColumn, String> name = new TableColumn<>("Name");
+        name.setCellValueFactory(new PropertyValueFactory("name"));
+
+        TableColumn<OfficerTableColumn, String> sex = new TableColumn<>("Sex");
+        sex.setCellValueFactory(new PropertyValueFactory("Sex"));
+
+        TableColumn<OfficerTableColumn, String> email = new TableColumn<>("Email");
+        email.setCellValueFactory(new PropertyValueFactory("Email"));
+
+        TableColumn<OfficerTableColumn, String> phone = new TableColumn<>("Phone");
+        phone.setCellValueFactory(new PropertyValueFactory("phone"));
+
+        TableColumn<OfficerTableColumn, String> areaName = new TableColumn<>("Area");
+        areaName.setCellValueFactory(new PropertyValueFactory("areaName"));
+
+        TableColumn<OfficerTableColumn, String> username = new TableColumn<>("Username");
+        username.setCellValueFactory(new PropertyValueFactory("username"));
+
+        TableColumn<OfficerTableColumn, String> password = new TableColumn<>("Password");
+        password.setCellValueFactory(new PropertyValueFactory("password"));
+
+        ID.setPrefWidth(30);
         name.setPrefWidth(90);
-        sex.setPrefWidth(50);
-        email.setPrefWidth(90);
-        phone.setPrefWidth(90);
-        areaName.setPrefWidth(90);
-        username.setPrefWidth(90);
-        password.setPrefWidth(90);
+        sex.setPrefWidth(40);
+        email.setPrefWidth(100);
+        phone.setPrefWidth(100);
+        areaName.setPrefWidth(80);
+        username.setPrefWidth(80);
+        password.setPrefWidth(80);
 
-        table.getColumns().addAll(ID,name,sex,email,phone,areaName,username,password);
+        table.getColumns().addAll(ID, name, sex, email, phone, areaName, username, password);
         table.setMinHeight(1000);
-
+        table.setItems(getOfficers());
+        table.setOnMouseClicked(e -> {
+            tableClickeEvent();
+        });
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(table);
         scrollPane.pannableProperty().set(true);
@@ -162,7 +208,7 @@ public class Admin_OfficerList extends Application {
         HBox Name = new HBox(30);
         Label l1 = new Label("Name : ");
         l1.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 16));
-        TextField nameField = new TextField();
+        this.nameField = new TextField();
         nameField.setPromptText("Name");
         nameField.setStyle("-fx-background-radius: 30px ;");
         nameField.setMaxWidth(300);
@@ -171,14 +217,14 @@ public class Admin_OfficerList extends Application {
         HBox area = new HBox(50);
         Label l2 = new Label("Area: ");
         l2.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 16));
-        ComboBox Area = new ComboBox();
+        this.Area = new ComboBox();
         Area.setPrefWidth(150);
         area.getChildren().addAll(l2, Area);
         //////email //////////
         HBox Email = new HBox(40);
         Label emailLable = new Label("Email : ");
         emailLable.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 16));
-        TextField user = new TextField();
+        this.user = new TextField();
         user.setStyle("-fx-background-radius: 30px ;");
         user.setPromptText("Email");
         user.setMaxWidth(300);
@@ -187,7 +233,7 @@ public class Admin_OfficerList extends Application {
         HBox User = new HBox(1);
         Label u = new Label("User Name : ");
         u.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 16));
-        TextField user1 = new TextField();
+        this.user1 = new TextField();
         user1.setStyle("-fx-background-radius: 30px ;");
         user1.setPromptText("UserName");
         user1.setMaxWidth(300);
@@ -196,7 +242,7 @@ public class Admin_OfficerList extends Application {
         HBox passwordBox = new HBox(10);
         Label pass = new Label("Password : ");
         pass.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 16));
-        PasswordField P = new PasswordField();
+        this.P = new PasswordField();
         P.setMaxWidth(300);
         P.setStyle("-fx-background-radius: 30px ;");
         P.setPromptText("Password");
@@ -205,15 +251,15 @@ public class Admin_OfficerList extends Application {
         HBox S = new HBox(50);
         Label s = new Label("SEX :");
         ToggleGroup tg = new ToggleGroup();
-        RadioButton Male = new RadioButton("Male: ");
-        RadioButton Female = new RadioButton("Female");
+        this.Male = new RadioButton("Male: ");
+        this.Female = new RadioButton("Female");
         tg.getToggles().addAll(Male, Female);
         S.getChildren().addAll(s, Male, Female);
         ///////////////////phone/////////////
         HBox mobile = new HBox(30);
         Label ph = new Label("Phone : ");
         ph.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 17));
-        TextField Phone = new TextField();
+        this.Phone = new TextField();
         Phone.setStyle("-fx-background-radius: 30px ;");
         Phone.setPromptText("Phone");
         Phone.setMaxWidth(300);
@@ -232,6 +278,39 @@ public class Admin_OfficerList extends Application {
         U.setFont(Font.font("tahoma", FontWeight.BOLD, 15.5));
         U.setTextFill(javafx.scene.paint.Color.BLACK);
         B.getChildren().addAll(D, U);
+
+        D.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent even) {
+                AdminDB.deleteOfficer(selectedColumn.getOID());
+
+                nameField.setText("");
+                user1.setText("");
+                user.setText("");
+                P.setText("");
+                Phone.setText("");
+                Male.setSelected(false);
+                Female.setSelected(false);
+                Area.getItems().clear();
+                Area.setValue("");
+
+                table.setItems(getOfficers());
+
+            }
+
+        });
+
+        U.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent even) {
+                String Sex = "male";
+                if (Female.isSelected()) {
+                    Sex = "female";
+                }
+                AdminDB.updateOfficer(new Officer(Phone.getText(), user.getText(),selectedColumn.getOID(), nameField.getText(), AdminDB.getAreaID(Area.getSelectionModel().getSelectedItem().toString()), Sex, user1.getText(), P.getText(), admin.getAID()));
+                table.setItems(getOfficers());
+            }
+        });
         ////////////////////////
         NameField.getChildren().addAll(Name, area, Email, User);
         PassField.getChildren().addAll(S, mobile, passwordBox);
@@ -242,7 +321,7 @@ public class Admin_OfficerList extends Application {
         all.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#a5cee5"), CornerRadii.EMPTY, Insets.EMPTY)));
 
         Scene scene = new Scene(all, 800, 700);
-        stage.setScene(scene);;
+        stage.setScene(scene);
         stage.setTitle("Admin Screen");
         stage.setResizable(false);
 
@@ -250,11 +329,43 @@ public class Admin_OfficerList extends Application {
         S1 = stage;
     }
 
+    private ObservableList<OfficerTableColumn> getOfficers() {
+        ObservableList<OfficerTableColumn> officerList = FXCollections.observableArrayList();
+        ArrayList<Officer> officers = AdminDB.getOfficers();
+        for (int i = 0; i < officers.size(); i++) {
+            Officer officer = officers.get(i);
+            officerList.add(new OfficerTableColumn(officer, AdminDB.getAreaName(officer.getAreaID())));
+        }
+        return officerList;
+    }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         launch(args);
+    }
+
+    private void tableClickeEvent() {
+        selectedColumn = table.getSelectionModel().getSelectedItems().get(0);
+        nameField.setText(selectedColumn.getName());
+        user1.setText(selectedColumn.getUsername());
+        user.setText(selectedColumn.getEmail());
+        P.setText(selectedColumn.getPassword());
+        Phone.setText(selectedColumn.getPhone());
+
+        if (selectedColumn.getSex().equals("male")) {
+            Male.setSelected(true);
+        } else {
+            Female.setSelected(true);
+        }
+        Area.getItems().clear();
+        Area.setValue(AdminDB.getAreaName(selectedColumn.getAreaID()));
+        
+        ArrayList<project.Area> areas = AdminDB.getAreas();
+        for (int i = 0; i < areas.size(); i++) {
+            Area.getItems().add(areas.get(i).getAreaName());
+        }
     }
 
 }
