@@ -55,17 +55,16 @@ import project.*;
 public class Admin_AddOfficer extends Application {
 
     Stage S1;
-    Admin admin=new Admin(0, 0, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_CASPIAN, STYLESHEET_MODENA);
+    Admin admin = new Admin(0, 0, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_CASPIAN, STYLESHEET_MODENA);
 //remove the above instailization later
+
     public Admin_AddOfficer() {
     }
 
-    
     public Admin_AddOfficer(Admin admin) {
         this.admin = admin;
     }
-    
-    
+
     @Override
     public void start(Stage stage) {
         HBox all = new HBox();
@@ -91,6 +90,7 @@ public class Admin_AddOfficer extends Application {
         });
         Officers_list.setMinSize(170, 175);
         Officers_list.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
+        Officers_list.setFocusTraversable(false);
         Officers_list.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
@@ -102,6 +102,7 @@ public class Admin_AddOfficer extends Application {
 
         Make_report.setMinSize(170, 175);
         Make_report.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
+        Make_report.setFocusTraversable(false);
         Make_report.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
@@ -266,16 +267,16 @@ public class Admin_AddOfficer extends Application {
                 pass_field.setText("");
                 male.setSelected(false);
                 female.setSelected(false);
-                AdminDB.addOfficer(new Officer(phone,email,name,AdminDB.getAreaID(area),sex,username,password,admin.getAID()));
+                AdminDB.addOfficer(new Officer(phone, email, name, AdminDB.getAreaID(area), sex, username, password, admin.getAID()));
             }
         });
         add_officer_btn.setPrefSize(200, 50);
 
-        section2.getChildren().addAll(stage2_title, h_name, gender, area_section, h_email,h_phone, h_user_name, h_pass, add_officer_btn);
+        section2.getChildren().addAll(stage2_title, h_name, gender, area_section, h_email, h_phone, h_user_name, h_pass, add_officer_btn);
 
         all.getChildren().addAll(section1, section2);
         all.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#a5cee5"), CornerRadii.EMPTY, Insets.EMPTY)));
-        Scene scene = new Scene(all, 700, 700);
+        Scene scene = new Scene(all, 800, 700);
         stage.setScene(scene);;
         stage.setTitle("Admin Screen");
         stage.setResizable(false);

@@ -100,6 +100,7 @@ public class Admin_OfficerList extends Application {
 
         Add_Officer.setMinSize(170, 175);
         Add_Officer.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
+        Add_Officer.setFocusTraversable(false);
         Add_Officer.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
@@ -122,6 +123,7 @@ public class Admin_OfficerList extends Application {
 
         Make_report.setMinSize(170, 175);
         Make_report.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
+        Make_report.setFocusTraversable(false);
         Make_report.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
@@ -307,7 +309,7 @@ public class Admin_OfficerList extends Application {
                 if (Female.isSelected()) {
                     Sex = "female";
                 }
-                AdminDB.updateOfficer(new Officer(Phone.getText(), user.getText(),selectedColumn.getOID(), nameField.getText(), AdminDB.getAreaID(Area.getSelectionModel().getSelectedItem().toString()), Sex, user1.getText(), P.getText(), admin.getAID()));
+                AdminDB.updateOfficer(new Officer(Phone.getText(), user.getText(), selectedColumn.getOID(), nameField.getText(), AdminDB.getAreaID(Area.getSelectionModel().getSelectedItem().toString()), Sex, user1.getText(), P.getText(), admin.getAID()));
                 table.setItems(getOfficers());
             }
         });
@@ -361,7 +363,7 @@ public class Admin_OfficerList extends Application {
         }
         Area.getItems().clear();
         Area.setValue(AdminDB.getAreaName(selectedColumn.getAreaID()));
-        
+
         ArrayList<project.Area> areas = AdminDB.getAreas();
         for (int i = 0; i < areas.size(); i++) {
             Area.getItems().add(areas.get(i).getAreaName());
