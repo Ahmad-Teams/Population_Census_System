@@ -54,6 +54,9 @@ public class Make_Report extends Application {
 
     Stage S1;
     TableView table = new TableView();
+    ComboBox Search = new ComboBox();
+    ComboBox Select_display = new ComboBox();
+    ComboBox Select_option = new ComboBox();
 
     @Override
     public void start(Stage stage) {
@@ -144,26 +147,39 @@ public class Make_Report extends Application {
         HBox search = new HBox(15);
         Label Searching = new Label("Searching on: ");
         Searching.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 18));
-        ComboBox Search = new ComboBox();
         Search.setPrefWidth(100);
         search.setPadding(new Insets(10, 0, 0, 70));
         search.getChildren().addAll(Searching, Search);
+
+        Search.setOnAction(event -> {
+            String selectionValue = Search.getValue().toString();
+            Select_display.getItems().clear();
+            if (selectionValue.equals("User")) {
+                Select_display.getItems().addAll("Has dependance", "Doesn`t has dependance");
+                Select_display.setValue("Has dependance");
+            }
+            else if (selectionValue.equals("Officer")) {
+                Select_display.getItems().addAll("Has Users", "Doesn`t has Users");
+                Select_display.setValue("Has Users");
+            }
+        });
+
         /////////////Select an option to display////////////////
         HBox Display_search = new HBox(15);
         Label display = new Label("Select an option to display: ");
         display.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 18));
-        ComboBox Select_display = new ComboBox();
-        Select_display.setPrefWidth(100);
+        Select_display.setPrefWidth(180);
         Display_search.setPadding(new Insets(0, 0, 20, 20));
         Display_search.getChildren().addAll(display, Select_display);
         /////Select an option to sort on/////////////
         HBox option_search = new HBox(15);
         Label option = new Label("Select an option to sort on: ");
         option.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 18));
-        ComboBox Select_option = new ComboBox();
-        Select_option.setPrefWidth(100);
+        Select_option.setPrefWidth(120);
         option_search.setPadding(new Insets(10, 0, 0, 20));
         option_search.getChildren().addAll(option, Select_option);
+
+        setdefaultComboBoxes();
         ////////////////////////
         HBox B = new HBox(100);
         B.setPadding(new Insets(0, 0, 0, 180));
@@ -194,6 +210,15 @@ public class Make_Report extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+
+    private void setdefaultComboBoxes() {
+        Search.getItems().addAll("User", "Officer");
+        Search.setValue("User");
+        Select_display.getItems().addAll("Has dependance", "Doesn`t has dependance");
+        Select_display.setValue("Has dependance");
+        Select_option.getItems().addAll("Ascending", "Descending");
+        Select_option.setValue("Ascending");
     }
 
 }
