@@ -169,7 +169,7 @@ public class Admin_AddOfficer extends Application {
         gender.getChildren().addAll(sex, male, female);
 
         tg.getToggles().addAll(male, female);
-//combo box
+//area box
         HBox area_section = new HBox();
         area_section.setPadding(new Insets(30, 0, 0, 0));
         area_section.setAlignment(Pos.CENTER);

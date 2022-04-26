@@ -24,6 +24,11 @@ public class Member extends FamilyMember {
         this.MID = MID;
         this.UID=UID;
     }
+    
+    public Member(String address,String city,String education,String phone,String email,String DOB,String name,int areaID,String sex,String occupation,int UID) {
+        super(city, address, education, email, sex, occupation, DOB, areaID, name, phone);
+        this.UID=UID;
+    }
 
     public int getUID() {
         return UID;
