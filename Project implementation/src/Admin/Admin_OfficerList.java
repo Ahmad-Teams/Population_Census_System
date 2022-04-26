@@ -157,7 +157,20 @@ public class Admin_OfficerList extends Application {
         Label H = new Label("Office List");
         H.setFont(Font.font("Garamond", FontWeight.BOLD, 30));
         H.setPadding(new Insets(5, 0, 0, 250));
+
         table.setEditable(true);
+        table.setMinHeight(1000);
+        table.setMinWidth(760);
+
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(table);
+        scrollPane.pannableProperty().set(true);
+        scrollPane.fitToWidthProperty().set(true);
+        scrollPane.fitToHeightProperty().set(true);
+        scrollPane.setPrefHeight(300);
+        scrollPane.setMaxWidth(900);
+        scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
 
         TableColumn<OfficerTableColumn, Integer> ID = new TableColumn<>("ID");
         ID.setCellValueFactory(new PropertyValueFactory("OID"));
@@ -183,14 +196,14 @@ public class Admin_OfficerList extends Application {
         TableColumn<OfficerTableColumn, String> password = new TableColumn<>("Password");
         password.setCellValueFactory(new PropertyValueFactory("password"));
 
-        ID.setPrefWidth(30);
-        name.setPrefWidth(90);
-        sex.setPrefWidth(40);
-        email.setPrefWidth(100);
-        phone.setPrefWidth(100);
-        areaName.setPrefWidth(80);
-        username.setPrefWidth(80);
-        password.setPrefWidth(80);
+        ID.setPrefWidth(50);
+        name.setPrefWidth(110);
+        sex.setPrefWidth(60);
+        email.setPrefWidth(120);
+        phone.setPrefWidth(120);
+        areaName.setPrefWidth(100);
+        username.setPrefWidth(100);
+        password.setPrefWidth(100);
 
         table.getColumns().addAll(ID, name, sex, email, phone, areaName, username, password);
         table.setMinHeight(1000);
@@ -198,14 +211,7 @@ public class Admin_OfficerList extends Application {
         table.setOnMouseClicked(e -> {
             tableClickeEvent();
         });
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setContent(table);
-        scrollPane.pannableProperty().set(true);
-        scrollPane.fitToWidthProperty().set(true);
-        scrollPane.fitToHeightProperty().set(true);
-        scrollPane.setPrefHeight(350);
-        scrollPane.setMaxWidth(900);
-        scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
         /////Name field//////
         HBox Name = new HBox(30);
         Label l1 = new Label("Name : ");

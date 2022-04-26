@@ -232,7 +232,7 @@ public class AdminDB {
 
     }
 
-    public ArrayList<State> getStates(State state) {
+    public ArrayList<State> getStates() {
         ArrayList<State> states = new ArrayList<>();
         try (
                  Connection con = connect();  PreparedStatement p = con.prepareStatement("select * from State");) {

@@ -37,11 +37,11 @@ public class FamilyMember extends Person{
 
 
 
-    public int getareaID() {
+    public int getAreaID() {
         return areaID;
     }
 
-    public void setareaID(int AreaID) {
+    public void setAreaID(int AreaID) {
         this.areaID = AreaID;
     }
 
@@ -86,14 +86,6 @@ public class FamilyMember extends Person{
 
     public void setDOB(String DOB) {
         this.DOB = DOB;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
     }
 
     public String getOccupation() {

@@ -4,18 +4,18 @@
  */
 package Admin;
 
-import project.Officer;
+import project.User;
 
 /**
  *
  * @author ahmad
  */
-public class OfficerTableColumn extends Officer{
+public class UserTableColumn extends User {
 
     private String areaName;
 
-    public OfficerTableColumn(Officer officer, String areaName) {
-        super(officer.getPhone(), officer.getEmail(), officer.getOID(), officer.getName(), officer.getAreaID(), officer.getSex(), officer.getUsername(), officer.getPassword(), officer.getAID());
+    public UserTableColumn(User user, String areaName) {
+        super(user.getUID(), user.getCity(), user.getAddress(), user.getEducation(), user.getEmail(), user.getSex(), user.getOccupation(), user.getDOB(), user.getAreaID(), user.getName(),user.getPhone());
         this.areaName = areaName;
     }
 

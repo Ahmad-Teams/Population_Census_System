@@ -47,7 +47,7 @@ public class UserDB implements Observer{
             p.setString(5, member.getEmail());
             p.setString(6,member.getDOB());
             p.setString(7, member.getName());
-            p.setInt(8, member.getareaID());
+            p.setInt(8, member.getAreaID());
             p.setString(9, member.getSex());
             p.setString(10, member.getOccupation());
             p.setInt(11, member.getUID());
@@ -84,7 +84,7 @@ public class UserDB implements Observer{
             p.setString(5, member.getEmail());
             p.setString(6,member.getDOB());
             p.setString(7, member.getName());
-            p.setInt(8, member.getareaID());
+            p.setInt(8, member.getAreaID());
             p.setString(9, member.getSex());
             p.setString(10, member.getOccupation());
             p.setInt(11, member.getUID());

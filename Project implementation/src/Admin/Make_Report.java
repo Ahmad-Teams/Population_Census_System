@@ -8,6 +8,7 @@ package Admin;
 import login.Login;
 import Admin.AdminGUI;
 import Admin.Make_Report;
+import database.AdminDB;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,6 +27,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -53,10 +55,11 @@ import login.Login;
 public class Make_Report extends Application {
 
     Stage S1;
-    TableView table = new TableView();
     ComboBox Search = new ComboBox();
     ComboBox Select_display = new ComboBox();
     ComboBox Select_option = new ComboBox();
+    TableView table = new TableView();
+    ScrollPane scrollPane = new ScrollPane();
 
     @Override
     public void start(Stage stage) {
@@ -128,21 +131,21 @@ public class Make_Report extends Application {
         Label H = new Label("Report on Family members");
         H.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.ITALIC, 22));
         H.setPadding(new Insets(5, 0, 0, 100));
-        table.setEditable(true);
-        TableColumn FristName = new TableColumn("ID");
-        TableColumn SecondName = new TableColumn("Name");
-        SecondName.setPrefWidth(500);
-        table.getColumns().addAll(FristName, SecondName);
-        table.setMinHeight(1000);
 
-        ScrollPane scrollPane = new ScrollPane();
+        table.setEditable(true);
+        table.setMinHeight(1000);
+        table.setMinWidth(760);
+        table.setDisable(true);
+
         scrollPane.setContent(table);
         scrollPane.pannableProperty().set(true);
         scrollPane.fitToWidthProperty().set(true);
         scrollPane.fitToHeightProperty().set(true);
-        scrollPane.setPrefHeight(350);
+        scrollPane.setPrefHeight(300);
         scrollPane.setMaxWidth(900);
-        scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
+
         /////searching on//////
         HBox search = new HBox(15);
         Label Searching = new Label("Searching on: ");
@@ -157,10 +160,12 @@ public class Make_Report extends Application {
             if (selectionValue.equals("User")) {
                 Select_display.getItems().addAll("Has dependance", "Doesn`t has dependance");
                 Select_display.setValue("Has dependance");
-            }
-            else if (selectionValue.equals("Officer")) {
+            } else if (selectionValue.equals("Officer")) {
                 Select_display.getItems().addAll("Has Users", "Doesn`t has Users");
                 Select_display.setValue("Has Users");
+            } else if (selectionValue.equals("Family members")) {
+                Select_display.getItems().addAll("Under your responsibility", "Others");
+                Select_display.setValue("Under your responsibility");
             }
         });
 
@@ -188,9 +193,127 @@ public class Make_Report extends Application {
         D.setMinWidth(120);
         D.setFont(Font.font("tahoma", FontWeight.BOLD, 15.5));
         D.setTextFill(javafx.scene.paint.Color.BLACK);
+        D.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent even) {
+                table.getColumns().clear();
+                table.setDisable(false);
+                String selectionValue = Search.getValue().toString();
+                if (selectionValue.equals("User")) {
+                    TableColumn<UserTableColumn, Integer> ID = new TableColumn<>("ID");
+                    ID.setCellValueFactory(new PropertyValueFactory("UID"));
+
+                    TableColumn<UserTableColumn, String> name = new TableColumn<>("Name");
+                    name.setCellValueFactory(new PropertyValueFactory("name"));
+
+                    TableColumn<UserTableColumn, String> sex = new TableColumn<>("Sex");
+                    sex.setCellValueFactory(new PropertyValueFactory("Sex"));
+
+                    TableColumn<UserTableColumn, String> email = new TableColumn<>("Email");
+                    email.setCellValueFactory(new PropertyValueFactory("Email"));
+
+                    TableColumn<UserTableColumn, String> phone = new TableColumn<>("Phone");
+                    phone.setCellValueFactory(new PropertyValueFactory("phone"));
+
+                    TableColumn<UserTableColumn, String> areaName = new TableColumn<>("Area");
+                    areaName.setCellValueFactory(new PropertyValueFactory("areaName"));
+
+                    TableColumn<UserTableColumn, String> city = new TableColumn<>("City");
+                    city.setCellValueFactory(new PropertyValueFactory("city"));
+
+                    TableColumn<UserTableColumn, String> address = new TableColumn<>("Address");
+                    address.setCellValueFactory(new PropertyValueFactory("address"));
+
+                    ID.setPrefWidth(50);
+                    name.setPrefWidth(110);
+                    sex.setPrefWidth(60);
+                    email.setPrefWidth(120);
+                    phone.setPrefWidth(120);
+                    areaName.setPrefWidth(100);
+                    city.setPrefWidth(100);
+                    address.setPrefWidth(100);
+
+                    table.getColumns().addAll(ID, name, sex, email, phone, areaName, city, address);
+
+                } else if (selectionValue.equals("Officer")) {
+
+                    TableColumn<OfficerTableColumn, Integer> ID = new TableColumn<>("ID");
+                    ID.setCellValueFactory(new PropertyValueFactory("OID"));
+
+                    TableColumn<OfficerTableColumn, String> name = new TableColumn<>("Name");
+                    name.setCellValueFactory(new PropertyValueFactory("name"));
+
+                    TableColumn<OfficerTableColumn, String> sex = new TableColumn<>("Sex");
+                    sex.setCellValueFactory(new PropertyValueFactory("Sex"));
+
+                    TableColumn<OfficerTableColumn, String> email = new TableColumn<>("Email");
+                    email.setCellValueFactory(new PropertyValueFactory("Email"));
+
+                    TableColumn<OfficerTableColumn, String> phone = new TableColumn<>("Phone");
+                    phone.setCellValueFactory(new PropertyValueFactory("phone"));
+
+                    TableColumn<OfficerTableColumn, String> areaName = new TableColumn<>("Area");
+                    areaName.setCellValueFactory(new PropertyValueFactory("areaName"));
+
+                    TableColumn<OfficerTableColumn, String> username = new TableColumn<>("Username");
+                    username.setCellValueFactory(new PropertyValueFactory("username"));
+
+                    TableColumn<OfficerTableColumn, String> password = new TableColumn<>("Password");
+                    password.setCellValueFactory(new PropertyValueFactory("password"));
+
+                    ID.setPrefWidth(50);
+                    name.setPrefWidth(110);
+                    sex.setPrefWidth(60);
+                    email.setPrefWidth(120);
+                    phone.setPrefWidth(120);
+                    areaName.setPrefWidth(100);
+                    username.setPrefWidth(100);
+                    password.setPrefWidth(100);
+
+                    table.getColumns().addAll(ID, name, sex, email, username, password, phone, areaName);
+                } else if (selectionValue.equals("Family members")) {
+
+                    TableColumn<OfficerTableColumn, Integer> ID = new TableColumn<>("ID");
+                    ID.setCellValueFactory(new PropertyValueFactory("OID"));
+
+                    TableColumn<OfficerTableColumn, String> name = new TableColumn<>("Name");
+                    name.setCellValueFactory(new PropertyValueFactory("name"));
+
+                    TableColumn<OfficerTableColumn, String> sex = new TableColumn<>("Sex");
+                    sex.setCellValueFactory(new PropertyValueFactory("Sex"));
+
+                    TableColumn<OfficerTableColumn, String> email = new TableColumn<>("Email");
+                    email.setCellValueFactory(new PropertyValueFactory("Email"));
+
+                    TableColumn<OfficerTableColumn, String> phone = new TableColumn<>("Phone");
+                    phone.setCellValueFactory(new PropertyValueFactory("phone"));
+
+                    TableColumn<OfficerTableColumn, String> areaName = new TableColumn<>("Area");
+                    areaName.setCellValueFactory(new PropertyValueFactory("areaName"));
+
+                    TableColumn<OfficerTableColumn, String> username = new TableColumn<>("Username");
+                    username.setCellValueFactory(new PropertyValueFactory("username"));
+
+                    TableColumn<OfficerTableColumn, String> password = new TableColumn<>("Password");
+                    password.setCellValueFactory(new PropertyValueFactory("password"));
+
+                    ID.setPrefWidth(50);
+                    name.setPrefWidth(110);
+                    sex.setPrefWidth(60);
+                    email.setPrefWidth(120);
+                    phone.setPrefWidth(120);
+                    areaName.setPrefWidth(100);
+                    username.setPrefWidth(100);
+                    password.setPrefWidth(100);
+
+                    table.getColumns().addAll(ID, name, sex, email, username, password, phone, areaName);
+                }
+            }
+
+        });
         B.getChildren().add(D);
 
-        section2.getChildren().addAll(H, search, Display_search, option_search, B, scrollPane);
+        section2.getChildren().addAll(H, search, Display_search, option_search, B, this.scrollPane);
         all.add(section1, 0, 0);
         all.add(section2, 1, 0);
         all.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#a5cee5"), CornerRadii.EMPTY, Insets.EMPTY)));
@@ -213,7 +336,7 @@ public class Make_Report extends Application {
     }
 
     private void setdefaultComboBoxes() {
-        Search.getItems().addAll("User", "Officer");
+        Search.getItems().addAll("User", "Officer", "Family members");
         Search.setValue("User");
         Select_display.getItems().addAll("Has dependance", "Doesn`t has dependance");
         Select_display.setValue("Has dependance");

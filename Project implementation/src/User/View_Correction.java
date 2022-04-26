@@ -284,7 +284,7 @@ public class View_Correction extends Application {
 
         
         Scene scene = new Scene(all,900,700);           
-        stage.setScene(scene);;
+        stage.setScene(scene);
         stage.setTitle("User Screen");
         stage.setResizable(false);
         
