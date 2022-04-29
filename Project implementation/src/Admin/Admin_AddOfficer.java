@@ -149,7 +149,7 @@ public class Admin_AddOfficer extends Application {
 
         h_name.getChildren().addAll(name, name_field);
 
-//radio box
+//gender box
         HBox gender = new HBox();
         gender.setAlignment(Pos.CENTER);
         gender.setPadding(new Insets(30, 0, 0, 0));

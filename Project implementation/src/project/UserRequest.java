@@ -43,6 +43,20 @@ public class UserRequest {
         this.occupation = occupation;
         this.UID = UID;
     }
+    // where is name of the user ????????
+    public UserRequest(String requestState, String address, String city, String education, String phone, String email, String DOB, int areaID, String sex, String occupation, int UID) {
+        this.requestState = requestState;
+        this.address = address;
+        this.city = city;
+        this.education = education;
+        this.phone = phone;
+        this.email = email;
+        this.DOB = DOB;
+        this.areaID = areaID;
+        this.sex = sex;
+        this.occupation = occupation;
+        this.UID = UID;
+    }
 
     public void updateMember(Member member) {
 

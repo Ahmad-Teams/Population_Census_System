@@ -95,11 +95,11 @@ public class UserDB implements Observer{
         }
 
     }
-    public ArrayList<Member> getMembers() {
+    public static ArrayList<Member> getMembers() {
         ArrayList<Member> members = new ArrayList<>();
         try (
                  Connection con = connect(); 
-                PreparedStatement p = con.prepareStatement("select * from CorrectionRequest");) {
+                PreparedStatement p = con.prepareStatement("select * from Member");) {
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {      //return  one row of Area table 
@@ -115,6 +115,7 @@ public class UserDB implements Observer{
         return members;
     }
 
+    // where is delete and update UserRequest ???????
         public static void addUserRequest(UserRequest userRequest) {
          try (
                  Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into UserRequest(RequestState,Adderss,City,Education,Phone,Email,MID,DOB,AreaID,Sex,Occupation,UID) values(?,?,?,?,?,?,?,?,?,?,?,?)"); 

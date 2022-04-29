@@ -307,7 +307,8 @@ public class Make_Request extends Application {
                 if (Female.isSelected()) {
                     sex = "Female";
                 }
-                UserDB.addMember(new Member(address, state, education, phone, email, date, name, AdminDB.getAreaID(area), sex, Occupation, user.getUID()));
+                //where is the name in user request ?????
+                UserDB.addUserRequest(new UserRequest("pinding",address, state, education, phone, email, date, AdminDB.getAreaID(area), sex, Occupation, user.getUID()));
                 // clear the fields
                 name_field.setText("");
                 Male.setSelected(false);

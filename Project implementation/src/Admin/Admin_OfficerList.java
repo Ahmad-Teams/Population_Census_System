@@ -336,18 +336,8 @@ public class Admin_OfficerList extends Application {
         stage.show();
         S1 = stage;
     }
-
-    private ObservableList<OfficerTableColumn> getOfficers() {
-        ObservableList<OfficerTableColumn> officerList = FXCollections.observableArrayList();
-        ArrayList<Officer> officers = AdminDB.getOfficers();
-        for (int i = 0; i < officers.size(); i++) {
-            Officer officer = officers.get(i);
-            officerList.add(new OfficerTableColumn(officer, AdminDB.getAreaName(officer.getAreaID())));
-        }
-        return officerList;
-    }
-
-    /**
+    
+   /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
@@ -374,6 +364,16 @@ public class Admin_OfficerList extends Application {
         for (int i = 0; i < areas.size(); i++) {
             Area.getItems().add(areas.get(i).getAreaName());
         }
+    }
+
+    private ObservableList<OfficerTableColumn> getOfficers() {
+        ObservableList<OfficerTableColumn> officerList = FXCollections.observableArrayList();
+        ArrayList<Officer> officers = AdminDB.getOfficers();
+        for (int i = 0; i < officers.size(); i++) {
+            Officer officer = officers.get(i);
+            officerList.add(new OfficerTableColumn(officer, AdminDB.getAreaName(officer.getAreaID())));
+        }
+        return officerList;
     }
 
 }

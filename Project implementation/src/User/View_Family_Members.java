@@ -7,7 +7,12 @@ package User;
 import Admin.Admin_AddOfficer;
 import Admin.Admin_OfficerList;
 import Admin.Make_Report;
+import database.AdminDB;
+import database.UserDB;
+import java.util.ArrayList;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -17,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -31,6 +37,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import login.Login;
+import project.*;
+import User.MemberTableColumn;
+
 
 /**
  *
@@ -39,7 +48,9 @@ import login.Login;
 public class View_Family_Members extends Application {
     
     Stage S1;
-        TableView table=new TableView();
+    TableView <MemberTableColumn> table=new TableView();
+    User user = new User(1, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, 0, STYLESHEET_MODENA, STYLESHEET_MODENA);
+    //remove the above line
     @Override
          public void start(Stage stage) {
         
@@ -123,29 +134,64 @@ public class View_Family_Members extends Application {
 
         VBox section2 = new VBox();
         section2.setPrefSize(530, 500);
-        Label H=new Label("Family Members");
+        Label H=new Label("Members");
         H.setFont(Font.font("Garamond", FontWeight.BOLD, 30));
-        H.setPadding(new Insets(20, 0, 50, 200));
+        H.setPadding(new Insets(50, 0, 50, 200));
         table.setEditable(true);
-        TableColumn FristName =new TableColumn("ID");
-        TableColumn SecondName =new TableColumn("Name");
-        SecondName.setPrefWidth(400);
-        TableColumn tName =new TableColumn("Name");
-        TableColumn fName =new TableColumn("Name");
-        TableColumn ffName =new TableColumn("Name");
-        table.getColumns().addAll(FristName,SecondName,tName,fName,ffName);
+        TableColumn<MemberTableColumn, String> ID = new TableColumn<>("Member ID");
+        ID.setCellValueFactory(new PropertyValueFactory("MID"));
+        ID.setPrefWidth(100);
+                
+        TableColumn<MemberTableColumn, String> name = new TableColumn<>("Name");
+        name.setCellValueFactory(new PropertyValueFactory("name"));
+        name.setPrefWidth(120);
+        
+        TableColumn<MemberTableColumn, String> address = new TableColumn<>("Address");
+        address.setCellValueFactory(new PropertyValueFactory("address"));
+        address.setPrefWidth(120);
+        
+        TableColumn <MemberTableColumn, String>education =new TableColumn("Education");
+        education.setCellValueFactory(new PropertyValueFactory("education"));
+        education.setPrefWidth(110);
+        
+        TableColumn <MemberTableColumn, String>sex =new TableColumn("Sex");
+        sex.setCellValueFactory(new PropertyValueFactory("Sex"));
+        sex.setPrefWidth(50);
+        
+        TableColumn <MemberTableColumn, String>occupation =new TableColumn("Occupation");
+        occupation.setCellValueFactory(new PropertyValueFactory("occupation"));
+        occupation.setPrefWidth(100);
+        
+        TableColumn <MemberTableColumn, String>email =new TableColumn("Email");
+        email.setCellValueFactory(new PropertyValueFactory("Email"));
+        email.setPrefWidth(100);
+        
+        TableColumn <MemberTableColumn, String>phone =new TableColumn("phone");
+        phone.setCellValueFactory(new PropertyValueFactory("phone"));
+        phone.setPrefWidth(100);
+        
+        TableColumn <MemberTableColumn, String>DOB =new TableColumn("Date Of Birth");
+        DOB.setCellValueFactory(new PropertyValueFactory("DOB"));
+        DOB.setPrefWidth(100);
+        
+        TableColumn <MemberTableColumn, String>area =new TableColumn("Area");
+        area.setCellValueFactory(new PropertyValueFactory("areaName"));
+        area.setPrefWidth(100);
+        
+        table.getColumns().addAll(ID,name,address,education,sex,occupation,email,phone,DOB,area);
         table.setMinHeight(1000);
         table.setMinWidth(900);
+        table.setItems(getMembers());
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(table);
         scrollPane.pannableProperty().set(true);
         scrollPane.fitToWidthProperty().set(true);
         scrollPane.fitToHeightProperty().set(true);
-        scrollPane.setPrefHeight(350);
-        scrollPane.setMaxWidth(900);
+        scrollPane.setPrefHeight(400);
+        scrollPane.setMinWidth(600);
         scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
-        section2.setPadding(new Insets(20, 0, 50, 50));
+        //section2.setPadding(new Insets(20, 0, 50, 50));
         section2.getChildren().addAll(H,scrollPane);
        // section2.setAlignment(Pos.CENTER);
         
@@ -156,7 +202,7 @@ public class View_Family_Members extends Application {
         
            
         Scene scene = new Scene(all,800,700);           
-        stage.setScene(scene);;
+        stage.setScene(scene);
         stage.setTitle("User Screen");
         stage.setResizable(false);
         
@@ -171,4 +217,25 @@ public class View_Family_Members extends Application {
         launch(args);
     }
     
+    private ObservableList<MemberTableColumn> getMembers() {
+        ObservableList<MemberTableColumn> membersList = FXCollections.observableArrayList();
+        ArrayList<Member> members = UserDB.getMembers();
+        for (int i = 0; i < members.size(); i++) {
+            if(members.get(i).getUID()==user.getUID()){
+                Member member = members.get(i);
+                membersList.add(new MemberTableColumn(member, AdminDB.getAreaName(member.getAreaID())));
+            }
+        }
+        return membersList;
+    }
+    
+//    private ObservableList<MemberTableColumn> getmembers() {
+//        ObservableList<MemberTableColumn> officerList = FXCollections.observableArrayList();
+//        ArrayList<Member> members = UserDB.getMembers();
+//        for (int i = 0; i < members.size(); i++) {
+//            Member member = members.get(i);
+//            officerList.add(new MemberTableColumn(member, AdminDB.getAreaName(member.getAreaID())));
+//        }
+//        return officerList;
+//    }
 }
