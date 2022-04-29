@@ -182,6 +182,7 @@ public class View_Family_Members extends Application {
         table.setMinHeight(1000);
         table.setMinWidth(900);
         table.setItems(getMembers());
+        
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(table);
         scrollPane.pannableProperty().set(true);
@@ -228,14 +229,4 @@ public class View_Family_Members extends Application {
         }
         return membersList;
     }
-    
-//    private ObservableList<MemberTableColumn> getmembers() {
-//        ObservableList<MemberTableColumn> officerList = FXCollections.observableArrayList();
-//        ArrayList<Member> members = UserDB.getMembers();
-//        for (int i = 0; i < members.size(); i++) {
-//            Member member = members.get(i);
-//            officerList.add(new MemberTableColumn(member, AdminDB.getAreaName(member.getAreaID())));
-//        }
-//        return officerList;
-//    }
 }

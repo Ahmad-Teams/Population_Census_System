@@ -93,6 +93,7 @@ public class OfficerDB {
 
         return CorrectionRequests;
     }
+    
     public static ArrayList<System_user> getSystemUsers() {
          ArrayList<System_user> systemUsers = new ArrayList<>();
         try ( 
@@ -132,6 +133,7 @@ public class OfficerDB {
         return systemUsers;
         
     }
+    
     public static ArrayList<FamilyMember> getFamilyMembers(int OID) {
          ArrayList<FamilyMember> FamilyMembers = new ArrayList<>();
         try ( //(String city, String address, String education, String email, String sex, String occupation, String DocName, Date DOB, int areaID, String name, int phone, String imageName, String Email
@@ -161,7 +163,8 @@ public class OfficerDB {
         return FamilyMembers;
         
     }
-     public static boolean check(String username, String password) {
+     
+    public static boolean check(String username, String password) {
         ArrayList<System_user> users=OfficerDB.getSystemUsers();
         for(int i=0;i<users.size();i++){
               if(username.equals(users.get(i).getUsername())&&password.equals(users.get(i).getPassword()))
