@@ -47,6 +47,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import login.Login;
+import project.Admin;
 
 /**
  *
@@ -55,12 +56,19 @@ import login.Login;
 public class Make_Report extends Application {
 
     Stage S1;
+    Admin admin;
     ComboBox Search = new ComboBox();
     ComboBox Select_display = new ComboBox();
     ComboBox Select_option = new ComboBox();
     TableView table = new TableView();
     ScrollPane scrollPane = new ScrollPane();
 
+    public Make_Report() {
+    }
+
+    public Make_Report(Admin admin) {
+        this.admin = admin;
+    }
     @Override
     public void start(Stage stage) {
         GridPane all = new GridPane();

@@ -31,15 +31,24 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import login.Login;
+import project.User;
 
 /**
  *
  * @author user
  */
 public class UserGUI extends Application {
-     Stage S1;
+    Stage S1;
+    User user;
     TableView table=new TableView();
-    Text t=new Text();;
+    Text t=new Text();
+    public UserGUI() {
+    }
+
+    public UserGUI(User user) {
+        this.user = user;
+    }
+    
     @Override
     public void start(Stage stage) {
         GridPane all = new GridPane();

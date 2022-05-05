@@ -39,46 +39,60 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import User.UserGUI;
+import database.OfficerDB;
+import java.util.ArrayList;
+import project.Admin;
+import project.Officer;
+import project.System_user;
+import project.User;
+
 /**
  *
- * @author user
+ * @author userName_field
  */
-public class Login extends Application{
+public class Login extends Application {
+
     Stage S1;
-    String t;
+    Admin admin = new Admin(0, 0, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_CASPIAN, STYLESHEET_MODENA);
+    User user = new User(0, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, 0, STYLESHEET_MODENA, STYLESHEET_MODENA);
+    Officer officer = new Officer(STYLESHEET_MODENA, STYLESHEET_CASPIAN, STYLESHEET_MODENA, 0, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, 0);
+    String userName;
+    String password;
+    String accountType;
+
     @Override
     public void start(Stage primaryStage) {
-         //create login title
+        //create login title
 
         GridPane gp = new GridPane();
         ////////////////////////////////////////
-        Pane v1=new Pane();
+        Pane v1 = new Pane();
         v1.setPrefSize(400, 700);
-        ImageView imgv=new ImageView("members.png");
+        ImageView imgv = new ImageView("members.png");
         imgv.setFitWidth(250);
         imgv.setFitHeight(150);
         imgv.setLayoutY(90);
         imgv.setLayoutX(40);
-        Label wel =new Label("Welcome to");
+        Label wel = new Label("Welcome to");
         wel.setLayoutY(220);
         wel.setLayoutX(95);
         wel.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 22));
         wel.setTextFill(Color.WHITE);
-        Label l2 =new Label("Population_Census_System -->");
+        Label l2 = new Label("Population_Census_System -->");
         l2.setLayoutY(248);
         l2.setFont(Font.font("Arial", FontWeight.BOLD, 21));
-        l2.setPadding(new Insets(0,0,0,0));
+        l2.setPadding(new Insets(0, 0, 0, 0));
         l2.setLayoutX(4);
         l2.setTextFill(Color.WHITE);
-        v1.getChildren().addAll(wel,l2,imgv);
+        v1.getChildren().addAll(wel, l2, imgv);
         v1.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         v1.setBackground(new Background(new BackgroundFill(Color.web("#2596be"), CornerRadii.EMPTY, Insets.EMPTY)));
         gp.add(v1, 0, 0);
         /////////////////////////////////////////////
-        Pane v2=new Pane();
-        v2.setPadding(new Insets(0,10,0,30));
+        Pane v2 = new Pane();
+        v2.setPadding(new Insets(0, 10, 0, 30));
         v2.setPrefSize(450, 700);
-        ImageView img=new ImageView("240_F_31331324_bqXgqwmlnnXaOeXwFv8CrO6oMHpAKPum.jpg");
+        ImageView img = new ImageView("240_F_31331324_bqXgqwmlnnXaOeXwFv8CrO6oMHpAKPum.jpg");
         img.setFitWidth(300);
         img.setFitHeight(100);
         img.setLayoutY(40);
@@ -86,30 +100,29 @@ public class Login extends Application{
         v2.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.NONE, CornerRadii.EMPTY, new BorderWidths(2))));
         v2.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         /////////////////////////////////////////////
-        Label email =new Label("Email");
+        Label email = new Label("Email");
         email.setLayoutY(150);
         email.setLayoutX(25);
         email.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 17));
-        TextField user=new TextField();
-        user.setStyle("-fx-background-radius: 30px ;");
-        user.setPromptText("Email");
-        user.setLayoutY(180);
-        user.setLayoutX(25);
-        user.setPrefWidth(330);
-        
-    
-        Label pass =new Label("Password");
+        TextField userName_field = new TextField();
+        userName_field.setStyle("-fx-background-radius: 30px ;");
+        userName_field.setPromptText("Email");
+        userName_field.setLayoutY(180);
+        userName_field.setLayoutX(25);
+        userName_field.setPrefWidth(330);
+
+        Label pass = new Label("Password");
         pass.setLayoutY(240);
         pass.setLayoutX(25);
         pass.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 17));
-        PasswordField P=new PasswordField();
-        P.setStyle("-fx-background-radius: 30px ;");
-        P.setPromptText("Password");
-        P.setLayoutY(270);
-        P.setLayoutX(25);
-        P.setPrefWidth(330);
-        
-        Button log=new Button("Login");
+        PasswordField password_Field = new PasswordField();
+        password_Field.setStyle("-fx-background-radius: 30px ;");
+        password_Field.setPromptText("Password");
+        password_Field.setLayoutY(270);
+        password_Field.setLayoutX(25);
+        password_Field.setPrefWidth(330);
+
+        Button log = new Button("Login");
         log.setStyle("-fx-background-radius: 300px ;");
         log.setLayoutY(320);
         log.setLayoutX(135);
@@ -117,33 +130,40 @@ public class Login extends Application{
         log.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-        t=user.getText();
-      if(t.equals("Admin")){  
-      AdminGUI c1=new AdminGUI();
-      S1.close();
-      c1.start(new Stage());
+                userName = userName_field.getText();
+                password = password_Field.getText();
+                if (OfficerDB.check(userName, password)) {
+                    accountType = getAccountType(userName, password);
+                    if (accountType.equals("Admin")) {
+                        // here should be a function to set the admin data
+                        AdminGUI c1 = new AdminGUI(admin);
+                        S1.close();
+                        c1.start(new Stage());
+                    } else if (accountType.equals("Officer")) {
+                        // here should be a function to set the officer data
+                        OfficerGUI c1 = new OfficerGUI(officer);
+                        S1.close();
+                        c1.start(new Stage());
+                    } else if (accountType.equals("User")) {
+                        // here should be a function to set the user data
+                        UserGUI c1 = new UserGUI(user);
+                        S1.close();
+                        c1.start(new Stage());
+                    }
+                } else {
+                    System.out.println("wrong usrename or password");
+                }
             }
-      else if(t.equals("officer")){
-      OfficerGUI c1=new OfficerGUI();
-      S1.close();
-      c1.start(new Stage());
-      }
-      else if (t.equals("User")){
-      UserGUI c1=new UserGUI();
-      S1.close();
-      c1.start(new Stage());   
-      }
-            }});
-        v2.getChildren().addAll(email,user,pass,P,log,img);
+        });
+        v2.getChildren().addAll(email, userName_field, pass, password_Field, log, img);
         gp.add(v2, 1, 0);
 
-        
         Scene scene = new Scene(gp, 700, 500);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Login Screen");
         primaryStage.setResizable(false);
         primaryStage.show();
-        S1=primaryStage;
+        S1 = primaryStage;
     }
 
     /**
@@ -151,5 +171,17 @@ public class Login extends Application{
      */
     public static void main(String[] args) {
         launch(args);
+    }
+
+    private String getAccountType(String userName, String password) {
+        String Accounttype = "";
+        ArrayList<System_user> allAccounts = OfficerDB.getSystemUsers();
+        for (int i = 0; i < allAccounts.size(); i++) {
+            if (allAccounts.get(i).getUsername().equals(userName) && allAccounts.get(i).getPassword().equals(password)) {
+                Accounttype = allAccounts.get(i).getType();
+                break;
+            }
+        }
+        return Accounttype;
     }
 }

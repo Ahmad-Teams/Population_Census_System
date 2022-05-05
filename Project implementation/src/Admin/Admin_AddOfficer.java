@@ -55,8 +55,8 @@ import project.*;
 public class Admin_AddOfficer extends Application {
 
     Stage S1;
-    Admin admin = new Admin(0, 0, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_CASPIAN, STYLESHEET_MODENA);
-//remove the above instailization later
+    Admin admin ;//= new Admin(0, 0, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_CASPIAN, STYLESHEET_MODENA);
+    //remove the above instailization later
 
     public Admin_AddOfficer() {
     }

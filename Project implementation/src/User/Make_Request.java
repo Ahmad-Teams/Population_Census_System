@@ -51,7 +51,13 @@ public class Make_Request extends Application {
     Stage S1;
     User user = new User(1, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, 0, STYLESHEET_MODENA, STYLESHEET_MODENA);
     TableView table = new TableView();
+    public Make_Request() {
+    }
 
+    public Make_Request(User user) {
+        this.user = user;
+    }
+    
     @Override
     public void start(Stage stage) {
 

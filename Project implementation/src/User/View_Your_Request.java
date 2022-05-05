@@ -56,6 +56,12 @@ public class View_Your_Request extends Application {
     TableView <UserRequest_Table_column> table=new TableView();
     User user = new User(1, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, 0, STYLESHEET_MODENA, STYLESHEET_MODENA);
     //remove the above line
+    public View_Your_Request() {
+    }
+
+    public View_Your_Request(User user) {
+        this.user = user;
+    }
     @Override
          public void start(Stage stage) {
         

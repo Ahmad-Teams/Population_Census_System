@@ -95,6 +95,7 @@ public class UserDB implements Observer{
         }
 
     }
+    
     public static ArrayList<Member> getMembers() {
         ArrayList<Member> members = new ArrayList<>();
         try (
@@ -116,72 +117,71 @@ public class UserDB implements Observer{
     }
 
     // where is delete and update UserRequest ???????
-        public static void addUserRequest(UserRequest userRequest) {
-         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into UserRequest(RequestState,Adderss,City,Education,Phone,Email,MID,DOB,AreaID,Sex,Occupation,UID) values(?,?,?,?,?,?,?,?,?,?,?,?)"); 
-                PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
-            p1.execute();
-            p.setString(1, userRequest.getRequestState());
-            p.setString(2, userRequest.getAddress());
-            p.setString(3, userRequest.getCity());
-            p.setString(4, userRequest.getEducation());
-            p.setString(5, userRequest.getPhone());
-            p.setString(6, userRequest.getEmail());
-            p.setString(7,userRequest.getDOB());
-            p.setInt(8, userRequest.getMID());
-            p.setInt(9, userRequest.getAreaID());
-            p.setString(10, userRequest.getSex());
-            p.setString(11, userRequest.getOccupation());
-            p.setInt(12, userRequest.getUID());
-            
+    public static void addUserRequest(UserRequest userRequest) {
+     try (
+             Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into UserRequest(RequestState,Adderss,City,Education,Phone,Email,MID,DOB,AreaID,Sex,Occupation,UID) values(?,?,?,?,?,?,?,?,?,?,?,?)"); 
+            PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+        p1.execute();
+        p.setString(1, userRequest.getRequestState());
+        p.setString(2, userRequest.getAddress());
+        p.setString(3, userRequest.getCity());
+        p.setString(4, userRequest.getEducation());
+        p.setString(5, userRequest.getPhone());
+        p.setString(6, userRequest.getEmail());
+        p.setString(7,userRequest.getDOB());
+        p.setInt(8, userRequest.getMID());
+        p.setInt(9, userRequest.getAreaID());
+        p.setString(10, userRequest.getSex());
+        p.setString(11, userRequest.getOccupation());
+        p.setInt(12, userRequest.getUID());
 
-            p.execute();
-        } catch (SQLException ee) {
-            System.out.println(ee.getMessage());// we will put out custimize exption massages here
-        }
 
+        p.execute();
+    } catch (SQLException ee) {
+        System.out.println(ee.getMessage());// we will put out custimize exption massages here
     }
-        public static void updateUserRequest(UserRequest userRequest) {
-         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE UserRequest SET RequestState = ?,Adderss = ?,City = ?,Education = ?,Phone = ?,Email = ?,MID = ?,DOB = ?,AreaID = ?,Sex = ?,Occupation = ?,UID = ?"); 
-                PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
-            p1.execute();
-            p.setString(1, userRequest.getRequestState());
-            p.setString(2, userRequest.getAddress());
-            p.setString(3, userRequest.getCity());
-            p.setString(4, userRequest.getEducation());
-            p.setString(5, userRequest.getPhone());
-            p.setString(6, userRequest.getEmail());
-            p.setString(7,userRequest.getDOB());
-            p.setInt(8, userRequest.getMID());
-            p.setInt(9, userRequest.getAreaID());
-            p.setString(10, userRequest.getSex());
-            p.setString(11, userRequest.getOccupation());
-            p.setInt(12, userRequest.getUID());
-            
 
-            p.execute();
-        } catch (SQLException ee) {
-            System.out.println(ee.getMessage());// we will put out custimize exption massages here
-        }
+}
 
+    public static void updateUserRequest(UserRequest userRequest) {
+     try (
+             Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE UserRequest SET RequestState = ?,Adderss = ?,City = ?,Education = ?,Phone = ?,Email = ?,MID = ?,DOB = ?,AreaID = ?,Sex = ?,Occupation = ?,UID = ?"); 
+            PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+        p1.execute();
+        p.setString(1, userRequest.getRequestState());
+        p.setString(2, userRequest.getAddress());
+        p.setString(3, userRequest.getCity());
+        p.setString(4, userRequest.getEducation());
+        p.setString(5, userRequest.getPhone());
+        p.setString(6, userRequest.getEmail());
+        p.setString(7,userRequest.getDOB());
+        p.setInt(8, userRequest.getMID());
+        p.setInt(9, userRequest.getAreaID());
+        p.setString(10, userRequest.getSex());
+        p.setString(11, userRequest.getOccupation());
+        p.setInt(12, userRequest.getUID());
+
+
+        p.execute();
+    } catch (SQLException ee) {
+        System.out.println(ee.getMessage());// we will put out custimize exption massages here
     }
-        public static void deleteUserRequest(int requestID) {
-         try (
-                 Connection con = connect();  
-                 PreparedStatement p1 = con.prepareStatement("delete from UserRequest where requestID = ? "); 
-                ) {
-            p1.setInt(1, requestID);  
-            p1.execute();
-          
-        } catch (SQLException ee) {
-            System.out.println(ee.getMessage());// we will put out custimize exption massages here
-        }
 
+}
+
+    public static void deleteUserRequest(int requestID) {
+     try (
+             Connection con = connect();  
+             PreparedStatement p1 = con.prepareStatement("delete from UserRequest where requestID = ? "); 
+            ) {
+        p1.setInt(1, requestID);  
+        p1.execute();
+
+    } catch (SQLException ee) {
+        System.out.println(ee.getMessage());// we will put out custimize exption massages here
     }
-        
 
-    
+}
 
     public static ArrayList<UserRequest> getUserRequests() {
         ArrayList<UserRequest> userRequests = new ArrayList<>();

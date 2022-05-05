@@ -77,9 +77,15 @@ public class View_Correction extends Application {
     TextField address_field;
     DatePicker Date;
     
-    User userr = new User(1, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, 0, STYLESHEET_MODENA, STYLESHEET_MODENA);
+    User user ;//= new User(1, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, 0, STYLESHEET_MODENA, STYLESHEET_MODENA);
     //remove the above instailization later
+    public View_Correction() {
+    }
 
+    public View_Correction(User user) {
+        this.user = user;
+    }
+    
     @Override
          public void start(Stage stage) {
         
@@ -248,13 +254,13 @@ public class View_Correction extends Application {
         Email.getChildren().addAll(email,email_field);
         ////////////username/////////////
         HBox User=new HBox(1);
-        Label user =new Label("User Name : ");
-        user.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 16));
+        Label user_label =new Label("User Name : ");
+        user_label.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 16));
         username_field=new TextField();
         username_field.setStyle("-fx-background-radius: 30px ;");
         username_field.setPromptText("UserName");
         username_field.setMaxWidth(300);
-        User.getChildren().addAll(user,username_field);
+        User.getChildren().addAll(user_label,username_field);
         /////////// password /////////////
         HBox password =new HBox(10);
         Label pass =new Label("Password : ");
@@ -354,7 +360,7 @@ public class View_Correction extends Application {
                 if (Female.isSelected()) {
                     Sex = "female";
                 }
-                //UserDB.updateUserRequests(new Member(address_field.getText(), State_field.getSelectionModel().getSelectedItem().toString(), education_field.getSelectionModel().getSelectedItem().toString(), Phone.getText(), email_field.getText(), Date.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), nameField.getText(), AdminDB.getAreaID(Area_field.getSelectionModel().getSelectedItem().toString()), Sex, occupation_field.getText(), userr.getUID()));
+                //UserDB.updateUserRequests(new Member(address_field.getText(), State_field.getSelectionModel().getSelectedItem().toString(), education_field.getSelectionModel().getSelectedItem().toString(), Phone.getText(), email_field.getText(), Date.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), nameField.getText(), AdminDB.getAreaID(Area_field.getSelectionModel().getSelectedItem().toString()), Sex, occupation_field.getText(), user.getUID()));
                 table.setItems(getCorrectionRequests());
                 // clear the fields
                 nameField.setText("");

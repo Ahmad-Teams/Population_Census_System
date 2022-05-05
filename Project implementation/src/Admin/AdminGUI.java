@@ -37,6 +37,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import login.Login;
+import project.Admin;
 
 /**
  *
@@ -44,10 +45,20 @@ import login.Login;
  */
 public class AdminGUI extends Application  {
     Stage S1;
+    Admin admin ;//= new Admin(0, 0, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_CASPIAN, STYLESHEET_MODENA);
+    //remove the above instailization later
+        public AdminGUI(){
+        
+    }
+
+    public AdminGUI(Admin admin) {
+        this.admin = admin;
+    }
     @Override
         public void start(Stage stage) {
         
         HBox all = new HBox();
+
 
         
 // side btn section

@@ -51,6 +51,13 @@ public class View_Family_Members extends Application {
     TableView <MemberTableColumn> table=new TableView();
     User user = new User(1, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, 0, STYLESHEET_MODENA, STYLESHEET_MODENA);
     //remove the above line
+    public View_Family_Members() {
+    }
+
+    public View_Family_Members(User user) {
+        this.user = user;
+    }
+    
     @Override
          public void start(Stage stage) {
         

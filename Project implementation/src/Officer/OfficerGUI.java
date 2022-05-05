@@ -50,6 +50,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import login.Login;
+import project.Officer;
 
 
 /**
@@ -58,8 +59,15 @@ import login.Login;
  */
 public class OfficerGUI extends Application {
     Stage S1;
+    Officer officer;
     TableView table=new TableView();
-    Text t=new Text();;
+    Text t=new Text();
+    public OfficerGUI() {
+    }
+
+    public OfficerGUI(Officer officer) {
+        this.officer = officer;
+    }
     @Override
     public void start(Stage stage) {
         GridPane all = new GridPane();
