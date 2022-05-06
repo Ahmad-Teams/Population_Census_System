@@ -1,0 +1,251 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package View.User;
+
+import View.Admin.Admin_AddOfficer;
+import View.Admin.Admin_OfficerList;
+import View.Admin.Make_Report;
+import Model.database.AdminDB;
+import Model.database.UserDB;
+import java.util.ArrayList;
+import javafx.application.Application;
+import static javafx.application.Application.STYLESHEET_CASPIAN;
+import static javafx.application.Application.STYLESHEET_MODENA;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
+import View.login.Login;
+import Model.project.Member;
+import Model.project.User;
+import Model.project.UserRequest;
+
+/**
+ *
+ * @author user
+ */
+public class View_Your_Request extends Application {
+    Stage S1;
+    TableView <UserRequest_Table_column> table=new TableView();
+    User user = new User(1, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, 0, STYLESHEET_MODENA, STYLESHEET_MODENA);
+    //remove the above line
+    public View_Your_Request() {
+    }
+
+    public View_Your_Request(User user) {
+        this.user = user;
+    }
+    @Override
+         public void start(Stage stage) {
+        
+        GridPane all = new GridPane();
+        all.setHgap(10);
+        
+// side btn section
+        
+        VBox section1 = new VBox();       
+        section1.setPrefSize(170, 500);
+
+        
+      Button View_my_family = new Button("View My Family\n" +"Members");
+        Button Make_request = new Button("Make a request\n" +"for Adding New\n" +"member");
+        Button view_request = new Button("View Your\n" +"Requests");
+        Button View_Correction  = new Button("View Correction\n" +"Requests");
+        Button Logout = new Button("Logout");
+        
+        
+        View_my_family.setMinSize(170, 140);
+        View_my_family.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
+        View_my_family.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent even) {
+                View_Family_Members c2=new View_Family_Members();
+                S1.close();
+                c2.start(new Stage());
+            }
+        });
+        
+        
+        Make_request.setMinSize(170, 140);
+        Make_request.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
+        Make_request.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent even) {
+                Make_Request c2=new Make_Request();
+                S1.close();
+                c2.start(new Stage());
+            }
+        });
+        
+        view_request.setMinSize(170, 140);
+        view_request.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
+        view_request.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent even) {
+                View_Your_Request c2=new View_Your_Request();
+                S1.close();
+                c2.start(new Stage());
+            }
+        });
+        
+        View_Correction.setMinSize(170, 140);
+        View_Correction.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
+        View_Correction.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent even) {
+                View_Correction c2=new View_Correction();
+                S1.close();
+                c2.start(new Stage());
+            }
+        });
+        
+        Logout.setMinSize(170, 160);
+        Logout.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#bf1f21"), CornerRadii.EMPTY, Insets.EMPTY)));
+        Logout.setBorder(new Border(new BorderStroke((javafx.scene.paint.Color.web("#79b5d9")), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        Logout.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
+        Logout.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent even) {
+                Login c2=new Login();
+                S1.close();
+                c2.start(new Stage());
+            }
+        });
+
+        
+        section1.getChildren().addAll(View_my_family,Make_request,view_request,View_Correction,Logout);
+//second section
+
+        VBox section2 = new VBox();
+        section2.setPrefSize(530, 500);
+        Label H=new Label("Your Requests");
+        H.setFont(Font.font("Garamond", FontWeight.BOLD, 30));
+        H.setPadding(new Insets(20, 0, 50, 200));
+        table.setEditable(true);
+        TableColumn<UserRequest_Table_column, String> requestID = new TableColumn<>("Request ID");
+        requestID.setCellValueFactory(new PropertyValueFactory("requestID"));
+        requestID.setPrefWidth(80);
+        
+        TableColumn<UserRequest_Table_column, String> requestState = new TableColumn<>("Request State");
+        requestState.setCellValueFactory(new PropertyValueFactory("requestState"));
+        requestState.setPrefWidth(80);
+        
+        TableColumn<UserRequest_Table_column, String> ID = new TableColumn<>("Member ID");
+        ID.setCellValueFactory(new PropertyValueFactory("MID"));
+        ID.setPrefWidth(80);
+        
+        TableColumn<UserRequest_Table_column, String> name = new TableColumn<>("Name");
+        //name.setCellValueFactory(new PropertyValueFactory("name"));
+        name.setPrefWidth(120);
+        
+        TableColumn<UserRequest_Table_column, String> address = new TableColumn<>("Address");
+        address.setCellValueFactory(new PropertyValueFactory("address"));
+        address.setPrefWidth(120);
+        
+        TableColumn <UserRequest_Table_column, String>education =new TableColumn("Education");
+        education.setCellValueFactory(new PropertyValueFactory("education"));
+        education.setPrefWidth(110);
+        
+        TableColumn <UserRequest_Table_column, String>sex =new TableColumn("Sex");
+        sex.setCellValueFactory(new PropertyValueFactory("Sex"));
+        sex.setPrefWidth(50);
+        
+        TableColumn <UserRequest_Table_column, String>occupation =new TableColumn("Occupation");
+        occupation.setCellValueFactory(new PropertyValueFactory("occupation"));
+        occupation.setPrefWidth(100);
+        
+        TableColumn <UserRequest_Table_column, String>email =new TableColumn("Email");
+        email.setCellValueFactory(new PropertyValueFactory("Email"));
+        email.setPrefWidth(100);
+        
+        TableColumn <UserRequest_Table_column, String>phone =new TableColumn("phone");
+        phone.setCellValueFactory(new PropertyValueFactory("phone"));
+        phone.setPrefWidth(100);
+        
+        TableColumn <UserRequest_Table_column, String>DOB =new TableColumn("Date Of Birth");
+        DOB.setCellValueFactory(new PropertyValueFactory("DOB"));
+        DOB.setPrefWidth(100);
+        
+        TableColumn <UserRequest_Table_column, String>area =new TableColumn("Area");
+        area.setCellValueFactory(new PropertyValueFactory("areaName"));
+        area.setPrefWidth(100);
+        
+        table.getColumns().addAll(requestID,requestState,ID,name,address,education,sex,occupation,email,phone,DOB,area);
+        table.setMinHeight(1000);
+        table.setMinWidth(1150);
+        table.setItems(getuserRequests());
+        
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(table);
+        scrollPane.pannableProperty().set(true);
+        scrollPane.fitToWidthProperty().set(true);
+        scrollPane.fitToHeightProperty().set(true);
+        scrollPane.setPrefHeight(400);
+        scrollPane.setMinWidth(600);
+        scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
+        //section2.setPadding(new Insets(20, 0, 50, 50));
+        section2.getChildren().addAll(H,scrollPane);
+       // section2.setAlignment(Pos.CENTER);
+       
+        all.add(section1, 0, 0);
+        all.add(section2, 1, 0);
+        all.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#a5cee5"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        
+           
+        Scene scene = new Scene(all,800,700);           
+        stage.setScene(scene);
+        stage.setTitle("User Screen");
+        stage.setResizable(false);
+        
+        stage.show();
+        S1=stage;
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+    private ObservableList<UserRequest_Table_column> getuserRequests() {
+        ObservableList<UserRequest_Table_column> UserRequestsList = FXCollections.observableArrayList();
+        ArrayList<UserRequest> userRequests = UserDB.getUserRequests();
+        for (int i = 0; i < userRequests.size(); i++) {
+            if(userRequests.get(i).getUID()==user.getUID()){
+                UserRequest userRequest = userRequests.get(i);
+                UserRequestsList.add(new UserRequest_Table_column(userRequest, AdminDB.getAreaName(userRequest.getAreaID())));
+            }
+        }
+        return UserRequestsList;
+    }
+}
