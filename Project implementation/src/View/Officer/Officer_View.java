@@ -5,6 +5,7 @@
  */
 package View.Officer;
 
+import Controller.OfficerViewController;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -33,7 +34,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import View.login.Login;
-import Model.project.Officer;
 
 /**
  *
@@ -41,14 +41,15 @@ import Model.project.Officer;
  */
 public class Officer_View extends Application {
     Stage S1;
-    Officer officer;
+    int officerID;
     TableView table=new TableView();
     Text t=new Text();
+    OfficerViewController officerController = new OfficerViewController(officerID);
     public Officer_View() {
     }
 
-    public Officer_View(Officer officer) {
-        this.officer = officer;
+    public Officer_View(int officerID) {
+        this.officerID = officerID;
     }
     @Override
     public void start(Stage stage) {

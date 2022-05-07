@@ -449,7 +449,7 @@ public class View_Correction extends Application {
         Area_field.getItems().clear();
         Area_field.setValue(AdminDB.getAreaName(selectedRequest.getAreaID()));
 
-        ArrayList<Model.project.Area> areas = AdminDB.getAreas();
+        ArrayList<Area> areas = AdminDB.getAreas();
         for (int i = 0; i < areas.size(); i++) {
             Area_field.getItems().add(areas.get(i).getAreaName());
         }
