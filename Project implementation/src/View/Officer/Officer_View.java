@@ -61,7 +61,7 @@ public class Officer_View extends Application {
 // side btn section
         
         VBox section1 = new VBox();       
-        section1.setPrefSize(170, 500);
+        section1.setPrefSize(170, 750);
 
         
         Button view_request = new Button("View New\n" +
@@ -69,10 +69,10 @@ public class Officer_View extends Application {
         Button Logout = new Button("Logout");
         
         
-        view_request.setMinSize(170, 375);
+        view_request.setMinSize(170, 360);
         view_request.setFont(Font.font("tahoma", FontWeight.BOLD, 17));
      
-        Logout.setMinSize(170, 375);
+        Logout.setMinSize(170, 450);
         Logout.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#bf1f21"), CornerRadii.EMPTY, Insets.EMPTY)));
         Logout.setBorder(new Border(new BorderStroke((javafx.scene.paint.Color.web("#79b5d9")), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         Logout.setFont(Font.font("tahoma", FontWeight.BOLD, 17));
@@ -90,7 +90,8 @@ public class Officer_View extends Application {
         
         //////////////////////////////////////
         VBox section2 = new VBox(6);
-        section2.setPrefSize(530, 500);
+        section2.setPrefSize(530, 400);
+        section2.setMinHeight(300);
         Label H=new Label("New Requests");
         H.setFont(Font.font("Garamond", FontWeight.BOLD, 30));
         H.setPadding(new Insets(5, 0, 0, 180));
@@ -192,11 +193,11 @@ public class Officer_View extends Application {
         Button A=new Button("Accept");
         R.setStyle("-fx-background-radius: 300px ;-fx-background-color:Red; ");
         A.setStyle("-fx-background-radius: 300px ;-fx-background-color:Orange;");
-        R.setMinWidth(120);
-        A.setMinWidth(120);
-        R.setFont(Font.font("tahoma", FontWeight.LIGHT, 17));
+        R.setMinWidth(110);
+        A.setMinWidth(110);
+        R.setFont(Font.font("tahoma", FontWeight.LIGHT, 16));
         R.setTextFill(javafx.scene.paint.Color.BLACK);
-        A.setFont(Font.font("tahoma", FontWeight.LIGHT, 17));
+        A.setFont(Font.font("tahoma", FontWeight.LIGHT, 16));
         A.setTextFill(javafx.scene.paint.Color.BLACK);
         R.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -216,7 +217,7 @@ public class Officer_View extends Application {
         all.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#a5cee5"), CornerRadii.EMPTY, Insets.EMPTY)));
 
         
-        Scene scene = new Scene(all,800,750);           
+        Scene scene = new Scene(all,800,775);           
         stage.setScene(scene);
         stage.setTitle("Officer Screen");
         stage.setResizable(false);
