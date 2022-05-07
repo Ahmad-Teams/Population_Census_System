@@ -5,9 +5,8 @@
  */
 package View.Admin;
 
-import View.Admin.AdminGUI;
+import Controller.AdminViewController;
 import View.Admin.Make_Report;
-import Model.database.AdminDB;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -45,7 +44,6 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import View.login.Login;
-import Model.project.*;
 
 /**
  *
@@ -54,14 +52,15 @@ import Model.project.*;
 public class Admin_AddOfficer extends Application {
 
     Stage S1;
-    Admin admin ;//= new Admin(0, 0, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_CASPIAN, STYLESHEET_MODENA);
+    int adminID ;//= new Admin(0, 0, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_CASPIAN, STYLESHEET_MODENA);
     //remove the above instailization later
-
+    AdminViewController adminController=new AdminViewController(adminID);//remove this creation and put it in constructor later
     public Admin_AddOfficer() {
     }
 
-    public Admin_AddOfficer(Admin admin) {
-        this.admin = admin;
+    public Admin_AddOfficer(int admin) {
+        this.adminID = admin;
+        //adminController=new AdminViewController(adminID}
     }
 
     @Override
@@ -178,11 +177,11 @@ public class Admin_AddOfficer extends Application {
 
         ComboBox area_cbox = new ComboBox();
 
-        ArrayList<Area> areas = AdminDB.getAreas();
+        ArrayList<String> areaNames = adminController.getAreasForComboBox();
         //add cities here
-        area_cbox.setValue(areas.get(0).getAreaName());
-        for (int i = 0; i < areas.size(); i++) {
-            area_cbox.getItems().add(areas.get(i).getAreaName());
+        area_cbox.setValue(areaNames.get(0));
+        for (int i = 0; i < areaNames.size(); i++) {
+            area_cbox.getItems().add(areaNames.get(i));
         }
         area_cbox.setPrefSize(300, 40);
         area_section.getChildren().addAll(area, area_cbox);
@@ -266,7 +265,7 @@ public class Admin_AddOfficer extends Application {
                 pass_field.setText("");
                 male.setSelected(false);
                 female.setSelected(false);
-                AdminDB.addOfficer(new Officer(phone, email, name, AdminDB.getAreaID(area), sex, username, password, admin.getAID()));
+                adminController.addOfficer(phone, email, name, area, sex, username, password);
             }
         });
         add_officer_btn.setPrefSize(200, 50);
@@ -276,7 +275,7 @@ public class Admin_AddOfficer extends Application {
         all.getChildren().addAll(section1, section2);
         all.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#a5cee5"), CornerRadii.EMPTY, Insets.EMPTY)));
         Scene scene = new Scene(all, 800, 700);
-        stage.setScene(scene);;
+        stage.setScene(scene);
         stage.setTitle("Admin Screen");
         stage.setResizable(false);
 

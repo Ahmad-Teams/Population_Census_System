@@ -5,9 +5,7 @@
  */
 package View.login;
 
-import View.Admin.AdminGUI;
 import View.Admin.Admin_AddOfficer;
-import View.Officer.OfficerGUI;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -38,14 +36,11 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import View.User.UserGUI;
-import Model.database.OfficerDB;
 import java.util.ArrayList;
-import Model.project.Admin;
-import Model.project.Officer;
-import Model.project.System_user;
-import Model.project.User;
-
+import View.Officer.Officer_View;
+import View.User.View_Family_Members;
+import Model.project.*;
+import Model.database.*;
 /**
  *
  * @author userName_field
@@ -136,17 +131,17 @@ public class Login extends Application {
                     accountType = getAccountType(userName, password);
                     if (accountType.equals("Admin")) {
                         // here should be a function to set the admin data
-                        AdminGUI c1 = new AdminGUI(admin);
+                        Admin_AddOfficer c1 = new Admin_AddOfficer(0);
                         S1.close();
                         c1.start(new Stage());
                     } else if (accountType.equals("Officer")) {
                         // here should be a function to set the officer data
-                        OfficerGUI c1 = new OfficerGUI(officer);
+                        Officer_View c1 = new Officer_View();
                         S1.close();
                         c1.start(new Stage());
                     } else if (accountType.equals("User")) {
                         // here should be a function to set the user data
-                        UserGUI c1 = new UserGUI(user);
+                        View_Family_Members c1 = new View_Family_Members();
                         S1.close();
                         c1.start(new Stage());
                     }

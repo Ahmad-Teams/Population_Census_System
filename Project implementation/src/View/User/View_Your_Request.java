@@ -5,11 +5,10 @@
  */
 package View.User;
 
+import Controller.UserViewController;
 import View.Admin.Admin_AddOfficer;
 import View.Admin.Admin_OfficerList;
 import View.Admin.Make_Report;
-import Model.database.AdminDB;
-import Model.database.UserDB;
 import java.util.ArrayList;
 import javafx.application.Application;
 import static javafx.application.Application.STYLESHEET_CASPIAN;
@@ -43,24 +42,22 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import View.login.Login;
-import Model.project.Member;
-import Model.project.User;
-import Model.project.UserRequest;
 
 /**
  *
- * @author user
+ * @author userID
  */
 public class View_Your_Request extends Application {
     Stage S1;
-    TableView <UserRequest_Table_column> table=new TableView();
-    User user = new User(1, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, 0, STYLESHEET_MODENA, STYLESHEET_MODENA);
+    TableView <UserRequestTableColumn> table=new TableView();
+    int userID ;
+    UserViewController userController = new UserViewController(userID);
     //remove the above line
     public View_Your_Request() {
     }
 
-    public View_Your_Request(User user) {
-        this.user = user;
+    public View_Your_Request(int userID) {
+        this.userID = userID;
     }
     @Override
          public void start(Stage stage) {
@@ -149,58 +146,58 @@ public class View_Your_Request extends Application {
         H.setFont(Font.font("Garamond", FontWeight.BOLD, 30));
         H.setPadding(new Insets(20, 0, 50, 200));
         table.setEditable(true);
-        TableColumn<UserRequest_Table_column, String> requestID = new TableColumn<>("Request ID");
+        TableColumn<UserRequestTableColumn, String> requestID = new TableColumn<>("Request ID");
         requestID.setCellValueFactory(new PropertyValueFactory("requestID"));
         requestID.setPrefWidth(80);
         
-        TableColumn<UserRequest_Table_column, String> requestState = new TableColumn<>("Request State");
+        TableColumn<UserRequestTableColumn, String> requestState = new TableColumn<>("Request State");
         requestState.setCellValueFactory(new PropertyValueFactory("requestState"));
         requestState.setPrefWidth(80);
         
-        TableColumn<UserRequest_Table_column, String> ID = new TableColumn<>("Member ID");
+        TableColumn<UserRequestTableColumn, String> ID = new TableColumn<>("Member ID");
         ID.setCellValueFactory(new PropertyValueFactory("MID"));
         ID.setPrefWidth(80);
         
-        TableColumn<UserRequest_Table_column, String> name = new TableColumn<>("Name");
+        TableColumn<UserRequestTableColumn, String> name = new TableColumn<>("Name");
         //name.setCellValueFactory(new PropertyValueFactory("name"));
         name.setPrefWidth(120);
         
-        TableColumn<UserRequest_Table_column, String> address = new TableColumn<>("Address");
+        TableColumn<UserRequestTableColumn, String> address = new TableColumn<>("Address");
         address.setCellValueFactory(new PropertyValueFactory("address"));
         address.setPrefWidth(120);
         
-        TableColumn <UserRequest_Table_column, String>education =new TableColumn("Education");
+        TableColumn <UserRequestTableColumn, String>education =new TableColumn("Education");
         education.setCellValueFactory(new PropertyValueFactory("education"));
         education.setPrefWidth(110);
         
-        TableColumn <UserRequest_Table_column, String>sex =new TableColumn("Sex");
+        TableColumn <UserRequestTableColumn, String>sex =new TableColumn("Sex");
         sex.setCellValueFactory(new PropertyValueFactory("Sex"));
         sex.setPrefWidth(50);
         
-        TableColumn <UserRequest_Table_column, String>occupation =new TableColumn("Occupation");
+        TableColumn <UserRequestTableColumn, String>occupation =new TableColumn("Occupation");
         occupation.setCellValueFactory(new PropertyValueFactory("occupation"));
         occupation.setPrefWidth(100);
         
-        TableColumn <UserRequest_Table_column, String>email =new TableColumn("Email");
+        TableColumn <UserRequestTableColumn, String>email =new TableColumn("Email");
         email.setCellValueFactory(new PropertyValueFactory("Email"));
         email.setPrefWidth(100);
         
-        TableColumn <UserRequest_Table_column, String>phone =new TableColumn("phone");
+        TableColumn <UserRequestTableColumn, String>phone =new TableColumn("phone");
         phone.setCellValueFactory(new PropertyValueFactory("phone"));
         phone.setPrefWidth(100);
         
-        TableColumn <UserRequest_Table_column, String>DOB =new TableColumn("Date Of Birth");
+        TableColumn <UserRequestTableColumn, String>DOB =new TableColumn("Date Of Birth");
         DOB.setCellValueFactory(new PropertyValueFactory("DOB"));
         DOB.setPrefWidth(100);
         
-        TableColumn <UserRequest_Table_column, String>area =new TableColumn("Area");
+        TableColumn <UserRequestTableColumn, String>area =new TableColumn("Area");
         area.setCellValueFactory(new PropertyValueFactory("areaName"));
         area.setPrefWidth(100);
         
         table.getColumns().addAll(requestID,requestState,ID,name,address,education,sex,occupation,email,phone,DOB,area);
         table.setMinHeight(1000);
         table.setMinWidth(1150);
-        table.setItems(getuserRequests());
+        table.setItems(userController.getuserRequests());
         
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(table);
@@ -237,15 +234,4 @@ public class View_Your_Request extends Application {
         launch(args);
     }
     
-    private ObservableList<UserRequest_Table_column> getuserRequests() {
-        ObservableList<UserRequest_Table_column> UserRequestsList = FXCollections.observableArrayList();
-        ArrayList<UserRequest> userRequests = UserDB.getUserRequests();
-        for (int i = 0; i < userRequests.size(); i++) {
-            if(userRequests.get(i).getUID()==user.getUID()){
-                UserRequest userRequest = userRequests.get(i);
-                UserRequestsList.add(new UserRequest_Table_column(userRequest, AdminDB.getAreaName(userRequest.getAreaID())));
-            }
-        }
-        return UserRequestsList;
-    }
 }

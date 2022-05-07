@@ -5,10 +5,9 @@
  */
 package View.Admin;
 
+import Controller.AdminViewController;
 import View.login.Login;
-import View.Admin.AdminGUI;
 import View.Admin.Make_Report;
-import Model.database.AdminDB;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 import javafx.application.Application;
@@ -51,14 +50,10 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import View.login.Login;
-import Model.project.Observer;
-import Model.project.Officer;
-import View.Admin.OfficerTableColumn;
-import Model.project.*;
 
 /**
  *
- * @author user
+ * @author email
  */
 public class Admin_OfficerList extends Application {
 
@@ -66,21 +61,23 @@ public class Admin_OfficerList extends Application {
     TableView<OfficerTableColumn> table = new TableView();
     OfficerTableColumn selectedColumn;
     TextField nameField;
-    TextField user;
-    TextField user1;
-    PasswordField P;
+    TextField email;
+    TextField username;
+    PasswordField Password;
     RadioButton Female;
     RadioButton Male;
     TextField Phone;
     ComboBox Area;
-    Admin admin = new Admin(0, 0, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_CASPIAN, STYLESHEET_MODENA);
+    int adminID;// = new Admin(0, 0, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_CASPIAN, STYLESHEET_MODENA);
 //remove the above instailization later
+    AdminViewController adminController = new AdminViewController(adminID);//remove this creation and put it in constructor later
 
     public Admin_OfficerList() {
     }
 
-    public Admin_OfficerList(Admin admin) {
-        this.admin = admin;
+    public Admin_OfficerList(int adminID) {
+        this.adminID = adminID;
+        //adminController=new AdminViewController(adminID}
     }
 
     @Override
@@ -207,7 +204,7 @@ public class Admin_OfficerList extends Application {
 
         table.getColumns().addAll(ID, name, sex, email, phone, areaName, username, password);
         table.setMinHeight(1000);
-        table.setItems(getOfficers());
+        table.setItems(adminController.getOfficers());
         table.setOnMouseClicked(e -> {
             tableClickeEvent();
         });
@@ -232,29 +229,29 @@ public class Admin_OfficerList extends Application {
         HBox Email = new HBox(40);
         Label emailLable = new Label("Email : ");
         emailLable.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 16));
-        this.user = new TextField();
-        user.setStyle("-fx-background-radius: 30px ;");
-        user.setPromptText("Email");
-        user.setMaxWidth(300);
-        Email.getChildren().addAll(emailLable, user);
+        this.email = new TextField();
+        this.email.setStyle("-fx-background-radius: 30px ;");
+        this.email.setPromptText("Email");
+        this.email.setMaxWidth(300);
+        Email.getChildren().addAll(emailLable, this.email);
         ////////////username/////////////
         HBox User = new HBox(1);
         Label u = new Label("User Name : ");
         u.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 16));
-        this.user1 = new TextField();
-        user1.setStyle("-fx-background-radius: 30px ;");
-        user1.setPromptText("UserName");
-        user1.setMaxWidth(300);
-        User.getChildren().addAll(u, user1);
+        this.username = new TextField();
+        this.username.setStyle("-fx-background-radius: 30px ;");
+        this.username.setPromptText("UserName");
+        this.username.setMaxWidth(300);
+        User.getChildren().addAll(u, this.username);
         /////////// passwordBox /////////////
         HBox passwordBox = new HBox(10);
         Label pass = new Label("Password : ");
         pass.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 16));
-        this.P = new PasswordField();
-        P.setMaxWidth(300);
-        P.setStyle("-fx-background-radius: 30px ;");
-        P.setPromptText("Password");
-        passwordBox.getChildren().addAll(pass, P);
+        this.Password = new PasswordField();
+        Password.setMaxWidth(300);
+        Password.setStyle("-fx-background-radius: 30px ;");
+        Password.setPromptText("Password");
+        passwordBox.getChildren().addAll(pass, Password);
         ///////////sex /////////////
         HBox S = new HBox(50);
         Label s = new Label("SEX :");
@@ -290,19 +287,19 @@ public class Admin_OfficerList extends Application {
         D.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                AdminDB.deleteOfficer(selectedColumn.getOID());
+                adminController.deleteOfficer(selectedColumn.getOID());
 
                 nameField.setText("");
-                user1.setText("");
-                user.setText("");
-                P.setText("");
+                username.setText("");
+                email.setText("");
+                Password.setText("");
                 Phone.setText("");
                 Male.setSelected(false);
                 Female.setSelected(false);
                 Area.getItems().clear();
                 Area.setValue("");
 
-                table.setItems(getOfficers());
+                table.setItems(adminController.getOfficers());
 
             }
 
@@ -315,8 +312,8 @@ public class Admin_OfficerList extends Application {
                 if (Female.isSelected()) {
                     Sex = "female";
                 }
-                AdminDB.updateOfficer(new Officer(Phone.getText(), user.getText(), selectedColumn.getOID(), nameField.getText(), AdminDB.getAreaID(Area.getSelectionModel().getSelectedItem().toString()), Sex, user1.getText(), P.getText(), admin.getAID()));
-                table.setItems(getOfficers());
+                adminController.updateOfficer(Phone.getText(), email.getText(), selectedColumn.getOID(), nameField.getText(), Area.getSelectionModel().getSelectedItem().toString(), Sex, username.getText(), Password.getText(), adminID);
+                table.setItems(adminController.getOfficers());
             }
         });
         ////////////////////////
@@ -336,8 +333,8 @@ public class Admin_OfficerList extends Application {
         stage.show();
         S1 = stage;
     }
-    
-   /**
+
+    /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
@@ -347,9 +344,9 @@ public class Admin_OfficerList extends Application {
     private void tableClickeEvent() {
         selectedColumn = table.getSelectionModel().getSelectedItems().get(0);
         nameField.setText(selectedColumn.getName());
-        user1.setText(selectedColumn.getUsername());
-        user.setText(selectedColumn.getEmail());
-        P.setText(selectedColumn.getPassword());
+        username.setText(selectedColumn.getUsername());
+        email.setText(selectedColumn.getEmail());
+        Password.setText(selectedColumn.getPassword());
         Phone.setText(selectedColumn.getPhone());
 
         if (selectedColumn.getSex().equals("male")) {
@@ -358,22 +355,13 @@ public class Admin_OfficerList extends Application {
             Female.setSelected(true);
         }
         Area.getItems().clear();
-        Area.setValue(AdminDB.getAreaName(selectedColumn.getAreaID()));
-
-        ArrayList<Model.project.Area> areas = AdminDB.getAreas();
-        for (int i = 0; i < areas.size(); i++) {
-            Area.getItems().add(areas.get(i).getAreaName());
+        
+        Area.setValue(adminController.getAreaName(selectedColumn.getAreaID()));
+        
+        ArrayList<String> areaNames = adminController.getAreasForComboBox();
+        for (int i = 0; i < areaNames.size(); i++) {
+            Area.getItems().add(areaNames.get(i));
         }
-    }
-
-    private ObservableList<OfficerTableColumn> getOfficers() {
-        ObservableList<OfficerTableColumn> officerList = FXCollections.observableArrayList();
-        ArrayList<Officer> officers = AdminDB.getOfficers();
-        for (int i = 0; i < officers.size(); i++) {
-            Officer officer = officers.get(i);
-            officerList.add(new OfficerTableColumn(officer, AdminDB.getAreaName(officer.getAreaID())));
-        }
-        return officerList;
     }
 
 }

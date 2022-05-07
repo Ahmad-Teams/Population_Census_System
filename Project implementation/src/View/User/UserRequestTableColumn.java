@@ -1,18 +1,16 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Model.project;
-
-import java.util.Date;
+package View.User;
 
 /**
  *
  * @author PC
  */
-public class UserRequest {
+public class UserRequestTableColumn {
 
+    private String areaName;
     private int requestID;
     private String requestState;
     private String address;
@@ -26,9 +24,9 @@ public class UserRequest {
     private String sex;
     private String occupation;
     private int UID;
-    //RequestState,Address,City,Education,Phone,Email,MID,DOB,DocName,AreaID,Sex,Occupation,UID)
 
-    public UserRequest(int requestID, String requestState, String address, String city, String education, String phone, String email, int MID, String DOB, int areaID, String sex, String occupation, int UID) {
+    public UserRequestTableColumn(String areaName, int requestID, String requestState, String address, String city, String education, String phone, String email, int MID, String DOB, int areaID, String sex, String occupation, int UID) {
+        this.areaName = areaName;
         this.requestID = requestID;
         this.requestState = requestState;
         this.address = address;
@@ -43,35 +41,21 @@ public class UserRequest {
         this.occupation = occupation;
         this.UID = UID;
     }
-    // where is name of the user ????????
-    public UserRequest(String requestState, String address, String city, String education, String phone, String email, String DOB, int areaID, String sex, String occupation, int UID) {
-        this.requestState = requestState;
-        this.address = address;
-        this.city = city;
-        this.education = education;
-        this.phone = phone;
-        this.email = email;
-        this.DOB = DOB;
-        this.areaID = areaID;
-        this.sex = sex;
-        this.occupation = occupation;
-        this.UID = UID;
+
+    public String getAreaName() {
+        return areaName;
     }
 
-    public void updateMember(Member member) {
-
-    }
-
-    public int getUID() {
-        return UID;
-    }
-
-    public void addMember(Member member) {
-
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
     }
 
     public int getRequestID() {
         return requestID;
+    }
+
+    public void setRequestID(int requestID) {
+        this.requestID = requestID;
     }
 
     public String getRequestState() {
@@ -81,16 +65,6 @@ public class UserRequest {
     public void setRequestState(String requestState) {
         this.requestState = requestState;
     }
-
-    public int getMID() {
-        return MID;
-    }
-
-    public void setMID(int MID) {
-        this.MID = MID;
-    }
-
-    
 
     public String getAddress() {
         return address;
@@ -132,6 +106,14 @@ public class UserRequest {
         this.email = email;
     }
 
+    public int getMID() {
+        return MID;
+    }
+
+    public void setMID(int MID) {
+        this.MID = MID;
+    }
+
     public String getDOB() {
         return DOB;
     }
@@ -142,6 +124,10 @@ public class UserRequest {
 
     public int getAreaID() {
         return areaID;
+    }
+
+    public void setAreaID(int areaID) {
+        this.areaID = areaID;
     }
 
     public String getSex() {
@@ -160,4 +146,13 @@ public class UserRequest {
         this.occupation = occupation;
     }
 
+    public int getUID() {
+        return UID;
+    }
+
+    public void setUID(int UID) {
+        this.UID = UID;
+    }
+
+    
 }

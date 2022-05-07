@@ -36,7 +36,7 @@ public class UserDB implements Observer{
 
     public static void addMember(Member member) {
         try (
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into Member(Adderss,City,Education,Phone,Email,DOB,Name,AreaID,Sex,Occupation,UID) values(?,?,?,?,?,?,?,?,?,?,?)"); 
+                 Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into Member(Address,City,Education,Phone,Email,DOB,Name,AreaID,Sex,Occupation,UID) values(?,?,?,?,?,?,?,?,?,?,?)"); 
                 PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setString(1, member.getAddress());
@@ -70,10 +70,10 @@ public class UserDB implements Observer{
         }
 
     }
-//(Adderss,City,Education,Phone,Email,DOB,Name,AreaID,Sex,Occupation,UID,DocName,ImageName)
+//(Address,City,Education,Phone,Email,DOB,Name,AreaID,Sex,Occupation,UID,DocName,ImageName)
     public static void updateMember(Member member) {
          try (                                                             
-                 Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE Member SET Adderss = ?,City = ?,Education = ?,Phone = ? ,Email = ?,DOB = ?,Name = ?,AreaID = ?,Sex = ?,Occupation = ?,UID = ? WHERE MID= ?");  
+                 Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE Member SET Address = ?,City = ?,Education = ?,Phone = ? ,Email = ?,DOB = ?,Name = ?,AreaID = ?,Sex = ?,Occupation = ?,UID = ? WHERE MID= ?");  
                  PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setString(1, member.getAddress());
@@ -104,7 +104,7 @@ public class UserDB implements Observer{
                 ResultSet r = p.executeQuery();
                 while (r.next()) {      //return  one row of Area table 
                                                 
-                    members.add(new Member(r.getString("Adderss"), r.getString("City"), r.getString("Education"),r.getString("Phone"),r.getString("Email"),r.getInt("MID"),r.getString("DOB"),r.getString("Name"), r.getInt("AreaID"), r.getString("Sex"),r.getString("Occupation"),r.getInt("UID")));
+                    members.add(new Member(r.getString("Address"), r.getString("City"), r.getString("Education"),r.getString("Phone"),r.getString("Email"),r.getInt("MID"),r.getString("DOB"),r.getString("Name"), r.getInt("AreaID"), r.getString("Sex"),r.getString("Occupation"),r.getInt("UID")));
 
                 }
             }
@@ -118,7 +118,7 @@ public class UserDB implements Observer{
     // where is delete and update UserRequest ???????
     public static void addUserRequest(UserRequest userRequest) {
      try (
-             Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into UserRequest(RequestState,Adderss,City,Education,Phone,Email,MID,DOB,AreaID,Sex,Occupation,UID) values(?,?,?,?,?,?,?,?,?,?,?,?)"); 
+             Connection con = connect();  PreparedStatement p = con.prepareStatement("insert into UserRequest(RequestState,Address,City,Education,Phone,Email,MID,DOB,AreaID,Sex,Occupation,UID) values(?,?,?,?,?,?,?,?,?,?,?,?)"); 
             PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
         p1.execute();
         p.setString(1, userRequest.getRequestState());
@@ -144,7 +144,7 @@ public class UserDB implements Observer{
 
     public static void updateUserRequest(UserRequest userRequest) {
      try (
-             Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE UserRequest SET RequestState = ?,Adderss = ?,City = ?,Education = ?,Phone = ?,Email = ?,MID = ?,DOB = ?,AreaID = ?,Sex = ?,Occupation = ?,UID = ?"); 
+             Connection con = connect();  PreparedStatement p = con.prepareStatement("UPDATE UserRequest SET RequestState = ?,Address = ?,City = ?,Education = ?,Phone = ?,Email = ?,MID = ?,DOB = ?,AreaID = ?,Sex = ?,Occupation = ?,UID = ?"); 
             PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
         p1.execute();
         p.setString(1, userRequest.getRequestState());
@@ -190,7 +190,7 @@ public class UserDB implements Observer{
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {      //return  one row of Area table 
-                    userRequests.add(new UserRequest(r.getInt("RequestID"),r.getString("RequestState"),r.getString("Adderss"), r.getString("City"), r.getString("Education"),r.getString("Phone"),r.getString("Email"),r.getInt("MID"),r.getString("DOB"), r.getInt("AreaID"), r.getString("Sex"),r.getString("Occupation"),r.getInt("UID")));
+                    userRequests.add(new UserRequest(r.getInt("RequestID"),r.getString("RequestState"),r.getString("Address"), r.getString("City"), r.getString("Education"),r.getString("Phone"),r.getString("Email"),r.getInt("MID"),r.getString("DOB"), r.getInt("AreaID"), r.getString("Sex"),r.getString("Occupation"),r.getInt("UID")));
 
                 }
             }

@@ -4,8 +4,7 @@
  */
 package View.User;
 
-import Model.database.AdminDB;
-import Model.database.UserDB;
+import Controller.UserViewController;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javafx.application.Application;
@@ -41,7 +40,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import View.login.Login;
 import Model.project.*;
-
+import Model.database.*;
 /**
  *
  * @author dell
@@ -49,13 +48,14 @@ import Model.project.*;
 public class Make_Request extends Application {
 
     Stage S1;
-    User user = new User(1, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, 0, STYLESHEET_MODENA, STYLESHEET_MODENA);
+    int userID ;
+    UserViewController userController = new UserViewController(userID);
     TableView table = new TableView();
     public Make_Request() {
     }
 
-    public Make_Request(User user) {
-        this.user = user;
+    public Make_Request(int userID) {
+        this.userID = userID;
     }
     
     @Override
@@ -313,8 +313,8 @@ public class Make_Request extends Application {
                 if (Female.isSelected()) {
                     sex = "Female";
                 }
-                //where is the name in user request ?????
-                UserDB.addUserRequest(new UserRequest("pinding",address, state, education, phone, email, date, AdminDB.getAreaID(area), sex, Occupation, user.getUID()));
+                //where is the name in userID request ?????
+                UserDB.addUserRequest(new UserRequest("pinding",address, state, education, phone, email, date, AdminDB.getAreaID(area), sex, Occupation, userID));
                 // clear the fields
                 name_field.setText("");
                 Male.setSelected(false);

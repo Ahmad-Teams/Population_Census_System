@@ -1,17 +1,16 @@
-package View.User;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+package View.User;
+
 /**
  *
- * @author PC
+ * @author ahmad
  */
-public class MemberTableColumn {
+public class UserTableColumn {
 
     private String areaName;
-    private int MID;
     private int UID;
     private String city;
     private String address;
@@ -23,12 +22,10 @@ public class MemberTableColumn {
     private int areaID;
     private String name;
     private String phone;
-
     private String Email;
 
-    public MemberTableColumn(String areaName, int MID, int UID, String city, String address, String education, String sex, String occupation, int stateID, String DOB, int areaID, String name, String phone, String Email) {
+    public UserTableColumn(String areaName, int UID, String city, String address, String education, String sex, String occupation, int stateID, String DOB, int areaID, String name, String phone, String Email) {
         this.areaName = areaName;
-        this.MID = MID;
         this.UID = UID;
         this.city = city;
         this.address = address;
@@ -49,14 +46,6 @@ public class MemberTableColumn {
 
     public void setAreaName(String areaName) {
         this.areaName = areaName;
-    }
-
-    public int getMID() {
-        return MID;
-    }
-
-    public void setMID(int MID) {
-        this.MID = MID;
     }
 
     public int getUID() {
@@ -153,6 +142,6 @@ public class MemberTableColumn {
 
     public void setEmail(String Email) {
         this.Email = Email;
-    }
-      
+    }   
+    
 }

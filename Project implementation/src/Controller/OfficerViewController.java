@@ -9,5 +9,10 @@ package Controller;
  * @author ahmad
  */
 public class OfficerViewController {
+    int officerID;
+
+    public OfficerViewController(int officerID) {
+        this.officerID = officerID;
+    }
     
 }

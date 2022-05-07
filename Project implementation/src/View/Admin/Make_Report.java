@@ -5,10 +5,10 @@
  */
 package View.Admin;
 
+import Controller.AdminViewController;
+import View.User.UserTableColumn;
 import View.login.Login;
-import View.Admin.AdminGUI;
 import View.Admin.Make_Report;
-import Model.database.AdminDB;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -47,7 +47,6 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import View.login.Login;
-import Model.project.Admin;
 
 /**
  *
@@ -56,19 +55,22 @@ import Model.project.Admin;
 public class Make_Report extends Application {
 
     Stage S1;
-    Admin admin;
-    ComboBox Search = new ComboBox();
-    ComboBox Select_display = new ComboBox();
-    ComboBox Select_option = new ComboBox();
+    int adminID;
+    ComboBox SearchOn = new ComboBox();
+    ComboBox SearchOptions = new ComboBox();
+    ComboBox SortByOption = new ComboBox();
+    ComboBox OrderOption = new ComboBox();
     TableView table = new TableView();
     ScrollPane scrollPane = new ScrollPane();
+    AdminViewController adminController = new AdminViewController(adminID);
 
     public Make_Report() {
     }
 
-    public Make_Report(Admin admin) {
-        this.admin = admin;
+    public Make_Report(int adminID) {
+        this.adminID = adminID;
     }
+
     @Override
     public void start(Stage stage) {
         GridPane all = new GridPane();
@@ -158,22 +160,24 @@ public class Make_Report extends Application {
         HBox search = new HBox(15);
         Label Searching = new Label("Searching on: ");
         Searching.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 18));
-        Search.setPrefWidth(100);
+        SearchOn.setPrefWidth(100);
         search.setPadding(new Insets(10, 0, 0, 70));
-        search.getChildren().addAll(Searching, Search);
+        search.getChildren().addAll(Searching, SearchOn);
 
-        Search.setOnAction(event -> {
-            String selectionValue = Search.getValue().toString();
-            Select_display.getItems().clear();
+        SearchOn.setOnAction(event -> {
+            String selectionValue = SearchOn.getValue().toString();
+            SearchOptions.getItems().clear();
+            SortByOption.getItems().clear();
             if (selectionValue.equals("User")) {
-                Select_display.getItems().addAll("Has dependance", "Doesn`t has dependance");
-                Select_display.setValue("Has dependance");
+                SearchOptions.getItems().addAll("Has dependencies", "Doesn`t has dependencies");
+                SearchOptions.setValue("Has dependencies");
+                SortByOption.getItems().addAll("UID", "Name", "Sex", "Email", "Phone", "City", "Address");
+                SortByOption.setValue("UID");
             } else if (selectionValue.equals("Officer")) {
-                Select_display.getItems().addAll("Has Users", "Doesn`t has Users");
-                Select_display.setValue("Has Users");
-            } else if (selectionValue.equals("Family members")) {
-                Select_display.getItems().addAll("Under your responsibility", "Others");
-                Select_display.setValue("Under your responsibility");
+                SearchOptions.getItems().addAll("Has Users", "Doesn`t has Users");
+                SearchOptions.setValue("Has Users");
+                SortByOption.getItems().addAll("OID", "Name", "Sex", "Email", "Phone", "Username", "Password");
+                SortByOption.setValue("OID");
             }
         });
 
@@ -181,16 +185,24 @@ public class Make_Report extends Application {
         HBox Display_search = new HBox(15);
         Label display = new Label("Select an option to display: ");
         display.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 18));
-        Select_display.setPrefWidth(180);
+        SearchOptions.setPrefWidth(180);
         Display_search.setPadding(new Insets(0, 0, 20, 20));
-        Display_search.getChildren().addAll(display, Select_display);
+        Display_search.getChildren().addAll(display, SearchOptions);
         /////Select an option to sort on/////////////
-        HBox option_search = new HBox(15);
-        Label option = new Label("Select an option to sort on: ");
+        HBox sortOptionBox = new HBox(15);
+        Label sortByLable = new Label("Sort By: ");
+        sortByLable.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 18));
+        SortByOption.setPrefWidth(120);
+        sortOptionBox.setPadding(new Insets(10, 0, 0, 20));
+        sortOptionBox.getChildren().addAll(sortByLable, SortByOption);
+
+        /////Select an order to sort on/////////////
+        HBox optionOrder = new HBox(15);
+        Label option = new Label("Order: ");
         option.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 18));
-        Select_option.setPrefWidth(120);
-        option_search.setPadding(new Insets(10, 0, 0, 20));
-        option_search.getChildren().addAll(option, Select_option);
+        OrderOption.setPrefWidth(120);
+        optionOrder.setPadding(new Insets(10, 0, 0, 20));
+        optionOrder.getChildren().addAll(option, OrderOption);
 
         setdefaultComboBoxes();
         ////////////////////////
@@ -205,10 +217,11 @@ public class Make_Report extends Application {
             @Override
             public void handle(ActionEvent even) {
                 table.getColumns().clear();
+                table.getItems().clear();
                 table.setDisable(false);
-                String selectionValue = Search.getValue().toString();
+                String selectionValue = SearchOn.getValue().toString();
                 if (selectionValue.equals("User")) {
-                    TableColumn<UserTableColumn, Integer> ID = new TableColumn<>("ID");
+                    TableColumn<UserTableColumn, Integer> ID = new TableColumn<>("UID");
                     ID.setCellValueFactory(new PropertyValueFactory("UID"));
 
                     TableColumn<UserTableColumn, String> name = new TableColumn<>("Name");
@@ -240,12 +253,10 @@ public class Make_Report extends Application {
                     areaName.setPrefWidth(100);
                     city.setPrefWidth(100);
                     address.setPrefWidth(100);
-
                     table.getColumns().addAll(ID, name, sex, email, phone, areaName, city, address);
-
                 } else if (selectionValue.equals("Officer")) {
 
-                    TableColumn<OfficerTableColumn, Integer> ID = new TableColumn<>("ID");
+                    TableColumn<OfficerTableColumn, Integer> ID = new TableColumn<>("OID");
                     ID.setCellValueFactory(new PropertyValueFactory("OID"));
 
                     TableColumn<OfficerTableColumn, String> name = new TableColumn<>("Name");
@@ -277,51 +288,16 @@ public class Make_Report extends Application {
                     areaName.setPrefWidth(100);
                     username.setPrefWidth(100);
                     password.setPrefWidth(100);
-
                     table.getColumns().addAll(ID, name, sex, email, username, password, phone, areaName);
-                } else if (selectionValue.equals("Family members")) {
 
-                    TableColumn<OfficerTableColumn, Integer> ID = new TableColumn<>("ID");
-                    ID.setCellValueFactory(new PropertyValueFactory("OID"));
-
-                    TableColumn<OfficerTableColumn, String> name = new TableColumn<>("Name");
-                    name.setCellValueFactory(new PropertyValueFactory("name"));
-
-                    TableColumn<OfficerTableColumn, String> sex = new TableColumn<>("Sex");
-                    sex.setCellValueFactory(new PropertyValueFactory("Sex"));
-
-                    TableColumn<OfficerTableColumn, String> email = new TableColumn<>("Email");
-                    email.setCellValueFactory(new PropertyValueFactory("Email"));
-
-                    TableColumn<OfficerTableColumn, String> phone = new TableColumn<>("Phone");
-                    phone.setCellValueFactory(new PropertyValueFactory("phone"));
-
-                    TableColumn<OfficerTableColumn, String> areaName = new TableColumn<>("Area");
-                    areaName.setCellValueFactory(new PropertyValueFactory("areaName"));
-
-                    TableColumn<OfficerTableColumn, String> username = new TableColumn<>("Username");
-                    username.setCellValueFactory(new PropertyValueFactory("username"));
-
-                    TableColumn<OfficerTableColumn, String> password = new TableColumn<>("Password");
-                    password.setCellValueFactory(new PropertyValueFactory("password"));
-
-                    ID.setPrefWidth(50);
-                    name.setPrefWidth(110);
-                    sex.setPrefWidth(60);
-                    email.setPrefWidth(120);
-                    phone.setPrefWidth(120);
-                    areaName.setPrefWidth(100);
-                    username.setPrefWidth(100);
-                    password.setPrefWidth(100);
-
-                    table.getColumns().addAll(ID, name, sex, email, username, password, phone, areaName);
                 }
+                table.setItems(adminController.getReport(SearchOn.getValue().toString(), SearchOptions.getValue().toString(),SortByOption.getValue().toString(),OrderOption.getValue().toString()));
             }
 
         });
         B.getChildren().add(D);
 
-        section2.getChildren().addAll(H, search, Display_search, option_search, B, this.scrollPane);
+        section2.getChildren().addAll(H, search, Display_search, sortOptionBox, optionOrder, B, this.scrollPane);
         all.add(section1, 0, 0);
         all.add(section2, 1, 0);
         all.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#a5cee5"), CornerRadii.EMPTY, Insets.EMPTY)));
@@ -344,12 +320,14 @@ public class Make_Report extends Application {
     }
 
     private void setdefaultComboBoxes() {
-        Search.getItems().addAll("User", "Officer", "Family members");
-        Search.setValue("User");
-        Select_display.getItems().addAll("Has dependance", "Doesn`t has dependance");
-        Select_display.setValue("Has dependance");
-        Select_option.getItems().addAll("Ascending", "Descending");
-        Select_option.setValue("Ascending");
+        SearchOn.getItems().addAll("User", "Officer");
+        SearchOn.setValue("User");
+        SearchOptions.getItems().addAll("Has dependencies", "Doesn`t has dependencies");
+        SearchOptions.setValue("Has dependencies");
+        SortByOption.getItems().addAll("UID", "Name", "Sex", "Email", "Phone", "City", "Address");
+        SortByOption.setValue("UID");
+        OrderOption.getItems().addAll("Ascending", "Descending");
+        OrderOption.setValue("Ascending");
     }
 
 }

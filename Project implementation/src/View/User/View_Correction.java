@@ -5,10 +5,10 @@
  */
 package View.User;
 
+import Controller.UserViewController;
 import View.Admin.Admin_AddOfficer;
 import View.Admin.Admin_OfficerList;
 import View.Admin.Make_Report;
-import View.Admin.UserTableColumn;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -43,9 +43,6 @@ import View.User.View_Correction;
 import View.User.View_Your_Request;
 import View.User.View_Family_Members;
 import View.User.Make_Request;
-import Model.database.AdminDB;
-import Model.database.OfficerDB;
-import Model.database.UserDB;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -54,7 +51,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.cell.PropertyValueFactory;
 import Model.project.*;
-
+import Model.database.*;
 /**
  *
  * @author email_field
@@ -77,13 +74,14 @@ public class View_Correction extends Application {
     TextField address_field;
     DatePicker Date;
     
-    User user ;//= new User(1, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, 0, STYLESHEET_MODENA, STYLESHEET_MODENA);
+    int userID ;//= new User(1, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, 0, STYLESHEET_MODENA, STYLESHEET_MODENA);
+    UserViewController userController = new UserViewController(userID);
     //remove the above instailization later
     public View_Correction() {
     }
 
-    public View_Correction(User user) {
-        this.user = user;
+    public View_Correction(int userID) {
+        this.userID = userID;
     }
     
     @Override
@@ -360,7 +358,7 @@ public class View_Correction extends Application {
                 if (Female.isSelected()) {
                     Sex = "female";
                 }
-                //UserDB.updateUserRequests(new Member(address_field.getText(), State_field.getSelectionModel().getSelectedItem().toString(), education_field.getSelectionModel().getSelectedItem().toString(), Phone.getText(), email_field.getText(), Date.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), nameField.getText(), AdminDB.getAreaID(Area_field.getSelectionModel().getSelectedItem().toString()), Sex, occupation_field.getText(), user.getUID()));
+                //UserDB.updateUserRequests(new Member(address_field.getText(), State_field.getSelectionModel().getSelectedItem().toString(), education_field.getSelectionModel().getSelectedItem().toString(), Phone.getText(), email_field.getText(), Date.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), nameField.getText(), AdminDB.getAreaID(Area_field.getSelectionModel().getSelectedItem().toString()), Sex, occupation_field.getText(), userID.getUID()));
                 table.setItems(getCorrectionRequests());
                 // clear the fields
                 nameField.setText("");
