@@ -146,13 +146,14 @@ public class View_Your_Request extends Application {
         H.setFont(Font.font("Garamond", FontWeight.BOLD, 30));
         H.setPadding(new Insets(20, 0, 50, 200));
         table.setEditable(true);
+        
         TableColumn<UserRequestTableColumn, String> requestID = new TableColumn<>("Request ID");
         requestID.setCellValueFactory(new PropertyValueFactory("requestID"));
         requestID.setPrefWidth(80);
         
         TableColumn<UserRequestTableColumn, String> requestState = new TableColumn<>("Request State");
         requestState.setCellValueFactory(new PropertyValueFactory("requestState"));
-        requestState.setPrefWidth(80);
+        requestState.setPrefWidth(100);
         
         TableColumn<UserRequestTableColumn, String> ID = new TableColumn<>("Member ID");
         ID.setCellValueFactory(new PropertyValueFactory("MID"));

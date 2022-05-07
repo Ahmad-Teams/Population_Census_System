@@ -34,6 +34,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import View.login.Login;
+import View.User.UserRequestTableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  *
@@ -67,10 +69,10 @@ public class Officer_View extends Application {
         Button Logout = new Button("Logout");
         
         
-        view_request.setMinSize(170, 350);
+        view_request.setMinSize(170, 375);
         view_request.setFont(Font.font("tahoma", FontWeight.BOLD, 17));
      
-        Logout.setMinSize(170, 350);
+        Logout.setMinSize(170, 375);
         Logout.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#bf1f21"), CornerRadii.EMPTY, Insets.EMPTY)));
         Logout.setBorder(new Border(new BorderStroke((javafx.scene.paint.Color.web("#79b5d9")), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         Logout.setFont(Font.font("tahoma", FontWeight.BOLD, 17));
@@ -93,22 +95,65 @@ public class Officer_View extends Application {
         H.setFont(Font.font("Garamond", FontWeight.BOLD, 30));
         H.setPadding(new Insets(5, 0, 0, 180));
         table.setEditable(true);
-        TableColumn FristName =new TableColumn("ID");
-        TableColumn SecondName =new TableColumn("Name");
-        SecondName.setPrefWidth(400);
-        TableColumn tName =new TableColumn("Name");
-        TableColumn fName =new TableColumn("Name");
-        TableColumn ffName =new TableColumn("Name");
-        table.getColumns().addAll(FristName,SecondName,tName,fName,ffName);
+        
+        TableColumn<UserRequestTableColumn, String> requestID = new TableColumn<>("Request ID");
+        requestID.setCellValueFactory(new PropertyValueFactory("requestID"));
+        requestID.setPrefWidth(80);
+        
+        TableColumn<UserRequestTableColumn, String> requestState = new TableColumn<>("Request State");
+        requestState.setCellValueFactory(new PropertyValueFactory("requestState"));
+        requestState.setPrefWidth(100);
+        
+        TableColumn<UserRequestTableColumn, String> ID = new TableColumn<>("Member ID");
+        ID.setCellValueFactory(new PropertyValueFactory("MID"));
+        ID.setPrefWidth(80);
+        
+        TableColumn<UserRequestTableColumn, String> name = new TableColumn<>("Name");
+        //name.setCellValueFactory(new PropertyValueFactory("name"));
+        name.setPrefWidth(120);
+        
+        TableColumn<UserRequestTableColumn, String> address = new TableColumn<>("Address");
+        address.setCellValueFactory(new PropertyValueFactory("address"));
+        address.setPrefWidth(120);
+        
+        TableColumn <UserRequestTableColumn, String>education =new TableColumn("Education");
+        education.setCellValueFactory(new PropertyValueFactory("education"));
+        education.setPrefWidth(110);
+        
+        TableColumn <UserRequestTableColumn, String>sex =new TableColumn("Sex");
+        sex.setCellValueFactory(new PropertyValueFactory("Sex"));
+        sex.setPrefWidth(50);
+        
+        TableColumn <UserRequestTableColumn, String>occupation =new TableColumn("Occupation");
+        occupation.setCellValueFactory(new PropertyValueFactory("occupation"));
+        occupation.setPrefWidth(100);
+        
+        TableColumn <UserRequestTableColumn, String>email =new TableColumn("Email");
+        email.setCellValueFactory(new PropertyValueFactory("Email"));
+        email.setPrefWidth(100);
+        
+        TableColumn <UserRequestTableColumn, String>phone =new TableColumn("phone");
+        phone.setCellValueFactory(new PropertyValueFactory("phone"));
+        phone.setPrefWidth(100);
+        
+        TableColumn <UserRequestTableColumn, String>DOB =new TableColumn("Date Of Birth");
+        DOB.setCellValueFactory(new PropertyValueFactory("DOB"));
+        DOB.setPrefWidth(100);
+        
+        TableColumn <UserRequestTableColumn, String>area =new TableColumn("Area");
+        area.setCellValueFactory(new PropertyValueFactory("areaName"));
+        area.setPrefWidth(100);
+        
+        table.getColumns().addAll(requestID,requestState,ID,name,address,education,sex,occupation,email,phone,DOB,area);
         table.setMinHeight(1000);
-        table.setMinWidth(900);
+        table.setMinWidth(1150);
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(table);
         scrollPane.pannableProperty().set(true);
         scrollPane.fitToWidthProperty().set(true);
         scrollPane.fitToHeightProperty().set(true);
-        scrollPane.setPrefHeight(350);
-        scrollPane.setMaxWidth(900);
+        scrollPane.setPrefHeight(400);
+        scrollPane.setMinWidth(600);
         scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
         //////////////////////////////////////////////////////////////////////////////////
@@ -163,7 +208,7 @@ public class Officer_View extends Application {
                 SEND.setPadding(new Insets(0, 0, 0, 200));
             }
         });
-        B.getChildren().addAll(A,R);
+        B.getChildren().addAll(R,A);
         section2.getChildren().addAll(H,scrollPane,B,Correct ,  SEND);
         //////////////////////////////////////
         all.add(section1, 0, 0);
@@ -171,7 +216,7 @@ public class Officer_View extends Application {
         all.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#a5cee5"), CornerRadii.EMPTY, Insets.EMPTY)));
 
         
-        Scene scene = new Scene(all,700,700);           
+        Scene scene = new Scene(all,800,750);           
         stage.setScene(scene);
         stage.setTitle("Officer Screen");
         stage.setResizable(false);
