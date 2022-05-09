@@ -288,7 +288,6 @@ public class AddUser extends Application {
                 name_field.setText("");
                 Male.setSelected(false);
                 Female.setSelected(false);
-//                area_cbox.setValue(areas.get(0).getAreaName());
                 Occupation_field.setText("");
                 address_field.setText("");
                 education_cbox.setValue("none");

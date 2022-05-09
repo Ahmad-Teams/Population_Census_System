@@ -5,9 +5,13 @@
 package Controller;
 
 import Model.database.AdminDB;
+import Model.database.OfficerDB;
 import Model.database.UserDB;
+import Model.project.Area;
+import Model.project.CorrectionRequest;
 import Model.project.Member;
 import Model.project.UserRequest;
+import View.User.CorrectionRequestTableColumn;
 import View.User.MemberTableColumn;
 import View.User.UserRequestTableColumn;
 import java.util.ArrayList;
@@ -32,7 +36,7 @@ public class UserViewController {
         for (int i = 0; i < userRequests.size(); i++) {
             if (userRequests.get(i).getUID() == userID) {
                 UserRequest userRequest = userRequests.get(i);
-                UserRequestsList.add(new UserRequestTableColumn(AdminDB.getAreaName(userRequest.getAreaID()), userRequest.getRequestID(), userRequest.getRequestState(), userRequest.getAddress(), userRequest.getEducation(), userRequest.getPhone(), userRequest.getEmail(), userRequest.getMID(), userRequest.getDOB(), userRequest.getAreaID(), userRequest.getSex(), userRequest.getOccupation(), userRequest.getUID()));
+                UserRequestsList.add(new UserRequestTableColumn(userRequest.getName(), AdminDB.getAreaName(userRequest.getAreaID()), userRequest.getRequestID(), userRequest.getRequestState(), userRequest.getAddress(), userRequest.getEducation(), userRequest.getPhone(), userRequest.getEmail(), userRequest.getMID(), userRequest.getDOB(), userRequest.getAreaID(), userRequest.getSex(), userRequest.getOccupation(), userRequest.getUID()));
             }
         }
         return UserRequestsList;
@@ -48,7 +52,30 @@ public class UserViewController {
         return membersList;
     }
 
-    public void addUserRequest(String name ,String address, String education, String phone, String email, String date, String sex, String Occupation, int userID) {
-        UserDB.addUserRequest(new UserRequest("Pinding",name, address, education, phone, email, date, UserDB.getAreaIDFromUserID(userID), sex, Occupation, userID));
+    public void addUserRequest(String name, String address, String education, String phone, String email, String date, String sex, String Occupation, int userID) {
+        UserDB.addUserRequest(new UserRequest("Pending", name, address, education, phone, email, date, UserDB.getAreaIDFromUserID(userID), sex, Occupation, userID));
     }
+
+    public UserRequestTableColumn getUserRequestTableColumn(int userRequestID) {
+        UserRequest userRequest = UserDB.getUserRequest(userRequestID);
+        return new UserRequestTableColumn(userRequest.getName(), AdminDB.getAreaName(userRequest.getAreaID()), userRequest.getRequestID(), userRequest.getRequestState(), userRequest.getAddress(), userRequest.getEducation(), userRequest.getPhone(), userRequest.getEmail(), userRequest.getMID(), userRequest.getDOB(), userRequest.getAreaID(), userRequest.getSex(), userRequest.getOccupation(), userRequest.getUID());
+    }
+
+    public ObservableList<CorrectionRequestTableColumn> getCorrectionRequests() {
+        ObservableList<CorrectionRequestTableColumn> correctionRequestsList = FXCollections.observableArrayList();
+        ArrayList<CorrectionRequest> correctionRequests = UserDB.getCorrectionRequests(userID);
+        for (int i = 0; i < correctionRequests.size(); i++) {
+            if (correctionRequests.get(i).getUID() == userID) {
+                CorrectionRequest correctionRequest = correctionRequests.get(i);
+                correctionRequestsList.add(new CorrectionRequestTableColumn(correctionRequest.getRequestID(), correctionRequest.getUserRequestID(), correctionRequest.getOID(), correctionRequest.getRequestTitle(), correctionRequest.getRequestContent(), correctionRequest.getUID()));
+            }
+        }
+        return correctionRequestsList;
+    }
+
+
+    public void updateUserRequest(UserRequestTableColumn UserRequest, String name, String sex, String Occupation, String address, String education, String date, String email, String phone, String Sex) {
+        UserDB.updateUserRequest(new UserRequest(UserRequest.getRequestID(),UserRequest.getRequestState(),name, address,education, phone, email, UserRequest.getMID(), date,  UserRequest.getAreaID(), Sex, Occupation,  UserRequest.getUID()));
+    }
+
 }

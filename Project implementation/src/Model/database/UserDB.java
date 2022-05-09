@@ -6,6 +6,7 @@
 package Model.database;
 
 import static Model.database.AdminDB.connect;
+import Model.project.Area;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -113,8 +114,8 @@ public class UserDB implements Observer {
         return members;
     }
 
-    public static int getNewIDForMember(){
-        int memberID=0;
+    public static int getNewIDForMember() {
+        int memberID = 0;
         try (
                 Connection con = connect(); PreparedStatement p = con.prepareStatement("select seq from sqlite_sequence where name = \"Member\"");) {
             ResultSet r = p.executeQuery();
@@ -126,9 +127,9 @@ public class UserDB implements Observer {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here
         }
 
-        return memberID;
+        return memberID + 1;
     }
-    
+
     // where is delete and update UserRequest ???????
     public static void addUserRequest(UserRequest userRequest) {
         try (
@@ -141,7 +142,7 @@ public class UserDB implements Observer {
             p.setString(4, userRequest.getEducation());
             p.setString(5, userRequest.getPhone());
             p.setString(6, userRequest.getEmail());
-            p.setInt(7, getNewIDForMember() + 1);
+            p.setInt(7, getNewIDForMember());
             p.setString(8, userRequest.getDOB());
             p.setInt(9, userRequest.getAreaID());
             p.setString(10, userRequest.getSex());
@@ -156,26 +157,23 @@ public class UserDB implements Observer {
 
     public static void updateUserRequest(UserRequest userRequest) {
         try (
-                Connection con = connect(); PreparedStatement p = con.prepareStatement("UPDATE UserRequest SET RequestState = ?,Address = ?,Education = ?,Phone = ?,Email = ?,MID = ?,DOB = ?,AreaID = ?,Sex = ?,Occupation = ?,UID = ?");
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("UPDATE UserRequest SET Name = ?,Address = ?, Education = ?,Phone = ?,Email=?,DOB=?,Sex=?,Occupation = ? where RequestID = ?");
                 PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
-            p.setString(1, userRequest.getRequestState());
+            p.setString(1, userRequest.getName());
             p.setString(2, userRequest.getAddress());
             p.setString(3, userRequest.getEducation());
             p.setString(4, userRequest.getPhone());
             p.setString(5, userRequest.getEmail());
             p.setString(6, userRequest.getDOB());
-            p.setInt(7, userRequest.getMID());
-            p.setInt(8, userRequest.getAreaID());
-            p.setString(9, userRequest.getSex());
-            p.setString(10, userRequest.getOccupation());
-            p.setInt(11, userRequest.getUID());
+            p.setString(7, userRequest.getSex());
+            p.setString(8, userRequest.getOccupation());
+            p.setInt(9, userRequest.getRequestID());
 
             p.execute();
         } catch (SQLException ee) {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here
         }
-
     }
 
     public static void deleteUserRequest(int requestID) {
@@ -199,7 +197,7 @@ public class UserDB implements Observer {
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {      //return  one row of Area table 
-                    userRequests.add(new UserRequest(r.getInt("RequestID"), r.getString("RequestState"), r.getString("Name"),r.getString("Address"), r.getString("Education"), r.getString("Phone"), r.getString("Email"), r.getInt("MID"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Sex"), r.getString("Occupation"), r.getInt("UID")));
+                    userRequests.add(new UserRequest(r.getInt("RequestID"), r.getString("RequestState"), r.getString("Name"), r.getString("Address"), r.getString("Education"), r.getString("Phone"), r.getString("Email"), r.getInt("MID"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Sex"), r.getString("Occupation"), r.getInt("UID")));
 
                 }
             }
@@ -211,11 +209,11 @@ public class UserDB implements Observer {
 
     }
 
-    public static ArrayList<CorrectionRequest> getCorrectionRequests() {
+    public static ArrayList<CorrectionRequest> getCorrectionRequests(int UID) {
         ArrayList<CorrectionRequest> correctionRequests = new ArrayList<>();
         try (
                 Connection con = connect();
-                PreparedStatement p = con.prepareStatement("select * from CorrectionRequest");) {
+                PreparedStatement p = con.prepareStatement("select * from CorrectionRequest where UID = " + UID);) {
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {
@@ -232,7 +230,7 @@ public class UserDB implements Observer {
     }
 
     public static int getAreaIDFromUserID(int userID) {
-        int areaID=0;
+        int areaID = 0;
         try (
                 Connection con = connect(); PreparedStatement p = con.prepareStatement("select AreaID from User where UID = ?");) {
             p.setInt(1, userID);
@@ -247,10 +245,28 @@ public class UserDB implements Observer {
 
         return areaID;
     }
-    
+
     public static boolean check(String username, String password) {
 
         return OfficerDB.check(username, password);
+    }
+
+    public static UserRequest getUserRequest(int userRequestID) {
+        UserRequest userRequest = new UserRequest();
+        try (
+                Connection con = connect();
+                PreparedStatement p = con.prepareStatement("select * from UserRequest where RequestID = " + userRequestID);) {
+            {
+                ResultSet r = p.executeQuery();
+                while (r.next()) {      //return  one row of Area table 
+                    userRequest = new UserRequest(r.getInt("RequestID"), r.getString("RequestState"), r.getString("Name"), r.getString("Address"), r.getString("Education"), r.getString("Phone"), r.getString("Email"), r.getInt("MID"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Sex"), r.getString("Occupation"), r.getInt("UID"));
+                }
+            }
+        } catch (SQLException ee) {
+            System.out.println(ee.getMessage());// we will put out custimize exption massages here
+        }
+
+        return userRequest;
     }
 
     @Override
