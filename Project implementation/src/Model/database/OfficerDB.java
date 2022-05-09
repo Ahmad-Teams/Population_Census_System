@@ -28,15 +28,15 @@ public class OfficerDB {
         return DriverManager.getConnection("jdbc:sqlite:Population Census System DB.db");
     }
 
-    public static void addCorrectionRequest(CorrectionRequest cRequest) {
+    public static void addCorrectionRequest(CorrectionRequest correctionRequest) {
         try (
                 Connection con = connect(); PreparedStatement p = con.prepareStatement("insert into CorrectionRequest(UserRequestID,RequestTitle,RequestContent,UID,OID) values(?,?,?,?,?)"); PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
-            p.setInt(1, cRequest.getUserRequestID());
-            p.setString(2, cRequest.getRequestTitle());
-            p.setString(3, cRequest.getRequestContent());
-            p.setInt(4, cRequest.getUID());
-            p.setInt(5, cRequest.getOID());
+            p.setInt(1, correctionRequest.getUserRequestID());
+            p.setString(2, correctionRequest.getRequestTitle());
+            p.setString(3, correctionRequest.getRequestContent());
+            p.setInt(4, correctionRequest.getUID());
+            p.setInt(5, correctionRequest.getOID());
 
             p.execute();
         } catch (SQLException ee) {
@@ -58,15 +58,13 @@ public class OfficerDB {
 
     }
 
-    public static void updateCorrectionRequest(CorrectionRequest cRequest) {
+    public static void updateCorrectionRequest(CorrectionRequest correctionRequest) {
         try (
-                Connection con = connect(); PreparedStatement p = con.prepareStatement("UPDATE CorrectionRequest SET RequestTitle = ?,RequestContent = ?,UID = ?,OID = ? WHERE RequestID = ?"); PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("UPDATE CorrectionRequest SET RequestTitle = ?,RequestContent = ? WHERE RequestID = ?"); PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
-            p.setString(1, cRequest.getRequestTitle());
-            p.setString(2, cRequest.getRequestContent());
-            p.setInt(3, cRequest.getUID());
-            p.setInt(4, cRequest.getOID());
-            p.setInt(5, cRequest.getUserRequestID());
+            p.setString(1, correctionRequest.getRequestTitle());
+            p.setString(2, correctionRequest.getRequestContent());
+            p.setInt(3, correctionRequest.getRequestID());
 
             p.execute();
         } catch (SQLException ee) {
@@ -131,6 +129,48 @@ public class OfficerDB {
             p.setString(10, user.getOccupation());
             p.setString(11, user.getUsername());
             p.setString(12, user.getPassword());
+            p.execute();
+        } catch (SQLException ee) {
+            System.out.println(ee.getMessage());// we will put out custimize exption massages here
+        }
+    }
+
+    public static boolean hasCorrectionRequest(int requestID) {
+        CorrectionRequest correctionRequest = new CorrectionRequest();
+        correctionRequest.setRequestID(-1);
+        try (
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("select RequestID from CorrectionRequest where UserRequestID = " + requestID);) {
+            {
+                ResultSet r = p.executeQuery();
+                while (r.next()) {      //return  one row of Area table 
+                    correctionRequest.setRequestID(r.getInt("RequestID"));
+                }
+            }
+        } catch (SQLException ee) {
+            System.out.println(ee.getMessage());// we will put out custimize exption massages here
+        }
+
+        return correctionRequest.getRequestID() != -1;
+    }
+
+    public static void updateStateOfUserRequestToRejected(int requestID) {
+        try (
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("UPDATE UserRequest SET RequestState = \"Rejected\" WHERE RequestID = ?"); PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+            p1.execute();
+            p.setInt(1, requestID);
+
+            p.execute();
+        } catch (SQLException ee) {
+            System.out.println(ee.getMessage());// we will put out custimize exption massages here
+        }
+    }
+
+    public static void updateStateOfUserRequestToAccepted(int requestID) {
+        try (
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("UPDATE UserRequest SET RequestState = \"Accepted\" WHERE RequestID = ?"); PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+            p1.execute();
+            p.setInt(1, requestID);
+
             p.execute();
         } catch (SQLException ee) {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here
@@ -236,11 +276,11 @@ public class OfficerDB {
         return false;
     }
 
-    public static ArrayList<UserRequest> getUserRequests(int OID) {
+    public static ArrayList<UserRequest> getPendingUserRequests(int OID) {
         ArrayList<UserRequest> userRequests = new ArrayList<>();
         try (
                 Connection con = connect();
-                PreparedStatement p = con.prepareStatement("select * from UserRequest where UID in (select UID from User where OID = " + OID + " )");) {
+                PreparedStatement p = con.prepareStatement("select * from UserRequest where UID in (select UID from User where OID = " + OID + " And RequestState = \"Pending\")");) {
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {

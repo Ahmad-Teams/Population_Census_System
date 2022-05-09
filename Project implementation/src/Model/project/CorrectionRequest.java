@@ -10,7 +10,6 @@ public class CorrectionRequest {
     private int UID;
 
     public CorrectionRequest() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public int getUserRequestID() {
@@ -21,9 +20,17 @@ public class CorrectionRequest {
         this.userRequestID = userRequestID;
     }
 
-    public CorrectionRequest(int requestID,int userRequestID,String requestTitle, String requestContent,int UID, int OID) {
+    public CorrectionRequest(int requestID, int userRequestID, String requestTitle, String requestContent, int UID, int OID) {
         this.requestID = requestID;
-        this.userRequestID=userRequestID;
+        this.userRequestID = userRequestID;
+        this.requestTitle = requestTitle;
+        this.requestContent = requestContent;
+        this.UID = UID;
+        this.OID = OID;
+    }
+
+    public CorrectionRequest(int userRequestID, String requestTitle, String requestContent, int UID, int OID) {
+        this.userRequestID = userRequestID;
         this.requestTitle = requestTitle;
         this.requestContent = requestContent;
         this.UID = UID;
@@ -70,8 +77,8 @@ public class CorrectionRequest {
         this.requestContent = requestContent;
     }
 
-    public CorrectionRequest(int stringrequestID, String requestTitle, String requestContent) {
-        this.requestID = stringrequestID;
+    public CorrectionRequest(int userRequestID, String requestTitle, String requestContent) {
+        this.userRequestID = userRequestID;
         this.requestTitle = requestTitle;
         this.requestContent = requestContent;
     }

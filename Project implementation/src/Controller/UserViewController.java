@@ -32,7 +32,7 @@ public class UserViewController {
         for (int i = 0; i < userRequests.size(); i++) {
             if (userRequests.get(i).getUID() == userID) {
                 UserRequest userRequest = userRequests.get(i);
-                UserRequestsList.add(new UserRequestTableColumn(AdminDB.getAreaName(userRequest.getAreaID()), userRequest.getRequestID(), userRequest.getRequestState(), userRequest.getAddress(), userRequest.getEducation(), userRequest.getPhone(), userRequest.getEmail(), userRequest.getMID(), userRequest.getDOB(), userRequest.getAreaID(), userRequest.getSex(), userRequest.getOccupation(), userRequest.getUID()));
+                UserRequestsList.add(new UserRequestTableColumn(userRequest.getName(),AdminDB.getAreaName(userRequest.getAreaID()), userRequest.getRequestID(), userRequest.getRequestState(), userRequest.getAddress(), userRequest.getEducation(), userRequest.getPhone(), userRequest.getEmail(), userRequest.getMID(), userRequest.getDOB(), userRequest.getAreaID(), userRequest.getSex(), userRequest.getOccupation(), userRequest.getUID()));
             }
         }
         return UserRequestsList;
@@ -49,6 +49,6 @@ public class UserViewController {
     }
 
     public void addUserRequest(String name ,String address, String education, String phone, String email, String date, String sex, String Occupation, int userID) {
-        UserDB.addUserRequest(new UserRequest("Pinding",name, address, education, phone, email, date, UserDB.getAreaIDFromUserID(userID), sex, Occupation, userID));
+        UserDB.addUserRequest(new UserRequest("Pending",name, address, education, phone, email, date, UserDB.getAreaIDFromUserID(userID), sex, Occupation, userID));
     }
 }

@@ -126,7 +126,7 @@ public class UserDB implements Observer {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here
         }
 
-        return memberID;
+        return memberID + 1;
     }
     
     // where is delete and update UserRequest ???????
@@ -141,7 +141,7 @@ public class UserDB implements Observer {
             p.setString(4, userRequest.getEducation());
             p.setString(5, userRequest.getPhone());
             p.setString(6, userRequest.getEmail());
-            p.setInt(7, getNewIDForMember() + 1);
+            p.setInt(7, getNewIDForMember());
             p.setString(8, userRequest.getDOB());
             p.setInt(9, userRequest.getAreaID());
             p.setString(10, userRequest.getSex());
