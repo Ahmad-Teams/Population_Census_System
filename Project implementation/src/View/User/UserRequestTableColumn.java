@@ -14,7 +14,6 @@ public class UserRequestTableColumn {
     private int requestID;
     private String requestState;
     private String address;
-    private String city;
     private String education;
     private String phone;
     private String email;
@@ -25,12 +24,11 @@ public class UserRequestTableColumn {
     private String occupation;
     private int UID;
 
-    public UserRequestTableColumn(String areaName, int requestID, String requestState, String address, String city, String education, String phone, String email, int MID, String DOB, int areaID, String sex, String occupation, int UID) {
+    public UserRequestTableColumn(String areaName, int requestID, String requestState, String address, String education, String phone, String email, int MID, String DOB, int areaID, String sex, String occupation, int UID) {
         this.areaName = areaName;
         this.requestID = requestID;
         this.requestState = requestState;
         this.address = address;
-        this.city = city;
         this.education = education;
         this.phone = phone;
         this.email = email;
@@ -72,14 +70,6 @@ public class UserRequestTableColumn {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public String getEducation() {

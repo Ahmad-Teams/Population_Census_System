@@ -28,7 +28,7 @@ public class AdminViewController {
     }
 
     public ArrayList<String> getAreasForComboBox() {
-        ArrayList<Area> areas = AdminDB.getAreas();
+        ArrayList<Area> areas = AdminDB.getAreasFromStateID(AdminDB.getAdminFromAdminID(adminID).getStateID());
         ArrayList<String> areasNames = new ArrayList<String>();
         for (int i = 0; i < areas.size(); i++) {
             areasNames.add(areas.get(i).getAreaName());
@@ -42,7 +42,7 @@ public class AdminViewController {
 
     public ObservableList<OfficerTableColumn> getOfficers() {
         ObservableList<OfficerTableColumn> officerList = FXCollections.observableArrayList();
-        ArrayList<Officer> officers = AdminDB.getOfficers();
+        ArrayList<Officer> officers = AdminDB.getOfficers(adminID);
         for (int i = 0; i < officers.size(); i++) {
             Officer officer = officers.get(i);
             officerList.add(new OfficerTableColumn(AdminDB.getAreaName(officer.getAreaID()), officer.getOID(), officer.getAID(), officer.getUsername(), officer.getPassword(), officer.getAreaID(), officer.getName(), officer.getPhone(), officer.getEmail(), officer.getSex()));
@@ -65,14 +65,14 @@ public class AdminViewController {
     public ObservableList getReport(String SearchOn, String SearchOptions, String SortByOption, String OrderOption) {
         ObservableList reportList = FXCollections.observableArrayList();
 
-        boolean isHasDependenciesOrHasUsers = SearchOptions.equals("Has dependencies") || SearchOptions.equals("Has Users") ? true : false;
+        boolean isHasdescendantsOrHasUsers = SearchOptions.equals("Has descendants") || SearchOptions.equals("Has Users") ? true : false;
         boolean isAscendingOrder = OrderOption.equals("Ascending") ? true : false;
 
         if (SearchOn.equals("User")) {
-            ArrayList<User> users = OfficerDB.getUsersByParameters(isHasDependenciesOrHasUsers, SortByOption, isAscendingOrder);
+            ArrayList<User> users = OfficerDB.getUsersByParameters(isHasdescendantsOrHasUsers, SortByOption, isAscendingOrder,adminID);
             reportList = makeUserTableRowsList(users);
         } else if (SearchOn.equals("Officer")) {
-            ArrayList<Officer> officers = AdminDB.getOfficersByParameters(isHasDependenciesOrHasUsers, SortByOption, isAscendingOrder);
+            ArrayList<Officer> officers = AdminDB.getOfficersByParameters(isHasdescendantsOrHasUsers, SortByOption, isAscendingOrder,adminID);
             reportList = makeOfficerTableRowsList(officers);
         }
 
@@ -83,7 +83,7 @@ public class AdminViewController {
         ObservableList<UserTableColumn> UserTableRowsList = FXCollections.observableArrayList();
         for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);
-            UserTableRowsList.add(new UserTableColumn(AdminDB.getAreaName(user.getAreaID()), user.getUID(), user.getCity(), user.getAddress(), user.getEducation(), user.getSex(), user.getOccupation(), user.getStateID(), user.getDOB(), user.getAreaID(), user.getName(), user.getPhone(), user.getEmail()));
+            UserTableRowsList.add(new UserTableColumn(AdminDB.getAreaName(user.getAreaID()), user.getUID(), user.getAddress(), user.getEducation(), user.getSex(), user.getOccupation(), user.getDOB(), user.getAreaID(), user.getName(), user.getPhone(), user.getEmail()));
         }
         return UserTableRowsList;
     }

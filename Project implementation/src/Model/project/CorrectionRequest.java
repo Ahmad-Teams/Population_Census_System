@@ -9,6 +9,10 @@ public class CorrectionRequest {
     private String requestContent;
     private int UID;
 
+    public CorrectionRequest() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     public int getUserRequestID() {
         return userRequestID;
     }

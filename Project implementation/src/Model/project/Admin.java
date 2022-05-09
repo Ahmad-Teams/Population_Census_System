@@ -9,13 +9,19 @@ public class Admin extends Person implements Observable{
     private String username;
     private String password;
 
-    public Admin(int AID, int stateID, String username, String password, String name, String phone, String imageName, String Email, String Sex) {
+    public Admin(int AID, int stateID, String username, String password, String name, String phone, String Email, String Sex) {
         super(name, phone, Email, Sex);
         this.AID = AID;
         this.stateID = stateID;
         this.username = username;
         this.password = password;
     }
+
+    public Admin(String name, String phone, String Email, String Sex) {
+        super(name, phone, Email, Sex);
+    }
+
+    
 
     public int getStateID() {
         return stateID;

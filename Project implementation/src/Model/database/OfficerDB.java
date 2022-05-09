@@ -75,18 +75,20 @@ public class OfficerDB {
 
     }
 
-    public static ArrayList<User> getUsersByParameters(boolean hasDependenciesOrHasUsers, String SortByOption, boolean ascendingOrder) {
+    public static ArrayList<User> getUsersByParameters(boolean hasdescendantsOrHasUsers, String SortByOption, boolean ascendingOrder, int adminID) {
         ArrayList<User> Users = new ArrayList<>();
-        String inOrNotIn = hasDependenciesOrHasUsers ? "IN" : "NOT IN";
+        String inOrNotIn = hasdescendantsOrHasUsers ? "IN" : "NOT IN";
         String ASCOrDESC = ascendingOrder ? "ASC" : "DESC";
-
+        String query = "SELECT * FROM User WHERE UID " + inOrNotIn + "(SELECT UID FROM Member) " + " AND OID in (select OID from Officer where AID = " + adminID + " ) " + " ORDER BY " + SortByOption + "  " + ASCOrDESC;
+        System.out.println(query);
         try (
-                Connection con = connect(); PreparedStatement p = con.prepareStatement("SELECT * FROM User WHERE UID " + inOrNotIn + "(SELECT UID FROM Member) ORDER BY " + SortByOption +"  "+ ASCOrDESC);) {
+                Connection con = connect(); PreparedStatement p = con.prepareStatement(query);) {
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {      //return  one row of officer table 
 
-                    Users.add(new User(r.getInt("UID"), r.getString("City"), r.getString("Address"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getString("Phone")));
+                    Users.add(new User(r.getInt("OID"), r.getInt("UID"), r.getString("Address"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getString("Phone")));
+                    
 
                 }
             }
@@ -124,7 +126,7 @@ public class OfficerDB {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {      //return  one row of Area table 
 
-                    Users.add(new User(r.getInt("UID"), r.getString("City"), r.getString("Address"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getString("Phone")));
+                    Users.add(new User(r.getInt("OID"), r.getInt("UID"), r.getString("Address"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getString("Phone")));
 
                 }
             }
@@ -187,13 +189,13 @@ public class OfficerDB {
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {
-                    FamilyMembers.add(new User(r.getInt("UID"), r.getString("City"), r.getString("Address"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getString("Phone")));
+                    FamilyMembers.add(new User(r.getInt("OID"), r.getInt("UID"), r.getString("Address"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getString("Phone")));
 
                 }
                 ResultSet r2 = p1.executeQuery();
                 while (r2.next()) {
 
-                    FamilyMembers.add(new Member(r2.getString("Address"), r2.getString("City"), r2.getString("Education"), r2.getString("Phone"), r2.getString("Email"), r2.getInt("MID"), r2.getString("DOB"), r2.getString("Name"), r2.getInt("AreaID"), r2.getString("Sex"), r2.getString("Occupation"), r2.getInt("UID")));
+                    FamilyMembers.add(new Member(r.getInt("MID"), r.getInt("UID"), r.getString("Address"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getString("Phone")));
 
                 }
             }
@@ -224,7 +226,7 @@ public class OfficerDB {
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {
-                    userRequests.add(new UserRequest(r.getInt("RequestID"), r.getString("RequestState"), r.getString("Address"), r.getString("City"), r.getString("Education"), r.getString("Phone"), r.getString("Email"), r.getInt("MID"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Sex"), r.getString("Occupation"), r.getInt("UID")));
+                    userRequests.add(new UserRequest(r.getInt("RequestID"), r.getString("RequestState"), r.getString("Name"),r.getString("Address"), r.getString("Education"), r.getString("Phone"), r.getString("Email"), r.getInt("MID"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Sex"), r.getString("Occupation"), r.getInt("UID")));
 
                 }
                 r.close();
@@ -235,6 +237,25 @@ public class OfficerDB {
 
         return userRequests;
 
+    }
+
+    public static CorrectionRequest getCorrectionRequest(int userRequestID) {
+        CorrectionRequest correctionRequest = new CorrectionRequest();
+        correctionRequest.setOID(-1);
+        try (
+                Connection con = connect();
+                PreparedStatement p = con.prepareStatement("SELECT * FROM CorrectionRequest where UserRequestID = " + userRequestID);) {
+            {
+                ResultSet r = p.executeQuery();
+                while (r.next()) {
+                    correctionRequest = new CorrectionRequest(r.getInt("RequestID"), r.getInt("UserRequestID"), r.getString("RequestTitle"), r.getString("RequestContent"), r.getInt("UID"), r.getInt("OID"));
+                }
+                r.close();
+            }
+        } catch (SQLException ee) {
+            System.out.println(ee.getMessage());
+        }
+        return correctionRequest;
     }
 
 }

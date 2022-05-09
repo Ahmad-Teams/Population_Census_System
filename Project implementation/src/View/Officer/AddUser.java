@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMain.java to edit this template
  */
-package View.User;
+package View.Officer;
 
+import View.User.*;
 import Controller.UserViewController;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -18,9 +19,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Background;
@@ -39,22 +37,23 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import View.login.Login;
+import Model.project.*;
+import Model.database.*;
 
 /**
  *
  * @author dell
  */
-public class Make_Request extends Application {
+public class AddUser extends Application {
 
-    Stage S1;
-    int userID = 1;
+    Stage addUser;
+    int userID;
     UserViewController userController = new UserViewController(userID);
-    TableView table = new TableView();
-
-    public Make_Request() {
+    
+    public AddUser() {
     }
 
-    public Make_Request(int userID) {
+    public AddUser(int userID) {
         this.userID = userID;
     }
 
@@ -68,60 +67,35 @@ public class Make_Request extends Application {
         VBox section1 = new VBox();
         section1.setPrefSize(170, 500);
 
-        Button View_my_family = new Button("View My Family\n" + "Members");
-        Button Make_request = new Button("Make a request\n" + "for Adding New\n" + "member");
-        Button view_request = new Button("View Your\n" + "Requests");
-        Button View_Correction = new Button("View Correction\n" + "Requests");
+        Button View_my_family = new Button("Add User");
+        Button View_Correction = new Button("   View New \n"
+                + "User Request");
         Button Logout = new Button("Logout");
 
-        View_my_family.setMinSize(170, 140);
+        View_my_family.setMinSize(170, 233);
         View_my_family.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
-        View_my_family.setFocusTraversable(false);
         View_my_family.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                View_Family_Members c2 = new View_Family_Members();
-                S1.close();
+                AddUser c2 = new AddUser();
+                addUser.close();
                 c2.start(new Stage());
             }
         });
 
-        Make_request.setMinSize(170, 140);
-        Make_request.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
-        Make_request.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent even) {
-                Make_Request c2 = new Make_Request();
-                S1.close();
-                c2.start(new Stage());
-            }
-        });
-
-        view_request.setMinSize(170, 140);
-        view_request.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
-        view_request.setFocusTraversable(false);
-        view_request.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent even) {
-                View_Your_Request c2 = new View_Your_Request();
-                S1.close();
-                c2.start(new Stage());
-            }
-        });
-
-        View_Correction.setMinSize(170, 140);
+        View_Correction.setMinSize(170, 233);
         View_Correction.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
         View_Correction.setFocusTraversable(false);
         View_Correction.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                View_Correction c2 = new View_Correction();
-                S1.close();
+                Officer_View c2 = new Officer_View();
+                addUser.close();
                 c2.start(new Stage());
             }
         });
 
-        Logout.setMinSize(170, 160);
+        Logout.setMinSize(170, 234);
         Logout.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#bf1f21"), CornerRadii.EMPTY, Insets.EMPTY)));
         Logout.setBorder(new Border(new BorderStroke((javafx.scene.paint.Color.web("#79b5d9")), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         Logout.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
@@ -129,12 +103,12 @@ public class Make_Request extends Application {
             @Override
             public void handle(ActionEvent even) {
                 Login c2 = new Login();
-                S1.close();
+                addUser.close();
                 c2.start(new Stage());
             }
         });
 
-        section1.getChildren().addAll(View_my_family, Make_request, view_request, View_Correction, Logout);
+        section1.getChildren().addAll(View_my_family, View_Correction, Logout);
 
 //second section
         VBox section2 = new VBox(15);
@@ -157,6 +131,36 @@ public class Make_Request extends Application {
         Name.getChildren().addAll(name, name_field);
         Name.setPadding(new Insets(0, 20, 25, 10));
 
+        ///////Area////////////
+        HBox area_section = new HBox(50);
+        Label area = new Label("Area:");
+        area.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 16));
+        ComboBox area_cbox = new ComboBox();
+//        ArrayList<Area> areas = AdminDB.getAreasFromStateID();
+//        //add cities here
+//        area_cbox.setValue(areas.get(0).getAreaName());
+//        for (int i = 0; i < areas.size(); i++) {
+//            area_cbox.getItems().add(areas.get(i).getAreaName());
+//        }
+        area_cbox.setPrefWidth(150);
+        area_section.getChildren().addAll(area, area_cbox);
+        area_section.setPadding(new Insets(0, 20, 25, 10));
+
+        /////////////State//////////////////
+        HBox state_field = new HBox(50);
+        Label state = new Label("State: ");
+        state.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 16));
+        ComboBox State_cbox = new ComboBox();
+        ArrayList<State> states = AdminDB.getStates();
+        //add states here
+        State_cbox.setValue(states.get(0).getStateName());
+        for (int i = 0; i < states.size(); i++) {
+            State_cbox.getItems().add(states.get(i).getStateName());
+        }
+        State_cbox.setPrefWidth(150);
+        state_field.getChildren().addAll(state, State_cbox);
+        state_field.setPadding(new Insets(0, 20, 25, 10));
+
         ///////// education //////////
         HBox h_education = new HBox(20);
         Label education = new Label("Education: ");
@@ -178,6 +182,17 @@ public class Make_Request extends Application {
         Email_field.setMaxWidth(300);
         h_email.getChildren().addAll(Email, Email_field);
         h_email.setPadding(new Insets(0, 20, 25, 10));
+
+        ////////////username/////////////
+        HBox h_user_name = new HBox(1);
+        Label user_name = new Label("User Name : ");
+        user_name.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 16));
+        TextField user_name_field = new TextField();
+        user_name_field.setStyle("-fx-background-radius: 30px ;");
+        user_name_field.setPromptText("User Name");
+        user_name_field.setMaxWidth(300);
+        h_user_name.getChildren().addAll(user_name, user_name_field);
+        h_user_name.setPadding(new Insets(0, 20, 25, 10));
 
         ///////////sex /////////////
         HBox gender = new HBox(50);
@@ -231,51 +246,66 @@ public class Make_Request extends Application {
         h_Phone.getChildren().addAll(Phone, Phone_field);
         h_Phone.setPadding(new Insets(0, 20, 18, 10));
 
+        /////////// password /////////////
+        HBox h_pass = new HBox(10);
+        Label pass = new Label("Password : ");
+        pass.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 16));
+        PasswordField pass_field = new PasswordField();
+        pass_field.setMaxWidth(300);
+        pass_field.setStyle("-fx-background-radius: 30px ;");
+        pass_field.setPromptText("User Password");
+        h_pass.getChildren().addAll(pass, pass_field);
+        h_pass.setPadding(new Insets(0, 20, 25, 10));
+
         //////////////////button/////////////////
         HBox h_Box = new HBox(100);
         h_Box.setPadding(new Insets(10, 0, 0, 150));
         Button reset_botton = new Button(" Reset ");
-        Button makeRequest = new Button(" Make Request ");
+        Button add_botton = new Button(" Add ");
         reset_botton.setStyle("-fx-background-radius: 300px ;-fx-background-color:Red; ");
-        makeRequest.setStyle("-fx-background-radius: 300px ;-fx-background-color:Orange;");
+        add_botton.setStyle("-fx-background-radius: 300px ;-fx-background-color:Orange;");
         reset_botton.setMinWidth(120);
-        makeRequest.setMinWidth(120);
+        add_botton.setMinWidth(120);
         reset_botton.setFont(Font.font("tahoma", FontWeight.BOLD, 15.5));
         reset_botton.setTextFill(javafx.scene.paint.Color.BLACK);
-        makeRequest.setFont(Font.font("tahoma", FontWeight.BOLD, 15.5));
-        makeRequest.setTextFill(javafx.scene.paint.Color.BLACK);
-        h_Box.getChildren().addAll(reset_botton, makeRequest);
+        add_botton.setFont(Font.font("tahoma", FontWeight.BOLD, 15.5));
+        add_botton.setTextFill(javafx.scene.paint.Color.BLACK);
+        h_Box.getChildren().addAll(reset_botton, add_botton);
         ////////////// add botton /////////////////
-        makeRequest.setOnAction(new EventHandler<ActionEvent>() {
+        add_botton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                try {
-                    String name = name_field.getText();
-                    String sex = "Male";
-                    String Occupation = Occupation_field.getText();
-                    String address = address_field.getText();
-                    String education = education_cbox.getSelectionModel().getSelectedItem().toString();
-                    String date = calendar.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-                    String email = Email_field.getText();
-                    String phone = Phone_field.getText();
-                    if (Female.isSelected()) {
-                        sex = "Female";
-                    }
-                    userController.addUserRequest(name, address, education, phone, email, date,sex, Occupation, userID);
-                    // clear the fields
-                    name_field.setText("");
-                    Male.setSelected(false);
-                    Female.setSelected(false);
-//                area_cbox.setValue(areas.get(0).getAreaName());
-                    Occupation_field.setText("");
-                    address_field.setText("");
-                    education_cbox.setValue("none");
-                    calendar.setValue(null);
-                    Email_field.setText("");
-                    Phone_field.setText("");
-                } catch (Exception e) {
+                String name = name_field.getText();
+                String sex = "Male";
+                String area = area_cbox.getSelectionModel().getSelectedItem().toString();
+                String Occupation = Occupation_field.getText();
+                String state = State_cbox.getSelectionModel().getSelectedItem().toString();
+                String address = address_field.getText();
+                String education = education_cbox.getSelectionModel().getSelectedItem().toString();
+                String date = calendar.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                String email = Email_field.getText();
+                String phone = Phone_field.getText();
+                String username = user_name_field.getText();
+                String password = pass_field.getText(); //we should add them later to the table of usernaems and passwords
+                if (Female.isSelected()) {
+                    sex = "Female";
                 }
-
+                //where is the name in userID request ?????
+                //UserDB.addUserRequest(new UserRequest("pinding", address, state, education, phone, email, date, AdminDB.getAreaID(area), sex, Occupation, userID));
+                // clear the fields
+                name_field.setText("");
+                Male.setSelected(false);
+                Female.setSelected(false);
+//                area_cbox.setValue(areas.get(0).getAreaName());
+                Occupation_field.setText("");
+                State_cbox.setValue(states.get(0).getStateName());
+                address_field.setText("");
+                education_cbox.setValue("none");
+                calendar.setValue(null);
+                Email_field.setText("");
+                Phone_field.setText("");
+                user_name_field.setText("");
+                pass_field.setText("");
             }
         });
         /////////// reset botton /////////////
@@ -288,16 +318,19 @@ public class Make_Request extends Application {
                 Female.setSelected(false);
 //                area_cbox.setValue(areas.get(0).getAreaName());
                 Occupation_field.setText("");
+                State_cbox.setValue(states.get(0).getStateName());
                 address_field.setText("");
                 education_cbox.setValue("none");
                 calendar.setValue(null);
                 Email_field.setText("");
                 Phone_field.setText("");
+                user_name_field.setText("");
+                pass_field.setText("");
             }
         });
         ////////////////////////
-        NameField.getChildren().addAll(Name, h_education, h_email, h_Phone);
-        PassField.getChildren().addAll(gender, h_Occupation, h_address, h_data);
+        NameField.getChildren().addAll(Name, area_section, state_field, h_education, h_email, h_user_name);
+        PassField.getChildren().addAll(gender, h_Occupation, h_address, h_data, h_Phone, h_pass);
         horiz.getChildren().addAll(NameField, PassField);
         section2.getChildren().addAll(H, horiz, h_Box);
         all.add(section1, 0, 0);
@@ -310,7 +343,7 @@ public class Make_Request extends Application {
         stage.setResizable(false);
 
         stage.show();
-        S1 = stage;
+        addUser = stage;
     }
 
     /**
