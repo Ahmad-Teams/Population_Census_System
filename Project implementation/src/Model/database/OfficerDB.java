@@ -177,6 +177,18 @@ public class OfficerDB {
         }
     }
 
+    public static void deleteCorrectionRequestByUserRequestID(int userRequestID) {
+        try (
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("delete from CorrectionRequest where UserRequestID = ? "); PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+            p1.execute();
+            p.setInt(1, userRequestID);
+
+            p.execute();
+        } catch (SQLException ee) {
+            System.out.println(ee.getMessage());// we will put out custimize exption massages here
+        }
+    }
+
     public ArrayList<CorrectionRequest> getCorrectionRequests() {
         ArrayList<CorrectionRequest> CorrectionRequests = new ArrayList<>();
         try (

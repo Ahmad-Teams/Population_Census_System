@@ -276,7 +276,9 @@ public class ViewNewRequests extends Application {
                 officerController.updateStateOfUserRequestToAccepted(selectedColumn.getRequestID());
                 tableClickeEvent();
                 table.setItems(officerController.getPendingUserRequests());
-
+                if (isSelectedColumnHasCorrectionRequest) {
+                    officerController.deleteCorrectionRequest(selectedColumn.getRequestID());
+                }
             }
         });
         reject.setOnAction(new EventHandler<ActionEvent>() {

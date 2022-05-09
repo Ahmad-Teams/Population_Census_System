@@ -57,6 +57,26 @@ public class UserRequest {
         this.occupation = occupation;
         this.UID = UID;
     }
+
+    public UserRequest() {
+    }
+
+    public UserRequest(String requestState, String name, String address, String education, String phone, String email, int MID, String DOB, int areaID, String sex, String occupation, int UID) {
+        this.requestState = requestState;
+        this.name = name;
+        this.address = address;
+        this.education = education;
+        this.phone = phone;
+        this.email = email;
+        this.MID = MID;
+        this.DOB = DOB;
+        this.areaID = areaID;
+        this.sex = sex;
+        this.occupation = occupation;
+        this.UID = UID;
+    }
+
+    
     
 
     public void updateMember(Member member) {

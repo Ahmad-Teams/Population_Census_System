@@ -67,4 +67,8 @@ public class OfficerViewController {
     public void updateStateOfUserRequestToAccepted(int requestID) {
         OfficerDB.updateStateOfUserRequestToAccepted(requestID);
     }
+
+    public void deleteCorrectionRequest(int userRequestID) {
+        OfficerDB.deleteCorrectionRequestByUserRequestID(userRequestID);
+    }
 }
