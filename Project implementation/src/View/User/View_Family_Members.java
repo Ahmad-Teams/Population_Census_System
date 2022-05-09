@@ -85,6 +85,7 @@ public class View_Family_Members extends Application {
 
         Make_request.setMinSize(170, 140);
         Make_request.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
+        Make_request.setFocusTraversable(false);
         Make_request.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
@@ -96,6 +97,7 @@ public class View_Family_Members extends Application {
 
         view_request.setMinSize(170, 140);
         view_request.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
+        view_request.setFocusTraversable(false);
         view_request.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
@@ -107,6 +109,7 @@ public class View_Family_Members extends Application {
 
         View_Correction.setMinSize(170, 140);
         View_Correction.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
+        View_Correction.setFocusTraversable(false);
         View_Correction.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {

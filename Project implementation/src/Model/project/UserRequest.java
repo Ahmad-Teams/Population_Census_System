@@ -15,8 +15,8 @@ public class UserRequest {
 
     private int requestID;
     private String requestState;
+    private String name;
     private String address;
-    private String city;
     private String education;
     private String phone;
     private String email;
@@ -28,11 +28,11 @@ public class UserRequest {
     private int UID;
     //RequestState,Address,City,Education,Phone,Email,MID,DOB,DocName,AreaID,Sex,Occupation,UID)
 
-    public UserRequest(int requestID, String requestState, String address, String city, String education, String phone, String email, int MID, String DOB, int areaID, String sex, String occupation, int UID) {
+    public UserRequest(int requestID, String requestState,String name, String address, String education, String phone, String email, int MID, String DOB, int areaID, String sex, String occupation, int UID) {
         this.requestID = requestID;
         this.requestState = requestState;
+        this.name = name;
         this.address = address;
-        this.city = city;
         this.education = education;
         this.phone = phone;
         this.email = email;
@@ -43,11 +43,11 @@ public class UserRequest {
         this.occupation = occupation;
         this.UID = UID;
     }
-    // where is name of the user ????????
-    public UserRequest(String requestState, String address, String city, String education, String phone, String email, String DOB, int areaID, String sex, String occupation, int UID) {
+
+    public UserRequest(String requestState, String address,String name, String education, String phone, String email, String DOB, int areaID, String sex, String occupation, int UID) {
         this.requestState = requestState;
+        this.name = name;
         this.address = address;
-        this.city = city;
         this.education = education;
         this.phone = phone;
         this.email = email;
@@ -57,6 +57,7 @@ public class UserRequest {
         this.occupation = occupation;
         this.UID = UID;
     }
+    
 
     public void updateMember(Member member) {
 
@@ -64,6 +65,14 @@ public class UserRequest {
 
     public int getUID() {
         return UID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void addMember(Member member) {
@@ -98,14 +107,6 @@ public class UserRequest {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public String getEducation() {

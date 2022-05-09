@@ -169,9 +169,9 @@ public class Make_Report extends Application {
             SearchOptions.getItems().clear();
             SortByOption.getItems().clear();
             if (selectionValue.equals("User")) {
-                SearchOptions.getItems().addAll("Has dependencies", "Doesn`t has dependencies");
-                SearchOptions.setValue("Has dependencies");
-                SortByOption.getItems().addAll("UID", "Name", "Sex", "Email", "Phone", "City", "Address");
+                SearchOptions.getItems().addAll("Has descendants", "Doesn`t has descendants");
+                SearchOptions.setValue("Has descendants");
+                SortByOption.getItems().addAll("UID", "Name", "Sex", "Email", "Phone", "Address");
                 SortByOption.setValue("UID");
             } else if (selectionValue.equals("Officer")) {
                 SearchOptions.getItems().addAll("Has Users", "Doesn`t has Users");
@@ -239,9 +239,6 @@ public class Make_Report extends Application {
                     TableColumn<UserTableColumn, String> areaName = new TableColumn<>("Area");
                     areaName.setCellValueFactory(new PropertyValueFactory("areaName"));
 
-                    TableColumn<UserTableColumn, String> city = new TableColumn<>("City");
-                    city.setCellValueFactory(new PropertyValueFactory("city"));
-
                     TableColumn<UserTableColumn, String> address = new TableColumn<>("Address");
                     address.setCellValueFactory(new PropertyValueFactory("address"));
 
@@ -251,9 +248,8 @@ public class Make_Report extends Application {
                     email.setPrefWidth(120);
                     phone.setPrefWidth(120);
                     areaName.setPrefWidth(100);
-                    city.setPrefWidth(100);
                     address.setPrefWidth(100);
-                    table.getColumns().addAll(ID, name, sex, email, phone, areaName, city, address);
+                    table.getColumns().addAll(ID, name, sex, email, phone, areaName, address);
                 } else if (selectionValue.equals("Officer")) {
 
                     TableColumn<OfficerTableColumn, Integer> ID = new TableColumn<>("OID");
@@ -322,9 +318,9 @@ public class Make_Report extends Application {
     private void setdefaultComboBoxes() {
         SearchOn.getItems().addAll("User", "Officer");
         SearchOn.setValue("User");
-        SearchOptions.getItems().addAll("Has dependencies", "Doesn`t has dependencies");
-        SearchOptions.setValue("Has dependencies");
-        SortByOption.getItems().addAll("UID", "Name", "Sex", "Email", "Phone", "City", "Address");
+        SearchOptions.getItems().addAll("Has descendants", "Doesn`t has descendants");
+        SearchOptions.setValue("Has descendants");
+        SortByOption.getItems().addAll("UID", "Name", "Sex", "Email", "Phone", "Address");
         SortByOption.setValue("UID");
         OrderOption.getItems().addAll("Ascending", "Descending");
         OrderOption.setValue("Ascending");

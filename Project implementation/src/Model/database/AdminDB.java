@@ -11,8 +11,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import Model.project.Area;
 import Model.project.FamilyMember;
+import Model.project.Member;
 import Model.project.Officer;
 import Model.project.State;
+import Model.project.User;
 
 public class AdminDB {
 
@@ -75,10 +77,10 @@ public class AdminDB {
 
     }
 
-    public static ArrayList<Officer> getOfficers() {
+    public static ArrayList<Officer> getOfficers(int adminID) {
         ArrayList<Officer> officers = new ArrayList<>();
         try (
-                Connection con = connect(); PreparedStatement p = con.prepareStatement("select * from Officer");) {
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("select * from Officer where AID = " + adminID);) {
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {      //return  one row of officer table 
@@ -136,10 +138,10 @@ public class AdminDB {
 
     }
 
-    public static ArrayList<Area> getAreas() {
+    public static ArrayList<Area> getAreasFromStateID(int stateID) {
         ArrayList<Area> areas = new ArrayList<>();
         try (
-                Connection con = connect(); PreparedStatement p = con.prepareStatement("select * from Area");) {
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("select * from Area where StateID = " + stateID);) {
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {      //return  one row of Area table 
@@ -253,22 +255,22 @@ public class AdminDB {
 
         ArrayList<FamilyMember> FamilyMembers = new ArrayList<>();
         try ( //(String city, String address, String education, String email, String sex, String occupation, String DocName, Date DOB, int areaID, String name, int phone, String imageName, String Email
-                Connection con = connect(); PreparedStatement p = con.prepareStatement("SELECT User.City,User.Address,User.Education,User.Email,User.Sex,User.Occupation,User.DOB,User.AreaID,User.Name,User.Phone\n"
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("SELECT User.Address,User.Education,User.Email,User.Sex,User.Occupation,User.DOB,User.AreaID,User.Name,User.Phone\n"
                         + "FROM User,Area,Admin\n"
-                        + "WHERE User.AreaID=Area.AreaID AND Area.StateID=Admin.StateID"); PreparedStatement p1 = con.prepareStatement("SELECT Member.City,Member.Address,Member.Education,Member.Email,Member.Sex,Member.Occupation,Member.DOB,Member.AreaID,Member.Name,Member.Phone\n"
+                        + "WHERE User.AreaID=Area.AreaID AND Area.StateID=Admin.StateID"); PreparedStatement p1 = con.prepareStatement("SELECT Member.Address,Member.Education,Member.Email,Member.Sex,Member.Occupation,Member.DOB,Member.AreaID,Member.Name,Member.Phone\n"
                         + "FROM Member,Area,Admin\n"
                         + "WHERE Member.AreaID=Area.AreaID AND Area.StateID=Admin.StateID");) {
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {
 
-                    FamilyMembers.add(new FamilyMember(r.getString("City"), r.getString("Address"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getString("Phone")));
+                    FamilyMembers.add(new User(r.getInt("OID"), r.getInt("UID"), r.getString("Address"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getString("Phone")));
 
                 }
                 ResultSet r2 = p1.executeQuery();
                 while (r2.next()) {
 
-                    FamilyMembers.add(new FamilyMember(r2.getString("City"), r2.getString("Address"), r2.getString("Education"), r2.getString("Email"), r2.getString("Sex"), r2.getString("Occupation"), r2.getString("DOB"), r2.getInt("AreaID"), r2.getString("Name"), r2.getString("Phone")));
+                    FamilyMembers.add(new Member(r.getInt("MID"), r.getInt("UID"), r.getString("Address"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getString("Phone")));
 
                 }
             }
@@ -280,17 +282,37 @@ public class AdminDB {
 
     }
 
+    public static Admin getAdminFromAdminID(int adminID) {
+
+        Admin admin = new Admin("", "", "", "");
+        try ( //(String city, String address, String education, String email, String sex, String occupation, String DocName, Date DOB, int areaID, String name, int phone, String imageName, String Email
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("Select * from Admin where AID = " + adminID);) {
+            {
+                ResultSet r = p.executeQuery();
+                while (r.next()) {
+
+                    admin = new Admin(r.getInt("AID"), r.getInt("StateID"), r.getString("Username"), r.getString("Password"), r.getString("Name"), r.getString("Phone"), r.getString("Email"), r.getString("Sex"));
+                }
+            }
+        } catch (SQLException ee) {
+            System.out.println(ee.getMessage());// we will put out custimize exption massages here
+        }
+
+        return admin;
+
+    }
+
     public static boolean check(String username, String password) {
         return OfficerDB.check(username, password);
     }
 
-    public static ArrayList<Officer> getOfficersByParameters(boolean hasDependenciesOrHasUsers, String SortByOption, boolean ascendingOrder) {
+    public static ArrayList<Officer> getOfficersByParameters(boolean hasdescendantsOrHasUsers, String SortByOption, boolean ascendingOrder, int adminID) {
         ArrayList<Officer> officers = new ArrayList<>();
-        String inOrNotIn = hasDependenciesOrHasUsers ? "IN" : "NOT IN";
+        String inOrNotIn = hasdescendantsOrHasUsers ? "IN" : "NOT IN";
         String ASCOrDESC = ascendingOrder ? "ASC" : "DESC";
-
+        String query = "SELECT * FROM Officer WHERE OID " + inOrNotIn + " (SELECT OID FROM User) " + "And AID = " + adminID + " ORDER BY " + SortByOption + " " + ASCOrDESC;
         try (
-                Connection con = connect(); PreparedStatement p = con.prepareStatement("SELECT * FROM Officer WHERE OID " + inOrNotIn + "(SELECT OID FROM User) ORDER BY " + SortByOption +"  "+ ASCOrDESC);) {
+                Connection con = connect(); PreparedStatement p = con.prepareStatement(query);) {
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {      //return  one row of officer table 

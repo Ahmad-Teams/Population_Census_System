@@ -13,12 +13,10 @@ public class MemberTableColumn {
     private String areaName;
     private int MID;
     private int UID;
-    private String city;
     private String address;
     private String education;
     private String sex;
     private String occupation;
-    private int stateID;
     private String DOB;
     private int areaID;
     private String name;
@@ -26,16 +24,14 @@ public class MemberTableColumn {
 
     private String Email;
 
-    public MemberTableColumn(String areaName, int MID, int UID, String city, String address, String education, String sex, String occupation, int stateID, String DOB, int areaID, String name, String phone, String Email) {
+    public MemberTableColumn(String areaName, int MID, int UID, String address, String education, String sex, String occupation, String DOB, int areaID, String name, String phone, String Email) {
         this.areaName = areaName;
         this.MID = MID;
         this.UID = UID;
-        this.city = city;
         this.address = address;
         this.education = education;
         this.sex = sex;
         this.occupation = occupation;
-        this.stateID = stateID;
         this.DOB = DOB;
         this.areaID = areaID;
         this.name = name;
@@ -65,14 +61,6 @@ public class MemberTableColumn {
 
     public void setUID(int UID) {
         this.UID = UID;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public String getAddress() {
@@ -105,14 +93,6 @@ public class MemberTableColumn {
 
     public void setOccupation(String occupation) {
         this.occupation = occupation;
-    }
-
-    public int getStateID() {
-        return stateID;
-    }
-
-    public void setStateID(int stateID) {
-        this.stateID = stateID;
     }
 
     public String getDOB() {

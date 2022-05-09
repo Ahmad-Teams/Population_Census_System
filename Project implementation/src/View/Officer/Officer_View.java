@@ -35,6 +35,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import View.login.Login;
 import View.User.UserRequestTableColumn;
+import View.User.View_Correction;
+import View.User.View_Family_Members;
+import javafx.geometry.Pos;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -42,57 +46,81 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * @author user
  */
 public class Officer_View extends Application {
+    
     Stage S1;
     int officerID;
-    TableView table=new TableView();
-    Text t=new Text();
+    TableView table = new TableView();
+    Text t = new Text();
     OfficerViewController officerController = new OfficerViewController(officerID);
+    
     public Officer_View() {
     }
-
+    
     public Officer_View(int officerID) {
         this.officerID = officerID;
     }
+    
     @Override
     public void start(Stage stage) {
         GridPane all = new GridPane();
         all.setHgap(10);
-        
-// side btn section
-        
-        VBox section1 = new VBox();       
-        section1.setPrefSize(170, 750);
 
-        
-        Button view_request = new Button("View New\n" +
-"Requests");
+// side btn section
+        VBox section1 = new VBox();
+        section1.setPrefSize(170, 500);
+
+        Button View_my_family = new Button("Add User");
+        Button View_Correction = new Button("   View New \n"
+                + "User Request");
         Button Logout = new Button("Logout");
-        
-        
-        view_request.setMinSize(170, 360);
-        view_request.setFont(Font.font("tahoma", FontWeight.BOLD, 17));
-     
-        Logout.setMinSize(170, 450);
-        Logout.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#bf1f21"), CornerRadii.EMPTY, Insets.EMPTY)));
-        Logout.setBorder(new Border(new BorderStroke((javafx.scene.paint.Color.web("#79b5d9")), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        Logout.setFont(Font.font("tahoma", FontWeight.BOLD, 17));
-       Logout.setOnAction(new EventHandler<ActionEvent>() {
+
+        View_my_family.setMinSize(170, 258);
+        View_my_family.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
+        View_my_family.setFocusTraversable(false);
+        View_my_family.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                Login c2=new Login();
+                AddUser c2 = new AddUser();
                 S1.close();
                 c2.start(new Stage());
             }
         });
 
+       
+
         
-        section1.getChildren().addAll(view_request,Logout);
-        
+
+        View_Correction.setMinSize(170, 258);
+        View_Correction.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
+        View_Correction.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent even) {
+                Officer_View c2 = new Officer_View();
+                S1.close();
+                c2.start(new Stage());
+            }
+        });
+
+        Logout.setMinSize(170, 259);
+        Logout.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#bf1f21"), CornerRadii.EMPTY, Insets.EMPTY)));
+        Logout.setBorder(new Border(new BorderStroke((javafx.scene.paint.Color.web("#79b5d9")), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        Logout.setFont(Font.font("tahoma", FontWeight.BOLD, 15));
+        Logout.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent even) {
+                Login c2 = new Login();
+                S1.close();
+                c2.start(new Stage());
+            }
+        });
+
+        section1.getChildren().addAll(View_my_family, View_Correction, Logout);
+
         //////////////////////////////////////
         VBox section2 = new VBox(6);
         section2.setPrefSize(530, 400);
         section2.setMinHeight(300);
-        Label H=new Label("New Requests");
+        Label H = new Label("New Requests");
         H.setFont(Font.font("Garamond", FontWeight.BOLD, 30));
         H.setPadding(new Insets(5, 0, 0, 180));
         table.setEditable(true);
@@ -110,120 +138,145 @@ public class Officer_View extends Application {
         ID.setPrefWidth(80);
         
         TableColumn<UserRequestTableColumn, String> name = new TableColumn<>("Name");
-        //name.setCellValueFactory(new PropertyValueFactory("name"));
+        //name.setCellValueFactory(new PropertyValueFactory("name2"));
         name.setPrefWidth(120);
         
         TableColumn<UserRequestTableColumn, String> address = new TableColumn<>("Address");
         address.setCellValueFactory(new PropertyValueFactory("address"));
         address.setPrefWidth(120);
         
-        TableColumn <UserRequestTableColumn, String>education =new TableColumn("Education");
+        TableColumn<UserRequestTableColumn, String> education = new TableColumn("Education");
         education.setCellValueFactory(new PropertyValueFactory("education"));
         education.setPrefWidth(110);
         
-        TableColumn <UserRequestTableColumn, String>sex =new TableColumn("Sex");
+        TableColumn<UserRequestTableColumn, String> sex = new TableColumn("Sex");
         sex.setCellValueFactory(new PropertyValueFactory("Sex"));
         sex.setPrefWidth(50);
         
-        TableColumn <UserRequestTableColumn, String>occupation =new TableColumn("Occupation");
+        TableColumn<UserRequestTableColumn, String> occupation = new TableColumn("Occupation");
         occupation.setCellValueFactory(new PropertyValueFactory("occupation"));
         occupation.setPrefWidth(100);
         
-        TableColumn <UserRequestTableColumn, String>email =new TableColumn("Email");
+        TableColumn<UserRequestTableColumn, String> email = new TableColumn("Email");
         email.setCellValueFactory(new PropertyValueFactory("Email"));
         email.setPrefWidth(100);
         
-        TableColumn <UserRequestTableColumn, String>phone =new TableColumn("phone");
+        TableColumn<UserRequestTableColumn, String> phone = new TableColumn("phone");
         phone.setCellValueFactory(new PropertyValueFactory("phone"));
         phone.setPrefWidth(100);
         
-        TableColumn <UserRequestTableColumn, String>DOB =new TableColumn("Date Of Birth");
+        TableColumn<UserRequestTableColumn, String> DOB = new TableColumn("Date Of Birth");
         DOB.setCellValueFactory(new PropertyValueFactory("DOB"));
         DOB.setPrefWidth(100);
         
-        TableColumn <UserRequestTableColumn, String>area =new TableColumn("Area");
+        TableColumn<UserRequestTableColumn, String> area = new TableColumn("Area");
         area.setCellValueFactory(new PropertyValueFactory("areaName"));
         area.setPrefWidth(100);
         
-        table.getColumns().addAll(requestID,requestState,ID,name,address,education,sex,occupation,email,phone,DOB,area);
-        table.setMinHeight(1000);
+        table.getColumns().addAll(requestID, requestState, ID, name, address, education, sex, occupation, email, phone, DOB, area);
+        table.setMaxHeight(300);
         table.setMinWidth(1150);
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(table);
         scrollPane.pannableProperty().set(true);
         scrollPane.fitToWidthProperty().set(true);
         scrollPane.fitToHeightProperty().set(true);
-        scrollPane.setPrefHeight(400);
+        scrollPane.setMaxHeight(300);
         scrollPane.setMinWidth(600);
         scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
         //////////////////////////////////////////////////////////////////////////////////
-        TextArea Correct=new TextArea();
+        HBox h_name = new HBox();
+        h_name.setPadding(new Insets(30, 0, 0, 0));
+        h_name.setAlignment(Pos.CENTER);
+        
+        Label name2 = new Label("Title:       ");
+        name2.setFont(Font.font("arial", FontWeight.BOLD, 17));
+        name2.setVisible(false);
+        
+        TextField name_field = new TextField();
+        name_field.setPromptText("Title Of Correction Request  ");
+        name_field.setPrefSize(200, 40);
+        name_field.setVisible(false);
+        
+        h_name.getChildren().addAll(name2, name_field);
+
+        //////////////////
+        HBox h_name2 = new HBox();
+        h_name2.setPadding(new Insets(30, 0, 0, 0));
+        h_name2.setAlignment(Pos.CENTER);
+        Label name3 = new Label("Reason:       ");
+        name3.setFont(Font.font("arial", FontWeight.BOLD, 17));
+        TextArea Correct = new TextArea();
         //Correct.setStyle("-fx-background-radius: 30px ;");
         Correct.setPromptText("Message");
         Correct.setMaxHeight(220);
-        Correct.setMaxWidth(520);
         Correct.setWrapText(true);
         Correct.setVisible(false);
+        name3.setVisible(false);
+        h_name2.getChildren().addAll(name3, Correct);
         ///////////////////////////////////////////////////////////////////////////////////////
-        VBox SEND=new VBox(10);
-        Button S=new Button("Send");
+        VBox SEND = new VBox(10);
+        Button S = new Button("Send");
         S.setFont(Font.font("tahoma", FontWeight.LIGHT, 16));
         S.setTextFill(javafx.scene.paint.Color.BLACK);
         S.setStyle("-fx-background-radius: 300px ;");
         S.setMinWidth(120);
         S.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-         public void handle(ActionEvent even) {
-             Correct.setVisible(false);
-             S.setVisible(false);
-               t.setVisible(true);
-               t.setText("Message has been sent");
-               t.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.ITALIC, 20));
-               SEND.setPadding(new Insets(0, 0, 0, 160));
-         }
-      });
-        SEND.setPadding(new Insets(0, 0, 0, 200));
-        SEND.getChildren().addAll(t,S);
-        SEND.setVisible(false);
-        //////////////////////////////////////////////////////////////
-        HBox B=new HBox(100);
-        B.setPadding(new Insets(10, 0, 10, 80));
-        Button R=new Button("Reject");
-        Button A=new Button("Accept");
-        R.setStyle("-fx-background-radius: 300px ;-fx-background-color:Red; ");
-        A.setStyle("-fx-background-radius: 300px ;-fx-background-color:Orange;");
-        R.setMinWidth(110);
-        A.setMinWidth(110);
-        R.setFont(Font.font("tahoma", FontWeight.LIGHT, 16));
-        R.setTextFill(javafx.scene.paint.Color.BLACK);
-        A.setFont(Font.font("tahoma", FontWeight.LIGHT, 16));
-        A.setTextFill(javafx.scene.paint.Color.BLACK);
-        R.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
+                name2.setVisible(false);
+                name_field.setVisible(false);
+                Correct.setVisible(false);
+                name3.setVisible(false);
+                S.setVisible(false);
+                t.setVisible(true);
+                t.setText("Message has been sent");
+                t.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.ITALIC, 20));
+            }
+        });
+        SEND.setPadding(new Insets(0, 0, 0, 230));
+        SEND.getChildren().addAll(t, S);
+        SEND.setVisible(false);
+        //////////////////////////////////////////////////////////////
+        HBox B = new HBox(100);
+        B.setPadding(new Insets(10, 0, 10, 130));
+        Button reject = new Button("Reject");
+        Button accept = new Button("Accept");
+        reject.setStyle("-fx-background-radius: 300px ;-fx-background-color:Red; ");
+        accept.setStyle("-fx-background-radius: 300px ;-fx-background-color:Orange;");
+        reject.setMinWidth(110);
+        accept.setMinWidth(110);
+        reject.setFont(Font.font("tahoma", FontWeight.LIGHT, 16));
+        reject.setTextFill(javafx.scene.paint.Color.BLACK);
+        accept.setFont(Font.font("tahoma", FontWeight.LIGHT, 16));
+        accept.setTextFill(javafx.scene.paint.Color.BLACK);
+        reject.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent even) {
+                name2.setVisible(true);
+                name_field.setVisible(true);
                 Correct.setVisible(true);
+                name3.setVisible(true);
                 SEND.setVisible(true);
                 t.setVisible(false);
                 S.setVisible(true);
-                SEND.setPadding(new Insets(0, 0, 0, 200));
             }
         });
-        B.getChildren().addAll(R,A);
-        section2.getChildren().addAll(H,scrollPane,B,Correct ,  SEND);
+        B.getChildren().addAll(reject, accept);
+        section2.getChildren().addAll(H, scrollPane, B,name2, name_field, name3, Correct, SEND);
         //////////////////////////////////////
         all.add(section1, 0, 0);
         all.add(section2, 1, 0);
         all.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#a5cee5"), CornerRadii.EMPTY, Insets.EMPTY)));
-
         
-        Scene scene = new Scene(all,800,775);           
+        Scene scene = new Scene(all, 800, 775);
         stage.setScene(scene);
         stage.setTitle("Officer Screen");
         stage.setResizable(false);
         
         stage.show();
-        S1=stage;
+        S1 = stage;
     }
 
     /**
