@@ -37,7 +37,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.util.ArrayList;
-import View.Officer.Officer_View;
+import View.Officer.ViewNewRequests;
 import View.User.View_Family_Members;
 import Model.project.*;
 import Model.database.*;
@@ -136,7 +136,7 @@ public class Login extends Application {
                         c1.start(new Stage());
                     } else if (accountType.equals("Officer")) {
                         // here should be a function to set the officer data
-                        Officer_View c1 = new Officer_View();
+                        ViewNewRequests c1 = new ViewNewRequests();
                         S1.close();
                         c1.start(new Stage());
                     } else if (accountType.equals("User")) {
