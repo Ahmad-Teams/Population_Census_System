@@ -240,8 +240,7 @@ public class OfficerDB {
         ArrayList<UserRequest> userRequests = new ArrayList<>();
         try (
                 Connection con = connect();
-                PreparedStatement p = con.prepareStatement("select * from UserRequest,User,Officer\n"
-                        + "WHERE UserRequest.UID=User.UID AND User.OID=" + OID);) {
+                PreparedStatement p = con.prepareStatement("select * from UserRequest where UID in (select UID from User where OID = " + OID + " )");) {
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {

@@ -92,7 +92,7 @@ public class AddUser extends Application {
         View_Correction.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                Officer_View c2 = new Officer_View();
+                ViewNewRequests c2 = new ViewNewRequests();
                 addUser.close();
                 c2.start(new Stage());
             }
