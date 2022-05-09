@@ -4,6 +4,7 @@
  */
 package View.Officer;
 
+import Controller.OfficerViewController;
 import View.User.*;
 import Controller.UserViewController;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +20,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Background;
@@ -37,8 +41,6 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import View.login.Login;
-import Model.project.*;
-import Model.database.*;
 
 /**
  *
@@ -47,20 +49,21 @@ import Model.database.*;
 public class AddUser extends Application {
 
     Stage addUser;
-    int userID;
-    UserViewController userController = new UserViewController(userID);
-    
+    int OfficerID = 7;
+    OfficerViewController officerController = new OfficerViewController(OfficerID);
+    TableView table = new TableView();
+
     public AddUser() {
     }
 
-    public AddUser(int userID) {
-        this.userID = userID;
+    public AddUser(int OfficerID) {
+        this.OfficerID = OfficerID;
     }
 
     @Override
     public void start(Stage stage) {
 
-        GridPane all = new GridPane();
+                GridPane all = new GridPane();
         all.setHgap(10);
 
 // side btn section
@@ -109,14 +112,14 @@ public class AddUser extends Application {
         });
 
         section1.getChildren().addAll(View_my_family, View_Correction, Logout);
-
+        
 //second section
         VBox section2 = new VBox(15);
         section2.setPrefSize(700, 500);
         VBox NameField = new VBox(15);
         VBox PassField = new VBox(20);
         HBox horiz = new HBox(50);
-        Label H = new Label("Add New Family Member");
+        Label H = new Label("Add New User");
         H.setFont(Font.font("Garamond", FontWeight.EXTRA_BOLD, 30));
         H.setPadding(new Insets(50, 0, 75, 140));
 
@@ -130,36 +133,6 @@ public class AddUser extends Application {
         name_field.setPrefSize(150, 23);
         Name.getChildren().addAll(name, name_field);
         Name.setPadding(new Insets(0, 20, 25, 10));
-
-        ///////Area////////////
-        HBox area_section = new HBox(50);
-        Label area = new Label("Area:");
-        area.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 16));
-        ComboBox area_cbox = new ComboBox();
-//        ArrayList<Area> areas = AdminDB.getAreasFromStateID();
-//        //add cities here
-//        area_cbox.setValue(areas.get(0).getAreaName());
-//        for (int i = 0; i < areas.size(); i++) {
-//            area_cbox.getItems().add(areas.get(i).getAreaName());
-//        }
-        area_cbox.setPrefWidth(150);
-        area_section.getChildren().addAll(area, area_cbox);
-        area_section.setPadding(new Insets(0, 20, 25, 10));
-
-        /////////////State//////////////////
-        HBox state_field = new HBox(50);
-        Label state = new Label("State: ");
-        state.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 16));
-        ComboBox State_cbox = new ComboBox();
-        ArrayList<State> states = AdminDB.getStates();
-        //add states here
-        State_cbox.setValue(states.get(0).getStateName());
-        for (int i = 0; i < states.size(); i++) {
-            State_cbox.getItems().add(states.get(i).getStateName());
-        }
-        State_cbox.setPrefWidth(150);
-        state_field.getChildren().addAll(state, State_cbox);
-        state_field.setPadding(new Insets(0, 20, 25, 10));
 
         ///////// education //////////
         HBox h_education = new HBox(20);
@@ -182,17 +155,6 @@ public class AddUser extends Application {
         Email_field.setMaxWidth(300);
         h_email.getChildren().addAll(Email, Email_field);
         h_email.setPadding(new Insets(0, 20, 25, 10));
-
-        ////////////username/////////////
-        HBox h_user_name = new HBox(1);
-        Label user_name = new Label("User Name : ");
-        user_name.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 16));
-        TextField user_name_field = new TextField();
-        user_name_field.setStyle("-fx-background-radius: 30px ;");
-        user_name_field.setPromptText("User Name");
-        user_name_field.setMaxWidth(300);
-        h_user_name.getChildren().addAll(user_name, user_name_field);
-        h_user_name.setPadding(new Insets(0, 20, 25, 10));
 
         ///////////sex /////////////
         HBox gender = new HBox(50);
@@ -245,6 +207,16 @@ public class AddUser extends Application {
         Phone_field.setMaxWidth(300);
         h_Phone.getChildren().addAll(Phone, Phone_field);
         h_Phone.setPadding(new Insets(0, 20, 18, 10));
+        ////////////username/////////////
+        HBox h_user_name = new HBox(1);
+        Label user_name = new Label("User Name : ");
+        user_name.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, FontPosture.ITALIC, 16));
+        TextField user_name_field = new TextField();
+        user_name_field.setStyle("-fx-background-radius: 30px ;");
+        user_name_field.setPromptText("User Name");
+        user_name_field.setMaxWidth(300);
+        h_user_name.getChildren().addAll(user_name, user_name_field);
+        h_user_name.setPadding(new Insets(0, 20, 25, 10));
 
         /////////// password /////////////
         HBox h_pass = new HBox(10);
@@ -261,51 +233,51 @@ public class AddUser extends Application {
         HBox h_Box = new HBox(100);
         h_Box.setPadding(new Insets(10, 0, 0, 150));
         Button reset_botton = new Button(" Reset ");
-        Button add_botton = new Button(" Add ");
+        Button makeRequest = new Button(" Add ");
         reset_botton.setStyle("-fx-background-radius: 300px ;-fx-background-color:Red; ");
-        add_botton.setStyle("-fx-background-radius: 300px ;-fx-background-color:Orange;");
+        makeRequest.setStyle("-fx-background-radius: 300px ;-fx-background-color:Orange;");
         reset_botton.setMinWidth(120);
-        add_botton.setMinWidth(120);
+        makeRequest.setMinWidth(120);
         reset_botton.setFont(Font.font("tahoma", FontWeight.BOLD, 15.5));
         reset_botton.setTextFill(javafx.scene.paint.Color.BLACK);
-        add_botton.setFont(Font.font("tahoma", FontWeight.BOLD, 15.5));
-        add_botton.setTextFill(javafx.scene.paint.Color.BLACK);
-        h_Box.getChildren().addAll(reset_botton, add_botton);
+        makeRequest.setFont(Font.font("tahoma", FontWeight.BOLD, 15.5));
+        makeRequest.setTextFill(javafx.scene.paint.Color.BLACK);
+        h_Box.getChildren().addAll(reset_botton, makeRequest);
         ////////////// add botton /////////////////
-        add_botton.setOnAction(new EventHandler<ActionEvent>() {
+        makeRequest.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                String name = name_field.getText();
-                String sex = "Male";
-                String area = area_cbox.getSelectionModel().getSelectedItem().toString();
-                String Occupation = Occupation_field.getText();
-                String state = State_cbox.getSelectionModel().getSelectedItem().toString();
-                String address = address_field.getText();
-                String education = education_cbox.getSelectionModel().getSelectedItem().toString();
-                String date = calendar.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-                String email = Email_field.getText();
-                String phone = Phone_field.getText();
-                String username = user_name_field.getText();
-                String password = pass_field.getText(); //we should add them later to the table of usernaems and passwords
-                if (Female.isSelected()) {
-                    sex = "Female";
-                }
-                //where is the name in userID request ?????
-                //UserDB.addUserRequest(new UserRequest("pinding", address, state, education, phone, email, date, AdminDB.getAreaID(area), sex, Occupation, userID));
-                // clear the fields
-                name_field.setText("");
-                Male.setSelected(false);
-                Female.setSelected(false);
+                try {
+                    String name = name_field.getText();
+                    String sex = "Male";
+                    String Occupation = Occupation_field.getText();
+                    String address = address_field.getText();
+                    String education = education_cbox.getSelectionModel().getSelectedItem().toString();
+                    String date = calendar.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                    String email = Email_field.getText();
+                    String phone = Phone_field.getText();
+                    String username = user_name_field.getText();
+                    String password = pass_field.getText(); //we should add them later to the table of usernaems and passwords
+                    if (Female.isSelected()) {
+                        sex = "Female";
+                    }
+                    officerController.addUser(name, address, education, phone, email, date, sex, Occupation,username,password, OfficerID);
+                    // clear the fields
+                    name_field.setText("");
+                    Male.setSelected(false);
+                    Female.setSelected(false);
 //                area_cbox.setValue(areas.get(0).getAreaName());
-                Occupation_field.setText("");
-                State_cbox.setValue(states.get(0).getStateName());
-                address_field.setText("");
-                education_cbox.setValue("none");
-                calendar.setValue(null);
-                Email_field.setText("");
-                Phone_field.setText("");
-                user_name_field.setText("");
-                pass_field.setText("");
+                    Occupation_field.setText("");
+                    address_field.setText("");
+                    education_cbox.setValue("none");
+                    calendar.setValue(null);
+                    Email_field.setText("");
+                    Phone_field.setText("");
+                    user_name_field.setText("");
+                    pass_field.setText("");
+                } catch (Exception e) {
+                }
+
             }
         });
         /////////// reset botton /////////////
@@ -318,7 +290,6 @@ public class AddUser extends Application {
                 Female.setSelected(false);
 //                area_cbox.setValue(areas.get(0).getAreaName());
                 Occupation_field.setText("");
-                State_cbox.setValue(states.get(0).getStateName());
                 address_field.setText("");
                 education_cbox.setValue("none");
                 calendar.setValue(null);
@@ -329,8 +300,8 @@ public class AddUser extends Application {
             }
         });
         ////////////////////////
-        NameField.getChildren().addAll(Name, area_section, state_field, h_education, h_email, h_user_name);
-        PassField.getChildren().addAll(gender, h_Occupation, h_address, h_data, h_Phone, h_pass);
+        NameField.getChildren().addAll(Name, h_education, h_email, h_Phone, h_user_name);
+        PassField.getChildren().addAll(gender, h_Occupation, h_address, h_data, h_pass);
         horiz.getChildren().addAll(NameField, PassField);
         section2.getChildren().addAll(H, horiz, h_Box);
         all.add(section1, 0, 0);

@@ -264,7 +264,7 @@ public class AdminDB {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {
 
-                    FamilyMembers.add(new User(r.getInt("OID"), r.getInt("UID"), r.getString("Address"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getString("Phone")));
+                    FamilyMembers.add(new User(r.getInt("OID"), r.getInt("UID"), r.getString("Address"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getString("Phone"), r.getString("Username"), r.getString("Password")));
 
                 }
                 ResultSet r2 = p1.executeQuery();
