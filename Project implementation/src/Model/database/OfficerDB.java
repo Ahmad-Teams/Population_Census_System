@@ -87,8 +87,7 @@ public class OfficerDB {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {      //return  one row of officer table 
 
-                    Users.add(new User(r.getInt("OID"), r.getInt("UID"), r.getString("Address"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getString("Phone")));
-                    
+                    Users.add(new User(r.getInt("OID"), r.getInt("UID"), r.getString("Address"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getString("Phone"), r.getString("Username"), r.getString("Password")));
 
                 }
             }
@@ -97,6 +96,45 @@ public class OfficerDB {
         }
 
         return Users;
+    }
+
+    public static int getAreaIDFromOfficerID(int officerID) {
+        int areaID = 0;
+        try (
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("select AreaID from Officer where OID = ?");) {
+            p.setInt(1, officerID);
+            ResultSet r = p.executeQuery();
+            while (r.next()) {
+                areaID = r.getInt("AreaID");
+            }
+
+        } catch (SQLException ee) {
+            System.out.println(ee.getMessage());// we will put out custimize exption massages here
+        }
+
+        return areaID;
+    }
+
+    public static void addUser(User user) {
+        try (
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("insert into User(Address,Education,Phone,Email,UID,DOB,Name,AreaID,Sex,Occupation,Username,Password,OID) values(?,?,?,?,?,?,?,?,?,?,?,?,?)"); PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+            p1.execute();
+            p.setString(1, user.getAddress());
+            p.setString(2, user.getEducation());
+            p.setString(3, user.getPhone());
+            p.setString(4, user.getEmail());
+            p.setInt(5, user.getUID());
+            p.setString(6, user.getDOB());
+            p.setString(7, user.getName());
+            p.setInt(8, user.getAreaID());
+            p.setString(9, user.getSex());
+            p.setString(10, user.getOccupation());
+            p.setString(11, user.getUsername());
+            p.setString(12, user.getPassword());
+            p.execute();
+        } catch (SQLException ee) {
+            System.out.println(ee.getMessage());// we will put out custimize exption massages here
+        }
     }
 
     public ArrayList<CorrectionRequest> getCorrectionRequests() {
@@ -116,25 +154,6 @@ public class OfficerDB {
         }
 
         return CorrectionRequests;
-    }
-
-    public static ArrayList<User> getUsers() {
-        ArrayList<User> Users = new ArrayList<>();
-        try (
-                Connection con = connect(); PreparedStatement p = con.prepareStatement("select * from User");) {
-            {
-                ResultSet r = p.executeQuery();
-                while (r.next()) {      //return  one row of Area table 
-
-                    Users.add(new User(r.getInt("OID"), r.getInt("UID"), r.getString("Address"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getString("Phone")));
-
-                }
-            }
-        } catch (SQLException ee) {
-            System.out.println(ee.getMessage());// we will put out custimize exption massages here
-        }
-
-        return Users;
     }
 
     public static ArrayList<System_user> getSystemUsers() {
@@ -189,7 +208,7 @@ public class OfficerDB {
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {
-                    FamilyMembers.add(new User(r.getInt("OID"), r.getInt("UID"), r.getString("Address"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getString("Phone")));
+                    FamilyMembers.add(new User(r.getInt("OID"), r.getInt("UID"), r.getString("Address"), r.getString("Education"), r.getString("Email"), r.getString("Sex"), r.getString("Occupation"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Name"), r.getString("Phone"), r.getString("Username"), r.getString("Password")));
 
                 }
                 ResultSet r2 = p1.executeQuery();
@@ -226,7 +245,7 @@ public class OfficerDB {
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {
-                    userRequests.add(new UserRequest(r.getInt("RequestID"), r.getString("RequestState"), r.getString("Name"),r.getString("Address"), r.getString("Education"), r.getString("Phone"), r.getString("Email"), r.getInt("MID"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Sex"), r.getString("Occupation"), r.getInt("UID")));
+                    userRequests.add(new UserRequest(r.getInt("RequestID"), r.getString("RequestState"), r.getString("Name"), r.getString("Address"), r.getString("Education"), r.getString("Phone"), r.getString("Email"), r.getInt("MID"), r.getString("DOB"), r.getInt("AreaID"), r.getString("Sex"), r.getString("Occupation"), r.getInt("UID")));
 
                 }
                 r.close();
