@@ -1,14 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Controller;
 
 import Model.database.AdminDB;
 import Model.database.OfficerDB;
 import Model.Entities.System_user;
 import View.Admin.Admin_AddOfficer;
-import View.Officer.ViewNewRequests;
+import View.Officer.AddUser;
 import View.User.View_Family_Members;
 import java.util.ArrayList;
 import javafx.stage.Stage;
@@ -23,7 +19,7 @@ public class LoginViewController {
         return OfficerDB.check(userName, password);
     }
 
-    public void openSystemUserAccount(String username,String password) {
+    public void openSystemUserAccount(String username, String password) {
         String accountType = getAccountType(username, password);
         if (accountType.equals("Admin")) {
             int adminID = AdminDB.getAdminIDfromUsername(username);
@@ -31,7 +27,7 @@ public class LoginViewController {
             c1.start(new Stage());
         } else if (accountType.equals("Officer")) {
             int officerID = AdminDB.getOfficerIDfromUsername(username);
-            ViewNewRequests c1 = new ViewNewRequests(officerID);
+            AddUser c1 = new AddUser(officerID);
             c1.start(new Stage());
         } else if (accountType.equals("User")) {
             int userID = AdminDB.getUserIDfromUsername(username);

@@ -1,18 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package View.Admin;
 
-import Model.database.*;
-import Model.Entities.Officer;
-import Model.Entities.Officer;
-import java.util.ArrayList;
 
-/**
- *
- * @author ahmad
- */
 public class OfficerTableColumn {
 
     private String areaName;
@@ -120,5 +108,4 @@ public class OfficerTableColumn {
         this.Sex = Sex;
     }
 
-    
 }

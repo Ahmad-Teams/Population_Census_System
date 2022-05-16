@@ -1,17 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMain.java to edit this template
- */
 package View.User;
 
 import Controller.UserViewController;
-import View.Admin.Admin_AddOfficer;
-import View.Admin.Admin_OfficerList;
-import View.Admin.Make_Report;
-import java.util.ArrayList;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -30,7 +20,6 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -47,7 +36,6 @@ public class View_Family_Members extends Application {
     TableView<MemberTableColumn> table = new TableView();
     int userID;
     UserViewController userController;
-//remove the above line
 
     public View_Family_Members() {
     }

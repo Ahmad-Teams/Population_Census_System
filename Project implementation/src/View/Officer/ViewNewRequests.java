@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package View.Officer;
 
 import Controller.OfficerViewController;
@@ -26,7 +21,6 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -35,8 +29,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import View.login.Login;
 import View.User.UserRequestTableColumn;
-import View.User.View_Correction;
-import View.User.View_Family_Members;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;

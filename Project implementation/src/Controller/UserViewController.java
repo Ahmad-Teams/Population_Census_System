@@ -1,13 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Controller;
 
 import Model.database.AdminDB;
-import Model.database.OfficerDB;
 import Model.database.UserDB;
-import Model.Entities.Area;
 import Model.Entities.CorrectionRequest;
 import Model.Entities.Member;
 import Model.Entities.UserRequest;
@@ -18,10 +12,6 @@ import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-/**
- *
- * @author ahmad
- */
 public class UserViewController {
 
     int userID;
@@ -34,8 +24,8 @@ public class UserViewController {
         ObservableList<UserRequestTableColumn> UserRequestsList = FXCollections.observableArrayList();
         ArrayList<UserRequest> userRequests = UserDB.getUserRequestsForUser(userID);
         for (int i = 0; i < userRequests.size(); i++) {
-                UserRequest userRequest = userRequests.get(i);
-                UserRequestsList.add(new UserRequestTableColumn(userRequest.getName(), AdminDB.getAreaName(userRequest.getAreaID()), userRequest.getRequestID(), userRequest.getRequestState(), userRequest.getAddress(), userRequest.getEducation(), userRequest.getPhone(), userRequest.getEmail(), userRequest.getMemberID(), userRequest.getDOB(), userRequest.getAreaID(), userRequest.getSex(), userRequest.getOccupation(), userRequest.getUserID()));
+            UserRequest userRequest = userRequests.get(i);
+            UserRequestsList.add(new UserRequestTableColumn(userRequest.getName(), AdminDB.getAreaName(userRequest.getAreaID()), userRequest.getRequestID(), userRequest.getRequestState(), userRequest.getAddress(), userRequest.getEducation(), userRequest.getPhone(), userRequest.getEmail(), userRequest.getMemberID(), userRequest.getDOB(), userRequest.getAreaID(), userRequest.getSex(), userRequest.getOccupation(), userRequest.getUserID()));
         }
         return UserRequestsList;
     }
@@ -63,15 +53,14 @@ public class UserViewController {
         ObservableList<CorrectionRequestTableColumn> correctionRequestsList = FXCollections.observableArrayList();
         ArrayList<CorrectionRequest> correctionRequests = UserDB.getCorrectionRequests(userID);
         for (int i = 0; i < correctionRequests.size(); i++) {
-                CorrectionRequest correctionRequest = correctionRequests.get(i);
-                correctionRequestsList.add(new CorrectionRequestTableColumn(correctionRequest.getRequestID(), correctionRequest.getUserRequestID(), correctionRequest.getOfficerID(), correctionRequest.getRequestTitle(), correctionRequest.getRequestContent(), correctionRequest.getUserID()));
+            CorrectionRequest correctionRequest = correctionRequests.get(i);
+            correctionRequestsList.add(new CorrectionRequestTableColumn(correctionRequest.getRequestID(), correctionRequest.getUserRequestID(), correctionRequest.getOfficerID(), correctionRequest.getRequestTitle(), correctionRequest.getRequestContent(), correctionRequest.getUserID()));
         }
         return correctionRequestsList;
     }
 
-
     public void updateUserRequest(UserRequestTableColumn UserRequest, String name, String sex, String Occupation, String address, String education, String date, String email, String phone, String Sex) {
-        UserDB.updateUserRequest(new UserRequest(UserRequest.getRequestID(),UserRequest.getRequestState(),name, address,education, phone, email, UserRequest.getMemberID(), date,  UserRequest.getAreaID(), Sex, Occupation,  UserRequest.getUserID()));
+        UserDB.updateUserRequest(new UserRequest(UserRequest.getRequestID(), UserRequest.getRequestState(), name, address, education, phone, email, UserRequest.getMemberID(), date, UserRequest.getAreaID(), Sex, Occupation, UserRequest.getUserID()));
     }
 
 }

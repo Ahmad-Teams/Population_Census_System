@@ -1,24 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package View.User;
 
 import Controller.UserViewController;
-import View.Admin.Admin_AddOfficer;
-import View.Admin.Admin_OfficerList;
-import View.Admin.Make_Report;
-import java.util.ArrayList;
 import javafx.application.Application;
-import static javafx.application.Application.STYLESHEET_CASPIAN;
-import static javafx.application.Application.STYLESHEET_MODENA;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -26,7 +12,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -35,8 +20,6 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -54,7 +37,6 @@ public class View_Your_Request extends Application {
     int userID;
     UserViewController userController;
 
-    //remove the above line
     public View_Your_Request() {
     }
 
@@ -229,5 +211,4 @@ public class View_Your_Request extends Application {
         S1 = stage;
     }
 
-   
 }

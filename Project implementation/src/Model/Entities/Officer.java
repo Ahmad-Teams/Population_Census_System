@@ -1,8 +1,8 @@
 package Model.Entities;
 
 import java.util.ArrayList;
-import Model.database.OfficerDB;
-public class Officer extends Person{
+
+public class Officer extends Person {
 
     private int officerID;
     private int adminID;
@@ -10,8 +10,8 @@ public class Officer extends Person{
     private String password;
     private ArrayList<Observer> observers;
     private int areaID;
-    
-    public Officer(String phone,String Email,int officerID,String name,int areaID,String Sex,String username, String password,int adminID) {
+
+    public Officer(String phone, String Email, int officerID, String name, int areaID, String Sex, String username, String password, int adminID) {
         super(name, phone, Email, Sex);
         this.officerID = officerID;
         this.adminID = adminID;
@@ -19,16 +19,16 @@ public class Officer extends Person{
         this.password = password;
         this.areaID = areaID;
     }
-  
-    public Officer(String phone,String Email,String name,int areaID,String Sex,String username, String password,int adminID) {
+
+    public Officer(String phone, String Email, String name, int areaID, String Sex, String username, String password, int adminID) {
         super(name, phone, Email, Sex);
         this.adminID = adminID;
         this.username = username;
         this.password = password;
         this.areaID = areaID;
     }
-    
-        public int getAreaID() {
+
+    public int getAreaID() {
         return areaID;
     }
 
@@ -89,9 +89,6 @@ public class Officer extends Person{
         //User.Update();
     }
 
-    
-
-    
     public void update() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

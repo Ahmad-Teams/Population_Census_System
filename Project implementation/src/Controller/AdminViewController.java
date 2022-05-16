@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Controller;
 
 import Model.Entities.User;
@@ -11,16 +7,9 @@ import Model.database.*;
 import View.Admin.OfficerTableColumn;
 import View.User.UserTableColumn;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ComboBox;
 
-/**
- *
- * @author ahmad
- */
 public class AdminViewController {
 
     int adminID;
@@ -71,10 +60,10 @@ public class AdminViewController {
         boolean isAscendingOrder = OrderOption.equals("Ascending") ? true : false;
 
         if (SearchOn.equals("User")) {
-            ArrayList<User> users = OfficerDB.getUsersByParameters(isHasdescendantsOrHasUsers, SortByOption, isAscendingOrder,adminID);
+            ArrayList<User> users = OfficerDB.getUsersByParameters(isHasdescendantsOrHasUsers, SortByOption, isAscendingOrder, adminID);
             reportList = makeUserTableRowsList(users);
         } else if (SearchOn.equals("Officer")) {
-            ArrayList<Officer> officers = AdminDB.getOfficersByParameters(isHasdescendantsOrHasUsers, SortByOption, isAscendingOrder,adminID);
+            ArrayList<Officer> officers = AdminDB.getOfficersByParameters(isHasdescendantsOrHasUsers, SortByOption, isAscendingOrder, adminID);
             reportList = makeOfficerTableRowsList(officers);
         }
 

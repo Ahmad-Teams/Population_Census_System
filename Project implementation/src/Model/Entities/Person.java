@@ -4,7 +4,7 @@ public class Person {
 
     private String name;
     private String phone;
-    
+
     private String Email;
     private String Sex;
 
@@ -46,6 +46,7 @@ public class Person {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
     public boolean login(String userName, String password) {
         return false;
     }

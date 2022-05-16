@@ -1,14 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package View.User;
 
 import Controller.UserViewController;
-import View.Admin.Admin_AddOfficer;
-import View.Admin.Admin_OfficerList;
-import View.Admin.Make_Report;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
@@ -39,15 +30,8 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import View.login.Login;
-import View.User.View_Correction;
-import View.User.View_Your_Request;
-import View.User.View_Family_Members;
-import View.User.Make_Request;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -71,10 +55,9 @@ public class View_Correction extends Application {
     TextField address_field;
     DatePicker Date;
 
-    int userID = 1;//= new User(1, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_CASPIAN, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, 0, STYLESHEET_MODENA, STYLESHEET_MODENA);
+    int userID = 1;
     UserViewController userController;
 
-    //remove the above instailization later
     public View_Correction() {
     }
 

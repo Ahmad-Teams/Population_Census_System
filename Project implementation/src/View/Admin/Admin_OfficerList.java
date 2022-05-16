@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package View.Admin;
 
 import Controller.AdminViewController;
@@ -11,14 +6,9 @@ import View.Admin.Make_Report;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -31,7 +21,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -42,9 +31,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -68,15 +55,15 @@ public class Admin_OfficerList extends Application {
     RadioButton Male;
     TextField Phone;
     ComboBox Area;
-    int adminID;// = new Admin(0, 0, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_CASPIAN, STYLESHEET_MODENA);
-//remove the above instailization later
+    int adminID;
     AdminViewController adminController;
+
     public Admin_OfficerList() {
     }
 
     public Admin_OfficerList(int adminID) {
         this.adminID = adminID;
-        adminController=new AdminViewController(adminID);
+        adminController = new AdminViewController(adminID);
     }
 
     @Override
@@ -333,7 +320,6 @@ public class Admin_OfficerList extends Application {
         S1 = stage;
     }
 
-   
     private void tableClickeEvent() {
         selectedColumn = table.getSelectionModel().getSelectedItems().get(0);
         nameField.setText(selectedColumn.getName());
@@ -348,9 +334,9 @@ public class Admin_OfficerList extends Application {
             Female.setSelected(true);
         }
         Area.getItems().clear();
-        
+
         Area.setValue(adminController.getAreaName(selectedColumn.getAreaID()));
-        
+
         ArrayList<String> areaNames = adminController.getAreasForComboBox();
         for (int i = 0; i < areaNames.size(); i++) {
             Area.getItems().add(areaNames.get(i));

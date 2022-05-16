@@ -1,16 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Model.Entities;
 
-import java.util.Date;
-
-/**
- *
- * @author PC
- */
 public class UserRequest {
 
     private int requestID;
@@ -28,7 +17,7 @@ public class UserRequest {
     private int userID;
     //RequestState,Address,City,Education,Phone,Email,memberID,DOB,DocName,AreaID,Sex,Occupation,userID)
 
-    public UserRequest(int requestID, String requestState,String name, String address, String education, String phone, String email, int memberID, String DOB, int areaID, String sex, String occupation, int userID) {
+    public UserRequest(int requestID, String requestState, String name, String address, String education, String phone, String email, int memberID, String DOB, int areaID, String sex, String occupation, int userID) {
         this.requestID = requestID;
         this.requestState = requestState;
         this.name = name;
@@ -44,7 +33,7 @@ public class UserRequest {
         this.userID = userID;
     }
 
-    public UserRequest(String requestState, String address,String name, String education, String phone, String email, String DOB, int areaID, String sex, String occupation, int userID) {
+    public UserRequest(String requestState, String address, String name, String education, String phone, String email, String DOB, int areaID, String sex, String occupation, int userID) {
         this.requestState = requestState;
         this.name = name;
         this.address = address;
@@ -75,9 +64,6 @@ public class UserRequest {
         this.occupation = occupation;
         this.userID = userID;
     }
-
-    
-    
 
     public void updateMember(Member member) {
 
@@ -118,8 +104,6 @@ public class UserRequest {
     public void setMemberID(int memberID) {
         this.memberID = memberID;
     }
-
-    
 
     public String getAddress() {
         return address;

@@ -1,19 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Model.Entities;
 
-/**
- *
- * @author PC
- */
 public class Area {
 
     private String areaName;
     private int areaID;
-    
+
     private int stateID;
 
     public Area(String areaName, int areaID, int stateID) {
@@ -29,7 +20,6 @@ public class Area {
     public void setStateID(int stateID) {
         this.stateID = stateID;
     }
-
 
     public int getAreaID() {
         return areaID;

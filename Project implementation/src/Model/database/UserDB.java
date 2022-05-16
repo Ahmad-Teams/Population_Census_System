@@ -1,14 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Model.database;
 
-import static Model.database.AdminDB.connect;
-import Model.Entities.Area;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -273,7 +265,7 @@ public class UserDB implements Observer {
         ArrayList<UserRequest> userRequests = new ArrayList<>();
         try (
                 Connection con = connect();
-                PreparedStatement p = con.prepareStatement("select * from UserRequest where userID = "+userID);) {
+                PreparedStatement p = con.prepareStatement("select * from UserRequest where userID = " + userID);) {
             {
                 ResultSet r = p.executeQuery();
                 while (r.next()) {      //return  one row of Area table 

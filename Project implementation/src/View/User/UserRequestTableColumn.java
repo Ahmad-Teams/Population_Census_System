@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package View.User;
 
-/**
- *
- * @author PC
- */
 public class UserRequestTableColumn {
 
     private String areaName;
@@ -25,7 +17,7 @@ public class UserRequestTableColumn {
     private String occupation;
     private int userID;
 
-    public UserRequestTableColumn(String name,String areaName, int requestID, String requestState, String address, String education, String phone, String email, int memberID, String DOB, int areaID, String sex, String occupation, int userID) {
+    public UserRequestTableColumn(String name, String areaName, int requestID, String requestState, String address, String education, String phone, String email, int memberID, String DOB, int areaID, String sex, String occupation, int userID) {
         this.name = name;
         this.areaName = areaName;
         this.requestID = requestID;
