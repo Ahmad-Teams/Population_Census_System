@@ -32,7 +32,7 @@ import View.login.Login;
  */
 public class View_Family_Members extends Application {
 
-    Stage S1;
+    Stage View_Family_Members;
     TableView<MemberTableColumn> table = new TableView();
     int userID;
     UserViewController userController;
@@ -49,13 +49,121 @@ public class View_Family_Members extends Application {
     @Override
     public void start(Stage stage) {
 
-        GridPane all = new GridPane();
-        all.setHgap(10);
+        GridPane allSections = new GridPane();
+        allSections.setHgap(10);
 
-// side btn section
-        VBox section1 = new VBox();
-        section1.setPrefSize(170, 500);
+        VBox leftSection = makeLeftSection();
 
+        makeLeftSwitchTap(leftSection);
+
+        VBox rightSection = makeRightSection();
+        Label rightSectionLable = makeRightSectionLable();
+
+        setTableDefauts();
+
+        TableColumn<MemberTableColumn, String> ID = new TableColumn<>("Member ID");
+        TableColumn<MemberTableColumn, String> name = new TableColumn<>("Name");
+        TableColumn<MemberTableColumn, String> address = new TableColumn<>("Address");
+        TableColumn<MemberTableColumn, String> education = new TableColumn("Education");
+        TableColumn<MemberTableColumn, String> sex = new TableColumn("Sex");
+        TableColumn<MemberTableColumn, String> occupation = new TableColumn("Occupation");
+        TableColumn<MemberTableColumn, String> email = new TableColumn("Email");
+        TableColumn<MemberTableColumn, String> phone = new TableColumn("phone");
+        TableColumn<MemberTableColumn, String> DOB = new TableColumn("Date Of Birth");
+        TableColumn<MemberTableColumn, String> area = new TableColumn("Area");
+
+        setColumnsValuesSources(ID, name, address, education, sex, occupation, email, phone, DOB, area);
+
+        setColumnsProperties(ID, name, address, education, sex, occupation, email, phone, DOB, area);
+
+        table.getColumns().addAll(ID, name, address, education, sex, occupation, email, phone, DOB, area);
+
+        table.setItems(userController.getMembers());
+
+        ScrollPane scrollPane = new ScrollPane();
+        addScrollPanetoTable(scrollPane);
+
+        rightSection.getChildren().addAll(rightSectionLable, scrollPane);
+
+        addToAllSections(allSections, leftSection, rightSection);
+        allSections.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#a5cee5"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        addStageToScene(allSections, stage);
+        
+        stage.setTitle("User Screen");
+        stage.setResizable(false);
+
+        stage.show();
+        View_Family_Members = stage;
+    }
+
+    protected void addStageToScene(GridPane allSections, Stage stage) {
+        Scene scene = new Scene(allSections, 800, 700);
+        stage.setScene(scene);
+    }
+
+    protected void addToAllSections(GridPane allSections, VBox leftSection, VBox rightSection) {
+        allSections.add(leftSection, 0, 0);
+        allSections.add(rightSection, 1, 0);
+    }
+
+    protected void addScrollPanetoTable(ScrollPane scrollPane) {
+        scrollPane.setContent(table);
+        scrollPane.pannableProperty().set(true);
+        scrollPane.fitToWidthProperty().set(true);
+        scrollPane.fitToHeightProperty().set(true);
+        scrollPane.setPrefHeight(400);
+        scrollPane.setMinWidth(600);
+        scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
+    }
+
+    protected void setColumnsProperties(TableColumn<MemberTableColumn, String> ID, TableColumn<MemberTableColumn, String> name, TableColumn<MemberTableColumn, String> address, TableColumn<MemberTableColumn, String> education, TableColumn<MemberTableColumn, String> sex, TableColumn<MemberTableColumn, String> occupation, TableColumn<MemberTableColumn, String> email, TableColumn<MemberTableColumn, String> phone, TableColumn<MemberTableColumn, String> DOB, TableColumn<MemberTableColumn, String> area) {
+        ID.setPrefWidth(100);
+        name.setPrefWidth(120);
+        address.setPrefWidth(120);
+        education.setPrefWidth(110);
+        sex.setPrefWidth(50);
+        occupation.setPrefWidth(100);
+        email.setPrefWidth(100);
+        phone.setPrefWidth(100);
+        DOB.setPrefWidth(100);
+        area.setPrefWidth(100);
+    }
+
+    protected void setColumnsValuesSources(TableColumn<MemberTableColumn, String> ID, TableColumn<MemberTableColumn, String> name, TableColumn<MemberTableColumn, String> address, TableColumn<MemberTableColumn, String> education, TableColumn<MemberTableColumn, String> sex, TableColumn<MemberTableColumn, String> occupation, TableColumn<MemberTableColumn, String> email, TableColumn<MemberTableColumn, String> phone, TableColumn<MemberTableColumn, String> DOB, TableColumn<MemberTableColumn, String> area) {
+        ID.setCellValueFactory(new PropertyValueFactory("memberID"));
+        name.setCellValueFactory(new PropertyValueFactory("name"));
+        address.setCellValueFactory(new PropertyValueFactory("address"));
+        education.setCellValueFactory(new PropertyValueFactory("education"));
+        sex.setCellValueFactory(new PropertyValueFactory("Sex"));
+        occupation.setCellValueFactory(new PropertyValueFactory("occupation"));
+        email.setCellValueFactory(new PropertyValueFactory("Email"));
+        phone.setCellValueFactory(new PropertyValueFactory("phone"));
+        DOB.setCellValueFactory(new PropertyValueFactory("DOB"));
+        area.setCellValueFactory(new PropertyValueFactory("areaName"));
+    }
+
+    protected void setTableDefauts() {
+        table.setEditable(true);
+        table.setMinHeight(1000);
+        table.setMinWidth(900);
+    }
+
+    protected Label makeRightSectionLable() {
+        Label rightSectionLable = new Label("Members");
+        rightSectionLable.setFont(Font.font("Garamond", FontWeight.BOLD, 30));
+        rightSectionLable.setPadding(new Insets(50, 0, 50, 200));
+        return rightSectionLable;
+    }
+
+    protected VBox makeRightSection() {
+        VBox section2 = new VBox();
+        section2.setPrefSize(530, 500);
+        return section2;
+    }
+
+    protected void makeLeftSwitchTap(VBox leftSection) {
         Button View_my_family = new Button("View My Family\n" + "Members");
         Button Make_request = new Button("Make a request\n" + "for Adding New\n" + "member");
         Button view_request = new Button("View Your\n" + "Requests");
@@ -68,7 +176,7 @@ public class View_Family_Members extends Application {
             @Override
             public void handle(ActionEvent even) {
                 View_Family_Members c2 = new View_Family_Members(userID);
-                S1.close();
+                View_Family_Members.close();
                 c2.start(new Stage());
             }
         });
@@ -80,7 +188,7 @@ public class View_Family_Members extends Application {
             @Override
             public void handle(ActionEvent even) {
                 Make_Request c2 = new Make_Request(userID);
-                S1.close();
+                View_Family_Members.close();
                 c2.start(new Stage());
             }
         });
@@ -92,7 +200,7 @@ public class View_Family_Members extends Application {
             @Override
             public void handle(ActionEvent even) {
                 View_Your_Request c2 = new View_Your_Request(userID);
-                S1.close();
+                View_Family_Members.close();
                 c2.start(new Stage());
             }
         });
@@ -104,7 +212,7 @@ public class View_Family_Members extends Application {
             @Override
             public void handle(ActionEvent even) {
                 View_Correction c2 = new View_Correction(userID);
-                S1.close();
+                View_Family_Members.close();
                 c2.start(new Stage());
             }
         });
@@ -117,91 +225,20 @@ public class View_Family_Members extends Application {
             @Override
             public void handle(ActionEvent even) {
                 Login c2 = new Login();
-                S1.close();
+                View_Family_Members.close();
                 c2.start(new Stage());
             }
         });
 
-        section1.getChildren().addAll(View_my_family, Make_request, view_request, View_Correction, Logout);
+        leftSection.getChildren().addAll(View_my_family, Make_request, view_request, View_Correction, Logout);
 //second section
-
-        VBox section2 = new VBox();
-        section2.setPrefSize(530, 500);
-        Label H = new Label("Members");
-        H.setFont(Font.font("Garamond", FontWeight.BOLD, 30));
-        H.setPadding(new Insets(50, 0, 50, 200));
-        table.setEditable(true);
-        TableColumn<MemberTableColumn, String> ID = new TableColumn<>("Member ID");
-        ID.setCellValueFactory(new PropertyValueFactory("memberID"));
-        ID.setPrefWidth(100);
-
-        TableColumn<MemberTableColumn, String> name = new TableColumn<>("Name");
-        name.setCellValueFactory(new PropertyValueFactory("name"));
-        name.setPrefWidth(120);
-
-        TableColumn<MemberTableColumn, String> address = new TableColumn<>("Address");
-        address.setCellValueFactory(new PropertyValueFactory("address"));
-        address.setPrefWidth(120);
-
-        TableColumn<MemberTableColumn, String> education = new TableColumn("Education");
-        education.setCellValueFactory(new PropertyValueFactory("education"));
-        education.setPrefWidth(110);
-
-        TableColumn<MemberTableColumn, String> sex = new TableColumn("Sex");
-        sex.setCellValueFactory(new PropertyValueFactory("Sex"));
-        sex.setPrefWidth(50);
-
-        TableColumn<MemberTableColumn, String> occupation = new TableColumn("Occupation");
-        occupation.setCellValueFactory(new PropertyValueFactory("occupation"));
-        occupation.setPrefWidth(100);
-
-        TableColumn<MemberTableColumn, String> email = new TableColumn("Email");
-        email.setCellValueFactory(new PropertyValueFactory("Email"));
-        email.setPrefWidth(100);
-
-        TableColumn<MemberTableColumn, String> phone = new TableColumn("phone");
-        phone.setCellValueFactory(new PropertyValueFactory("phone"));
-        phone.setPrefWidth(100);
-
-        TableColumn<MemberTableColumn, String> DOB = new TableColumn("Date Of Birth");
-        DOB.setCellValueFactory(new PropertyValueFactory("DOB"));
-        DOB.setPrefWidth(100);
-
-        TableColumn<MemberTableColumn, String> area = new TableColumn("Area");
-        area.setCellValueFactory(new PropertyValueFactory("areaName"));
-        area.setPrefWidth(100);
-
-        table.getColumns().addAll(ID, name, address, education, sex, occupation, email, phone, DOB, area);
-        table.setMinHeight(1000);
-        table.setMinWidth(900);
-        table.setItems(userController.getMembers());
-
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setContent(table);
-        scrollPane.pannableProperty().set(true);
-        scrollPane.fitToWidthProperty().set(true);
-        scrollPane.fitToHeightProperty().set(true);
-        scrollPane.setPrefHeight(400);
-        scrollPane.setMinWidth(600);
-        scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
-        scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
-        //section2.setPadding(new Insets(20, 0, 50, 50));
-        section2.getChildren().addAll(H, scrollPane);
-        // section2.setAlignment(Pos.CENTER);
-
-        all.add(section1, 0, 0);
-        all.add(section2, 1, 0);
-        all.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#a5cee5"), CornerRadii.EMPTY, Insets.EMPTY)));
-
-        Scene scene = new Scene(all, 800, 700);
-        stage.setScene(scene);
-        stage.setTitle("User Screen");
-        stage.setResizable(false);
-
-        stage.show();
-        S1 = stage;
     }
 
-   
+    protected VBox makeLeftSection() {
+        // side btn section
+        VBox leftSection = new VBox();
+        leftSection.setPrefSize(170, 500);
+        return leftSection;
+    }
 
 }
