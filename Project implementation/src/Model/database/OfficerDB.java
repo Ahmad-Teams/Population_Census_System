@@ -64,7 +64,6 @@ public class OfficerDB {
             p.setString(1, correctionRequest.getRequestTitle());
             p.setString(2, correctionRequest.getRequestContent());
             p.setInt(3, correctionRequest.getRequestID());
-
             p.execute();
         } catch (SQLException ee) {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here
@@ -77,7 +76,6 @@ public class OfficerDB {
         String inOrNotIn = hasdescendantsOrHasUsers ? "IN" : "NOT IN";
         String ASCOrDESC = ascendingOrder ? "ASC" : "DESC";
         String query = "SELECT * FROM User WHERE userID " + inOrNotIn + "(SELECT userID FROM Member) " + " AND officerID in (select officerID from Officer where adminID = " + adminID + " ) " + " ORDER BY " + SortByOption + "  " + ASCOrDESC;
-        System.out.println(query);
         try (
                 Connection con = connect(); PreparedStatement p = con.prepareStatement(query);) {
             {

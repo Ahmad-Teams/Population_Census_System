@@ -10,14 +10,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import Model.Entities.CorrectionRequest;
 import Model.Entities.Member;
-import Model.Entities.Observer;
 import Model.Entities.UserRequest;
 
 /**
  *
  * @author PC
  */
-public class UserDB implements Observer {
+public class UserDB {
 
     public static Connection connect() throws SQLException {
         try {
@@ -149,18 +148,19 @@ public class UserDB implements Observer {
 
     public static void updateUserRequest(UserRequest userRequest) {
         try (
-                Connection con = connect(); PreparedStatement p = con.prepareStatement("UPDATE UserRequest SET Name = ?,Address = ?, Education = ?,Phone = ?,Email=?,DOB=?,Sex=?,Occupation = ? where RequestID = ?");
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("UPDATE UserRequest SET Name = ?,RequestState = ?,Address = ?, Education = ?,Phone = ?,Email=?,DOB=?,Sex=?,Occupation = ? where RequestID = ?");
                 PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setString(1, userRequest.getName());
-            p.setString(2, userRequest.getAddress());
-            p.setString(3, userRequest.getEducation());
-            p.setString(4, userRequest.getPhone());
-            p.setString(5, userRequest.getEmail());
-            p.setString(6, userRequest.getDOB());
-            p.setString(7, userRequest.getSex());
-            p.setString(8, userRequest.getOccupation());
-            p.setInt(9, userRequest.getRequestID());
+            p.setString(2, userRequest.getRequestState());
+            p.setString(3, userRequest.getAddress());
+            p.setString(4, userRequest.getEducation());
+            p.setString(5, userRequest.getPhone());
+            p.setString(6, userRequest.getEmail());
+            p.setString(7, userRequest.getDOB());
+            p.setString(8, userRequest.getSex());
+            p.setString(9, userRequest.getOccupation());
+            p.setInt(10, userRequest.getRequestID());
 
             p.execute();
         } catch (SQLException ee) {
@@ -278,11 +278,6 @@ public class UserDB implements Observer {
         }
 
         return userRequests;
-    }
-
-    @Override
-    public void update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

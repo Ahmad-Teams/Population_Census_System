@@ -8,7 +8,6 @@ public class Officer extends Person {
     private int adminID;
     private String username;
     private String password;
-    private ArrayList<Observer> observers;
     private int areaID;
 
     public Officer(String phone, String Email, int officerID, String name, int areaID, String Sex, String username, String password, int adminID) {
@@ -34,10 +33,6 @@ public class Officer extends Person {
 
     public void setAreaID(int areaID) {
         this.areaID = areaID;
-    }
-
-    private void setObservers(ArrayList<Observer> observers) {
-        this.observers = observers;
     }
 
     public int getOfficerID() {
@@ -70,19 +65,6 @@ public class Officer extends Person {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void viewFamilyMember(ArrayList<FamilyMember> FamilyMembers) {
-
-    }
-
-    public void viewUserRequests(ArrayList<UserRequest> UserRequests) {
-
-    }
-
-    public ArrayList<Observer> viewUserRequests() {
-
-        return new ArrayList<Observer>();
     }
 
     public void notifyUpdate() {

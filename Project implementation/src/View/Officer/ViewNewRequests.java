@@ -39,18 +39,18 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class ViewNewRequests extends Application {
 
-    Stage S1;
+    Stage viewNewRequests;
     int officerID;
     TableView table = new TableView();
     Text t = new Text();
     OfficerViewController officerController;
     UserRequestTableColumn selectedColumn;
     boolean isSelectedColumnHasCorrectionRequest;
-    TextArea Correct = new TextArea();
-    TextField name_field = new TextField();
-    Label name2 = new Label("Title:       ");
-    Label name3 = new Label("Reason:       ");
-    VBox SEND = new VBox(10);
+    TextArea requestReason = new TextArea();
+    TextField requestTitle = new TextField();
+    Label requestTitleLable = new Label("Title:       ");
+    Label ruquestReasonLable = new Label("Reason:       ");
+    VBox SendButtonBox = new VBox(10);
     Button SendButton = new Button("Send");
 
     public ViewNewRequests() {
@@ -63,13 +63,294 @@ public class ViewNewRequests extends Application {
 
     @Override
     public void start(Stage stage) {
-        GridPane all = new GridPane();
-        all.setHgap(10);
+        GridPane allSections = new GridPane();
+        allSections.setHgap(10);
 
-// side btn section
-        VBox section1 = new VBox();
-        section1.setPrefSize(170, 500);
+        VBox leftSection = makeLeftSection();
 
+        MakeLeftSwitchTap(leftSection);
+
+        VBox RightSection = makeRightSection();
+
+        Label rightSectionTitle = makeRightSectionTitle();
+
+        setTableDefualts();
+
+        table.setOnMouseClicked(e -> {
+            tableClickeEvent();
+        });
+
+        TableColumn<UserRequestTableColumn, String> requestID = new TableColumn<>("Request ID");
+        TableColumn<UserRequestTableColumn, String> requestState = new TableColumn<>("Request State");
+        TableColumn<UserRequestTableColumn, String> ID = new TableColumn<>("Member ID");
+        TableColumn<UserRequestTableColumn, String> name = new TableColumn<>("Name");
+        TableColumn<UserRequestTableColumn, String> address = new TableColumn<>("Address");
+        TableColumn<UserRequestTableColumn, String> education = new TableColumn("Education");
+        TableColumn<UserRequestTableColumn, String> sex = new TableColumn("Sex");
+        TableColumn<UserRequestTableColumn, String> occupation = new TableColumn("Occupation");
+        TableColumn<UserRequestTableColumn, String> email = new TableColumn("Email");
+        TableColumn<UserRequestTableColumn, String> phone = new TableColumn("phone");
+        TableColumn<UserRequestTableColumn, String> DOB = new TableColumn("Date Of Birth");
+        TableColumn<UserRequestTableColumn, String> area = new TableColumn("Area");
+
+        setColumnsValuesSources(requestID, requestState, name, ID, address, education, sex, occupation, email, phone, DOB, area);
+
+        setColumnsProperties(address, requestID, requestState, ID, name, education, sex, occupation, email, phone, DOB, area);
+
+        table.getColumns().addAll(requestID, requestState, ID, name, address, education, sex, occupation, email, phone, DOB, area);
+        table.setItems(officerController.getPendingUserRequests());
+
+        ScrollPane scrollPane = new ScrollPane();
+        addScrollPaneToTable(scrollPane);
+
+        MakeCorrectionRequestForm(RightSection, rightSectionTitle, scrollPane);
+
+        addToAllSections(allSections, leftSection, RightSection);
+
+        allSections.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#a5cee5"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        addStageToScene(allSections, stage);
+
+        stage.setTitle("Officer Screen");
+        stage.setResizable(false);
+
+        stage.show();
+        viewNewRequests = stage;
+    }
+
+    protected VBox makeRightSection() {
+        //////////////////////////////////////
+        VBox RightSection = new VBox(6);
+        RightSection.setPrefSize(530, 400);
+        RightSection.setMinHeight(300);
+        return RightSection;
+    }
+
+    protected VBox makeLeftSection() {
+        // side btn section
+        VBox leftSection = new VBox();
+        leftSection.setPrefSize(170, 500);
+        return leftSection;
+    }
+
+    protected void MakeCorrectionRequestForm(VBox RightSection, Label rightSectionTitle, ScrollPane scrollPane) {
+        HBox correctionRequestLablesBox = new HBox();
+        correctionRequestLablesBox.setPadding(new Insets(30, 0, 0, 0));
+        correctionRequestLablesBox.setAlignment(Pos.CENTER);
+
+        setFormLablesDefaults();
+
+        setRequestTitleDefualts();
+        setRequestReasonDefaults();
+
+        correctionRequestLablesBox.getChildren().addAll(requestTitleLable, requestTitle);
+
+        //////////////////
+        HBox correctionRequest = new HBox();
+        correctionRequest.setPadding(new Insets(30, 0, 0, 0));
+        correctionRequest.setAlignment(Pos.CENTER);
+
+        correctionRequest.getChildren().addAll(ruquestReasonLable, requestReason);
+        setSendButton();
+        setSendButtonAction();
+
+        setSendButtonBox();
+        //////////////////////////////////////////////////////////////
+        HBox buttons = new HBox(100);
+        buttons.setPadding(new Insets(10, 0, 10, 130));
+
+        Button accept = makeAcceptButton();
+        setAcceptButtonAction(accept);
+
+        Button reject = makeRejectButton();
+        setRejectButtonAction(reject);
+        
+        buttons.getChildren().addAll(reject, accept);
+        RightSection.getChildren().addAll(rightSectionTitle, scrollPane, buttons, requestTitleLable, requestTitle, ruquestReasonLable, requestReason, SendButtonBox);
+    }
+
+    protected void setRequestReasonDefaults() {
+        requestReason.setPromptText("Message");
+        requestReason.setMaxHeight(220);
+        requestReason.setWrapText(true);
+        requestReason.setVisible(false);
+    }
+
+    protected void setRequestTitleDefualts() {
+        requestTitle.setPromptText("Title Of Correction Request  ");
+        requestTitle.setPrefSize(200, 40);
+        requestTitle.setVisible(false);
+    }
+
+    protected void setFormLablesDefaults() {
+        requestTitleLable.setFont(Font.font("arial", FontWeight.BOLD, 17));
+        requestTitleLable.setVisible(false);
+        ruquestReasonLable.setFont(Font.font("arial", FontWeight.BOLD, 17));
+        ruquestReasonLable.setVisible(false);
+    }
+
+    protected void setRejectButtonAction(Button reject) {
+        reject.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent even) {
+                if (tableNotEmpty()) {
+                    requestTitleLable.setVisible(true);
+                    requestTitle.setVisible(true);
+                    requestReason.setVisible(true);
+                    ruquestReasonLable.setVisible(true);
+                    SendButtonBox.setVisible(true);
+                    t.setVisible(false);
+                    SendButton.setVisible(true);
+                }
+            }
+        });
+    }
+
+    protected Button makeRejectButton() {
+        Button reject = new Button("Reject");
+        reject.setStyle("-fx-background-radius: 300px ;-fx-background-color:Red; ");
+        reject.setMinWidth(110);
+        reject.setFont(Font.font("tahoma", FontWeight.LIGHT, 16));
+        reject.setTextFill(javafx.scene.paint.Color.BLACK);
+        return reject;
+    }
+
+    protected void setAcceptButtonAction(Button accept) {
+        accept.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent even) {
+                if (tableNotEmpty()) {
+                    requestTitleLable.setVisible(false);
+                    requestTitle.setVisible(false);
+                    requestReason.setVisible(false);
+                    ruquestReasonLable.setVisible(false);
+                    SendButtonBox.setVisible(false);
+                    t.setVisible(false);
+                    SendButton.setVisible(false);
+                    officerController.updateStateOfUserRequestToAccepted(selectedColumn.getRequestID());
+                    tableClickeEvent();
+                    table.setItems(officerController.getPendingUserRequests());
+                    if (isSelectedColumnHasCorrectionRequest) {
+                        officerController.deleteCorrectionRequest(selectedColumn.getRequestID());
+                    }
+                }
+            }
+        });
+    }
+
+    protected Button makeAcceptButton() {
+        Button accept = new Button("Accept");
+        accept.setStyle("-fx-background-radius: 300px ;-fx-background-color:Orange;");
+        accept.setMinWidth(110);
+        accept.setFont(Font.font("tahoma", FontWeight.LIGHT, 16));
+        accept.setTextFill(javafx.scene.paint.Color.BLACK);
+        return accept;
+    }
+
+    protected void setSendButtonBox() {
+        SendButtonBox.setPadding(new Insets(0, 0, 0, 230));
+        SendButtonBox.getChildren().addAll(t, SendButton);
+        SendButtonBox.setVisible(false);
+    }
+
+    protected void setSendButtonAction() {
+        SendButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent even) {
+                t.setText("Correction Request sent!");
+                t.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.ITALIC, 20));
+                if (isSelectedColumnHasCorrectionRequest) {
+                    officerController.updateCorrectionRequest(selectedColumn.getRequestID(), requestTitle.getText(), requestReason.getText());
+                    tableClickeEvent();
+                } else {
+                    officerController.makeCorrectionRequest(selectedColumn.getRequestID(), selectedColumn.getUserID(), officerID, requestTitle.getText(), requestReason.getText());
+                }
+                officerController.updateStateOfUserRequestToRejected(selectedColumn.getRequestID());
+                table.setItems(officerController.getPendingUserRequests());
+                requestTitleLable.setVisible(false);
+                requestTitle.setVisible(false);
+                requestReason.setVisible(false);
+                ruquestReasonLable.setVisible(false);
+                SendButton.setVisible(false);
+                t.setVisible(true);
+            }
+        });
+    }
+
+    protected void setSendButton() {
+        ///////////////////////////////////////////////////////////////////////////////////////
+        SendButton.setFont(Font.font("tahoma", FontWeight.LIGHT, 16));
+        SendButton.setTextFill(javafx.scene.paint.Color.BLACK);
+        SendButton.setStyle("-fx-background-radius: 300px ;");
+        SendButton.setMinWidth(120);
+    }
+
+    protected void addStageToScene(GridPane allSections, Stage stage) {
+        Scene scene = new Scene(allSections, 800, 775);
+        stage.setScene(scene);
+    }
+
+    protected void addToAllSections(GridPane allSections, VBox leftSection, VBox RightSection) {
+        allSections.add(leftSection, 0, 0);
+        allSections.add(RightSection, 1, 0);
+    }
+
+    protected void addScrollPaneToTable(ScrollPane scrollPane) {
+        scrollPane.setContent(table);
+        scrollPane.pannableProperty().set(true);
+        scrollPane.fitToWidthProperty().set(true);
+        scrollPane.fitToHeightProperty().set(true);
+        scrollPane.setPrefHeight(300);
+        scrollPane.setMaxWidth(900);
+        scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
+    }
+
+    protected void setColumnsProperties(TableColumn<UserRequestTableColumn, String> address, TableColumn<UserRequestTableColumn, String> requestID, TableColumn<UserRequestTableColumn, String> requestState, TableColumn<UserRequestTableColumn, String> ID, TableColumn<UserRequestTableColumn, String> name, TableColumn<UserRequestTableColumn, String> education, TableColumn<UserRequestTableColumn, String> sex, TableColumn<UserRequestTableColumn, String> occupation, TableColumn<UserRequestTableColumn, String> email, TableColumn<UserRequestTableColumn, String> phone, TableColumn<UserRequestTableColumn, String> DOB, TableColumn<UserRequestTableColumn, String> area) {
+        address.setPrefWidth(120);
+        requestID.setPrefWidth(80);
+        requestState.setPrefWidth(100);
+        ID.setPrefWidth(80);
+        name.setPrefWidth(120);
+        education.setPrefWidth(110);
+        sex.setPrefWidth(50);
+        occupation.setPrefWidth(100);
+        email.setPrefWidth(100);
+        phone.setPrefWidth(100);
+        DOB.setPrefWidth(100);
+        area.setPrefWidth(100);
+    }
+
+    protected void setColumnsValuesSources(TableColumn<UserRequestTableColumn, String> requestID, TableColumn<UserRequestTableColumn, String> requestState, TableColumn<UserRequestTableColumn, String> name, TableColumn<UserRequestTableColumn, String> ID, TableColumn<UserRequestTableColumn, String> address, TableColumn<UserRequestTableColumn, String> education, TableColumn<UserRequestTableColumn, String> sex, TableColumn<UserRequestTableColumn, String> occupation, TableColumn<UserRequestTableColumn, String> email, TableColumn<UserRequestTableColumn, String> phone, TableColumn<UserRequestTableColumn, String> DOB, TableColumn<UserRequestTableColumn, String> area) {
+        requestID.setCellValueFactory(new PropertyValueFactory("requestID"));
+        requestState.setCellValueFactory(new PropertyValueFactory("requestState"));
+        name.setCellValueFactory(new PropertyValueFactory("name"));
+        ID.setCellValueFactory(new PropertyValueFactory("memberID"));
+        address.setCellValueFactory(new PropertyValueFactory("address"));
+        education.setCellValueFactory(new PropertyValueFactory("education"));
+        sex.setCellValueFactory(new PropertyValueFactory("Sex"));
+        occupation.setCellValueFactory(new PropertyValueFactory("occupation"));
+        email.setCellValueFactory(new PropertyValueFactory("Email"));
+        phone.setCellValueFactory(new PropertyValueFactory("phone"));
+        DOB.setCellValueFactory(new PropertyValueFactory("DOB"));
+        area.setCellValueFactory(new PropertyValueFactory("areaName"));
+    }
+
+    protected void setTableDefualts() {
+        table.setEditable(true);
+        table.setMinHeight(1400);
+        table.setMaxHeight(300);
+        table.setMinWidth(1150);
+    }
+
+    protected Label makeRightSectionTitle() {
+        Label rightSectionTitle = new Label("New Requests");
+        rightSectionTitle.setFont(Font.font("Garamond", FontWeight.BOLD, 30));
+        rightSectionTitle.setPadding(new Insets(5, 0, 0, 180));
+        return rightSectionTitle;
+    }
+
+    protected void MakeLeftSwitchTap(VBox leftSection) {
         Button View_my_family = new Button("Add User");
         Button View_Correction = new Button("   View New \n"
                 + "User Request");
@@ -82,7 +363,7 @@ public class ViewNewRequests extends Application {
             @Override
             public void handle(ActionEvent even) {
                 AddUser c2 = new AddUser(officerID);
-                S1.close();
+                viewNewRequests.close();
                 c2.start(new Stage());
             }
         });
@@ -93,7 +374,7 @@ public class ViewNewRequests extends Application {
             @Override
             public void handle(ActionEvent even) {
                 ViewNewRequests c2 = new ViewNewRequests(officerID);
-                S1.close();
+                viewNewRequests.close();
                 c2.start(new Stage());
             }
         });
@@ -106,227 +387,44 @@ public class ViewNewRequests extends Application {
             @Override
             public void handle(ActionEvent even) {
                 Login c2 = new Login();
-                S1.close();
+                viewNewRequests.close();
                 c2.start(new Stage());
             }
         });
 
-        section1.getChildren().addAll(View_my_family, View_Correction, Logout);
-
-        //////////////////////////////////////
-        VBox section2 = new VBox(6);
-        section2.setPrefSize(530, 400);
-        section2.setMinHeight(300);
-        Label H = new Label("New Requests");
-        H.setFont(Font.font("Garamond", FontWeight.BOLD, 30));
-        H.setPadding(new Insets(5, 0, 0, 180));
-        table.setEditable(true);
-        table.setMinHeight(1400);
-        table.setMinWidth(860);
-        table.setOnMouseClicked(e -> {
-            tableClickeEvent();
-        });
-        TableColumn<UserRequestTableColumn, String> requestID = new TableColumn<>("Request ID");
-        requestID.setCellValueFactory(new PropertyValueFactory("requestID"));
-        requestID.setPrefWidth(80);
-
-        TableColumn<UserRequestTableColumn, String> requestState = new TableColumn<>("Request State");
-        requestState.setCellValueFactory(new PropertyValueFactory("requestState"));
-        requestState.setPrefWidth(100);
-
-        TableColumn<UserRequestTableColumn, String> ID = new TableColumn<>("Member ID");
-        ID.setCellValueFactory(new PropertyValueFactory("memberID"));
-        ID.setPrefWidth(80);
-
-        TableColumn<UserRequestTableColumn, String> name = new TableColumn<>("Name");
-        name.setCellValueFactory(new PropertyValueFactory("name"));
-        name.setPrefWidth(120);
-
-        TableColumn<UserRequestTableColumn, String> address = new TableColumn<>("Address");
-        address.setCellValueFactory(new PropertyValueFactory("address"));
-        address.setPrefWidth(120);
-
-        TableColumn<UserRequestTableColumn, String> education = new TableColumn("Education");
-        education.setCellValueFactory(new PropertyValueFactory("education"));
-        education.setPrefWidth(110);
-
-        TableColumn<UserRequestTableColumn, String> sex = new TableColumn("Sex");
-        sex.setCellValueFactory(new PropertyValueFactory("Sex"));
-        sex.setPrefWidth(50);
-
-        TableColumn<UserRequestTableColumn, String> occupation = new TableColumn("Occupation");
-        occupation.setCellValueFactory(new PropertyValueFactory("occupation"));
-        occupation.setPrefWidth(100);
-
-        TableColumn<UserRequestTableColumn, String> email = new TableColumn("Email");
-        email.setCellValueFactory(new PropertyValueFactory("Email"));
-        email.setPrefWidth(100);
-
-        TableColumn<UserRequestTableColumn, String> phone = new TableColumn("phone");
-        phone.setCellValueFactory(new PropertyValueFactory("phone"));
-        phone.setPrefWidth(100);
-
-        TableColumn<UserRequestTableColumn, String> DOB = new TableColumn("Date Of Birth");
-        DOB.setCellValueFactory(new PropertyValueFactory("DOB"));
-        DOB.setPrefWidth(100);
-
-        TableColumn<UserRequestTableColumn, String> area = new TableColumn("Area");
-        area.setCellValueFactory(new PropertyValueFactory("areaName"));
-        area.setPrefWidth(100);
-
-        table.getColumns().addAll(requestID, requestState, ID, name, address, education, sex, occupation, email, phone, DOB, area);
-        table.setMaxHeight(300);
-        table.setMinWidth(1150);
-        table.setItems(officerController.getPendingUserRequests());
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setContent(table);
-        scrollPane.pannableProperty().set(true);
-        scrollPane.fitToWidthProperty().set(true);
-        scrollPane.fitToHeightProperty().set(true);
-        scrollPane.setPrefHeight(300);
-        scrollPane.setMaxWidth(900);
-        //scrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
-        scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
-        //////////////////////////////////////////////////////////////////////////////////
-        HBox h_name = new HBox();
-        h_name.setPadding(new Insets(30, 0, 0, 0));
-        h_name.setAlignment(Pos.CENTER);
-
-        name2.setFont(Font.font("arial", FontWeight.BOLD, 17));
-        name2.setVisible(false);
-
-        name_field.setPromptText("Title Of Correction Request  ");
-        name_field.setPrefSize(200, 40);
-        name_field.setVisible(false);
-
-        h_name.getChildren().addAll(name2, name_field);
-
-        //////////////////
-        HBox h_name2 = new HBox();
-        h_name2.setPadding(new Insets(30, 0, 0, 0));
-        h_name2.setAlignment(Pos.CENTER);
-        name3.setFont(Font.font("arial", FontWeight.BOLD, 17));
-        //Correct.setStyle("-fx-background-radius: 30px ;");
-        Correct.setPromptText("Message");
-        Correct.setMaxHeight(220);
-        Correct.setWrapText(true);
-        Correct.setVisible(false);
-        name3.setVisible(false);
-        h_name2.getChildren().addAll(name3, Correct);
-        ///////////////////////////////////////////////////////////////////////////////////////
-        SendButton.setFont(Font.font("tahoma", FontWeight.LIGHT, 16));
-        SendButton.setTextFill(javafx.scene.paint.Color.BLACK);
-        SendButton.setStyle("-fx-background-radius: 300px ;");
-        SendButton.setMinWidth(120);
-        SendButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent even) {
-
-                t.setText("Correction Request sent!");
-                t.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.ITALIC, 20));
-                if (isSelectedColumnHasCorrectionRequest) {
-                    officerController.updateCorrectionRequest(selectedColumn.getRequestID(), name_field.getText(), Correct.getText());
-                    tableClickeEvent();
-                } else {
-                    officerController.makeCorrectionRequest(selectedColumn.getRequestID(), selectedColumn.getUserID(), officerID, name_field.getText(), Correct.getText());
-                }
-                officerController.updateStateOfUserRequestToRejected(selectedColumn.getRequestID());
-                table.setItems(officerController.getPendingUserRequests());
-                name2.setVisible(false);
-                name_field.setVisible(false);
-                Correct.setVisible(false);
-                name3.setVisible(false);
-                SendButton.setVisible(false);
-                t.setVisible(true);
-            }
-        });
-        SEND.setPadding(new Insets(0, 0, 0, 230));
-        SEND.getChildren().addAll(t, SendButton);
-        SEND.setVisible(false);
-        //////////////////////////////////////////////////////////////
-        HBox B = new HBox(100);
-        B.setPadding(new Insets(10, 0, 10, 130));
-        Button reject = new Button("Reject");
-        Button accept = new Button("Accept");
-        reject.setStyle("-fx-background-radius: 300px ;-fx-background-color:Red; ");
-        accept.setStyle("-fx-background-radius: 300px ;-fx-background-color:Orange;");
-        reject.setMinWidth(110);
-        accept.setMinWidth(110);
-        reject.setFont(Font.font("tahoma", FontWeight.LIGHT, 16));
-        reject.setTextFill(javafx.scene.paint.Color.BLACK);
-        accept.setFont(Font.font("tahoma", FontWeight.LIGHT, 16));
-        accept.setTextFill(javafx.scene.paint.Color.BLACK);
-        accept.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent even) {
-                name2.setVisible(false);
-                name_field.setVisible(false);
-                Correct.setVisible(false);
-                name3.setVisible(false);
-                SEND.setVisible(false);
-                t.setVisible(false);
-                SendButton.setVisible(false);
-                officerController.updateStateOfUserRequestToAccepted(selectedColumn.getRequestID());
-                tableClickeEvent();
-                table.setItems(officerController.getPendingUserRequests());
-                if (isSelectedColumnHasCorrectionRequest) {
-                    officerController.deleteCorrectionRequest(selectedColumn.getRequestID());
-                }
-            }
-        });
-        reject.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent even) {
-                name2.setVisible(true);
-                name_field.setVisible(true);
-                Correct.setVisible(true);
-                name3.setVisible(true);
-                SEND.setVisible(true);
-                t.setVisible(false);
-                SendButton.setVisible(true);
-            }
-        });
-        B.getChildren().addAll(reject, accept);
-        section2.getChildren().addAll(H, scrollPane, B, name2, name_field, name3, Correct, SEND);
-        //////////////////////////////////////
-        all.add(section1, 0, 0);
-        all.add(section2, 1, 0);
-        all.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#a5cee5"), CornerRadii.EMPTY, Insets.EMPTY)));
-
-        Scene scene = new Scene(all, 800, 775);
-        stage.setScene(scene);
-        stage.setTitle("Officer Screen");
-        stage.setResizable(false);
-
-        stage.show();
-        S1 = stage;
+        leftSection.getChildren().addAll(View_my_family, View_Correction, Logout);
     }
 
-   
     private void tableClickeEvent() {
-        selectedColumn = (UserRequestTableColumn) table.getSelectionModel().getSelectedItems().get(0);
-        isSelectedColumnHasCorrectionRequest = officerController.checkSelectedColumnHasCorrectionRequest(selectedColumn.getRequestID());
-        if (isSelectedColumnHasCorrectionRequest) {
-            officerController.setTitleAndReasonOfCorrectionRequest(this.name_field, this.Correct, selectedColumn.getRequestID());
-            name2.setVisible(true);
-            name_field.setVisible(true);
-            Correct.setVisible(true);
-            name3.setVisible(true);
-            SEND.setVisible(true);
-            t.setVisible(false);
-            SendButton.setVisible(true);
-        } else {
-            officerController.setTitleAndReasonOfCorrectionRequest(this.name_field, this.Correct, selectedColumn.getRequestID());
-            name2.setVisible(false);
-            name_field.setVisible(false);
-            Correct.setVisible(false);
-            name3.setVisible(false);
-            SEND.setVisible(false);
-            t.setVisible(false);
-            SendButton.setVisible(false);
-            name_field.setText("");
-            Correct.setText("");
+        if (tableNotEmpty()) {
+            selectedColumn = (UserRequestTableColumn) table.getSelectionModel().getSelectedItems().get(0);
+            isSelectedColumnHasCorrectionRequest = officerController.checkSelectedColumnHasCorrectionRequest(selectedColumn.getRequestID());
+            if (isSelectedColumnHasCorrectionRequest) {
+                officerController.setTitleAndReasonOfCorrectionRequest(this.requestTitle, this.requestReason, selectedColumn.getRequestID());
+                requestTitleLable.setVisible(true);
+                requestTitle.setVisible(true);
+                requestReason.setVisible(true);
+                ruquestReasonLable.setVisible(true);
+                SendButtonBox.setVisible(true);
+                t.setVisible(false);
+                SendButton.setVisible(true);
+            } else {
+                officerController.setTitleAndReasonOfCorrectionRequest(this.requestTitle, this.requestReason, selectedColumn.getRequestID());
+                requestTitleLable.setVisible(false);
+                requestTitle.setVisible(false);
+                requestReason.setVisible(false);
+                ruquestReasonLable.setVisible(false);
+                SendButtonBox.setVisible(false);
+                t.setVisible(false);
+                SendButton.setVisible(false);
+                requestTitle.setText("");
+                requestReason.setText("");
+            }
         }
+    }
+
+    private boolean tableNotEmpty() {
+        return table.getItems().size() != 0;
     }
 
 }

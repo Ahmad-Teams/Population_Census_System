@@ -31,6 +31,8 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import Controller.LoginViewController;
 import javafx.scene.control.Alert;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 /**
  *
@@ -38,79 +40,76 @@ import javafx.scene.control.Alert;
  */
 public class Login extends Application {
 
-    Stage S1;
+    Stage loginStage;
     String userName;
     String password;
     LoginViewController loginController = new LoginViewController();
 
     @Override
     public void start(Stage primaryStage) {
-        //create login title
 
-        GridPane gp = new GridPane();
+        GridPane allSections = new GridPane();
+
         ////////////////////////////////////////
-        Pane v1 = new Pane();
-        v1.setPrefSize(400, 700);
-        ImageView imgv = new ImageView("Images/members.png");
-        imgv.setFitWidth(250);
-        imgv.setFitHeight(150);
-        imgv.setLayoutY(90);
-        imgv.setLayoutX(40);
-        Label wel = new Label("Welcome to");
-        wel.setLayoutY(220);
-        wel.setLayoutX(95);
-        wel.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 22));
-        wel.setTextFill(Color.WHITE);
-        Label l2 = new Label("Population_Census_System -->");
-        l2.setLayoutY(248);
-        l2.setFont(Font.font("Arial", FontWeight.BOLD, 21));
-        l2.setPadding(new Insets(0, 0, 0, 0));
-        l2.setLayoutX(4);
-        l2.setTextFill(Color.WHITE);
-        v1.getChildren().addAll(wel, l2, imgv);
-        v1.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-        v1.setBackground(new Background(new BackgroundFill(Color.web("#2596be"), CornerRadii.EMPTY, Insets.EMPTY)));
-        gp.add(v1, 0, 0);
-        /////////////////////////////////////////////
-        Pane v2 = new Pane();
-        v2.setPadding(new Insets(0, 10, 0, 30));
-        v2.setPrefSize(450, 700);
-        ImageView img = new ImageView("Images/240_F_31331324_bqXgqwmlnnXaOeXwFv8CrO6oMHpAKPum.jpg");
-        img.setFitWidth(300);
-        img.setFitHeight(100);
-        img.setLayoutY(40);
-        img.setLayoutX(25);
-        v2.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.NONE, CornerRadii.EMPTY, new BorderWidths(2))));
-        v2.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-        /////////////////////////////////////////////
-        Label email = new Label("Email");
-        email.setLayoutY(150);
-        email.setLayoutX(25);
-        email.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 17));
-        TextField userName_field = new TextField();
-        userName_field.setStyle("-fx-background-radius: 30px ;");
-        userName_field.setPromptText("Email");
-        userName_field.setLayoutY(180);
-        userName_field.setLayoutX(25);
-        userName_field.setPrefWidth(330);
+        Pane leftSection = new Pane();
+        leftSection.setPrefSize(400, 700);
+        ImageView WelcomImage = makeWelcomeImage();
+        Label firstPartLable = makeFirstPartLable();
+        Label secondPartLable = makeSecondPartLable();
 
+        leftSection.getChildren().addAll(firstPartLable, secondPartLable, WelcomImage);
+        setLeftSectionProperties(leftSection);
+        allSections.add(leftSection, 0, 0);
+
+        ///////////////////////////////////////
+        Pane rightSection = makeRightSection();
+
+        ImageView LoginImage = makeLoginImage();
+        /////////////////////////////////////////////
+        Label email = makeLable("Email");
+
+        TextField userName_field = makeUsernameField();
+
+        Label pass = makePasswordLable();
+
+        PasswordField password_Field = makePasswordField();
+
+        Button login = makeLoginButton();
+
+        setLoginButtonAction(login, userName_field, password_Field);
+
+        rightSection.getChildren().addAll(email, userName_field, pass, password_Field, login, LoginImage);
+        allSections.add(rightSection, 1, 0);
+
+        Scene LoginScene = new Scene(allSections, 700, 500);
+        primaryStage.setScene(LoginScene);
+        LoginScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent key) {
+                if(key.getCode().equals(KeyCode.ENTER)){
+                    login.fire();
+                }
+            }
+
+        });
+        
+        primaryStage.setTitle("Login Screen");
+        primaryStage.setResizable(false);
+
+        primaryStage.show();
+        loginStage = primaryStage;
+    }
+
+    protected Label makePasswordLable() {
         Label pass = new Label("Password");
         pass.setLayoutY(240);
         pass.setLayoutX(25);
         pass.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 17));
-        PasswordField password_Field = new PasswordField();
-        password_Field.setStyle("-fx-background-radius: 30px ;");
-        password_Field.setPromptText("Password");
-        password_Field.setLayoutY(270);
-        password_Field.setLayoutX(25);
-        password_Field.setPrefWidth(330);
+        return pass;
+    }
 
-        Button log = new Button("Login");
-        log.setStyle("-fx-background-radius: 300px ;");
-        log.setLayoutY(320);
-        log.setLayoutX(135);
-        log.setPrefWidth(100);
-        log.setOnAction(new EventHandler<ActionEvent>() {
+    protected void setLoginButtonAction(Button login, TextField userName_field, PasswordField password_Field) {
+        login.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
                 userName = userName_field.getText();
@@ -118,7 +117,7 @@ public class Login extends Application {
                 boolean userExsist = loginController.checkIfUserExsist(userName, password);
                 if (userExsist) {
                     loginController.openSystemUserAccount(userName, password);
-                    S1.close();
+                    loginStage.close();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("User Not Found");
@@ -128,15 +127,96 @@ public class Login extends Application {
             }
 
         });
-        v2.getChildren().addAll(email, userName_field, pass, password_Field, log, img);
-        gp.add(v2, 1, 0);
+    }
 
-        Scene scene = new Scene(gp, 700, 500);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Login Screen");
-        primaryStage.setResizable(false);
-        primaryStage.show();
-        S1 = primaryStage;
+    protected Button makeLoginButton() {
+        Button login = new Button("Login");
+        login.setStyle("-fx-background-radius: 300px ;");
+        login.setLayoutY(320);
+        login.setLayoutX(135);
+        login.setPrefWidth(100);
+        return login;
+    }
+
+    protected PasswordField makePasswordField() {
+        PasswordField password_Field = new PasswordField();
+        password_Field.setStyle("-fx-background-radius: 30px ;");
+        password_Field.setPromptText("Password");
+        password_Field.setLayoutY(270);
+        password_Field.setLayoutX(25);
+        password_Field.setPrefWidth(330);
+        return password_Field;
+    }
+
+    protected TextField makeUsernameField() {
+        TextField userName_field = new TextField();
+        userName_field.setStyle("-fx-background-radius: 30px ;");
+        userName_field.setPromptText("Email");
+        userName_field.setLayoutY(180);
+        userName_field.setLayoutX(25);
+        userName_field.setPrefWidth(330);
+        return userName_field;
+    }
+
+    private Label makeLable(String textInsideLable) {
+        Label lable = new Label(textInsideLable);
+        lable.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 17));
+        lable.setLayoutY(150);
+        lable.setLayoutX(25);
+        return lable;
+
+    }
+
+    protected ImageView makeLoginImage() {
+        ImageView LoginImage = new ImageView("Images/240_F_31331324_bqXgqwmlnnXaOeXwFv8CrO6oMHpAKPum.jpg");
+        LoginImage.setFitWidth(300);
+        LoginImage.setFitHeight(100);
+        LoginImage.setLayoutY(40);
+        LoginImage.setLayoutX(25);
+        return LoginImage;
+    }
+
+    protected Pane makeRightSection() {
+        /////////////////////////////////////////////
+        Pane rightSection = new Pane();
+        rightSection.setPadding(new Insets(0, 10, 0, 30));
+        rightSection.setPrefSize(450, 700);
+        rightSection.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.NONE, CornerRadii.EMPTY, new BorderWidths(2))));
+        rightSection.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        return rightSection;
+    }
+
+    protected void setLeftSectionProperties(Pane leftSection) {
+        leftSection.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        leftSection.setBackground(new Background(new BackgroundFill(Color.web("#2596be"), CornerRadii.EMPTY, Insets.EMPTY)));
+    }
+
+    protected Label makeSecondPartLable() {
+        Label secondPartLable = new Label("Population_Census_System -->");
+        secondPartLable.setLayoutY(248);
+        secondPartLable.setFont(Font.font("Arial", FontWeight.BOLD, 21));
+        secondPartLable.setPadding(new Insets(0, 0, 0, 0));
+        secondPartLable.setLayoutX(4);
+        secondPartLable.setTextFill(Color.WHITE);
+        return secondPartLable;
+    }
+
+    protected Label makeFirstPartLable() {
+        Label firstPartLable = new Label("Welcome to");
+        firstPartLable.setLayoutY(220);
+        firstPartLable.setLayoutX(95);
+        firstPartLable.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.ITALIC, 22));
+        firstPartLable.setTextFill(Color.WHITE);
+        return firstPartLable;
+    }
+
+    protected ImageView makeWelcomeImage() {
+        ImageView image = new ImageView("Images/members.png");
+        image.setFitWidth(250);
+        image.setFitHeight(150);
+        image.setLayoutY(90);
+        image.setLayoutX(40);
+        return image;
     }
 
 }

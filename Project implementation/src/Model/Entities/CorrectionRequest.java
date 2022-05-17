@@ -77,10 +77,12 @@ public class CorrectionRequest {
         this.requestContent = requestContent;
     }
 
-    public CorrectionRequest(int userRequestID, String requestTitle, String requestContent) {
-        this.userRequestID = userRequestID;
+    public CorrectionRequest(int requestID, String requestTitle, String requestContent) {
+        this.requestID = requestID;
         this.requestTitle = requestTitle;
         this.requestContent = requestContent;
     }
+
+   
 
 }

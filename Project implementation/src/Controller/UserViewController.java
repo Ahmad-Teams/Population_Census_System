@@ -60,7 +60,6 @@ public class UserViewController {
     }
 
     public void updateUserRequest(UserRequestTableColumn UserRequest, String name, String sex, String Occupation, String address, String education, String date, String email, String phone, String Sex) {
-        UserDB.updateUserRequest(new UserRequest(UserRequest.getRequestID(), UserRequest.getRequestState(), name, address, education, phone, email, UserRequest.getMemberID(), date, UserRequest.getAreaID(), Sex, Occupation, UserRequest.getUserID()));
+        UserDB.updateUserRequest(new UserRequest(UserRequest.getRequestID(), "Pending", name, address, education, phone, email, UserRequest.getMemberID(), date, UserRequest.getAreaID(), Sex, Occupation, UserRequest.getUserID()));
     }
-
 }

@@ -1,7 +1,6 @@
 package View.Admin;
 
 import Controller.AdminViewController;
-import View.Admin.Make_Report;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -23,7 +22,6 @@ import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -37,7 +35,7 @@ import View.login.Login;
  */
 public class Admin_AddOfficer extends Application {
 
-    Stage S1;
+    Stage addOfficer;
     int adminID;
     AdminViewController adminController;
 
@@ -51,12 +49,214 @@ public class Admin_AddOfficer extends Application {
 
     @Override
     public void start(Stage stage) {
-        HBox all = new HBox();
+        HBox stageSections = new HBox();
 
-// side btn section
-        VBox section1 = new VBox();
-        section1.setPrefSize(170, 500);
+        VBox leftSection = makeLeftSection();
 
+        MakeSwitchTap(leftSection);
+
+        VBox rightSection = makeRightSection();
+
+        MakeAddOfficerForm(rightSection);
+
+        addAllSections(stageSections, leftSection, rightSection);
+
+        addSectionsToScene(stageSections, stage);
+
+        stage.setTitle("Admin Screen");
+        stage.setResizable(false);
+
+        stage.show();
+        addOfficer = stage;
+    }
+
+    protected void addSectionsToScene(HBox stageSections, Stage stage) {
+        Scene scene = new Scene(stageSections, 800, 700);
+        stage.setScene(scene);
+    }
+
+    protected void addAllSections(HBox stageSections, VBox leftSection, VBox rightSection) {
+        stageSections.getChildren().addAll(leftSection, rightSection);
+        stageSections.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#a5cee5"), CornerRadii.EMPTY, Insets.EMPTY)));
+    }
+
+    protected VBox makeRightSection() {
+        VBox rightSection = new VBox();
+        rightSection.setAlignment(Pos.TOP_CENTER);
+        rightSection.setPrefSize(530, 500);
+        return rightSection;
+    }
+
+    protected VBox makeLeftSection() {
+        VBox leftSection = new VBox();
+        leftSection.setPrefSize(170, 500);
+        return leftSection;
+    }
+
+    protected void MakeAddOfficerForm(VBox rightSection) {
+        //Name Box
+        Label rightSectionTitle = setStageTitle();
+        HBox nameBox = MakeBox();
+        Label name = MakeLable("NAME       ");
+        TextField name_field = MakeTextFeild("Officer name  ");
+        nameBox.getChildren().addAll(name, name_field);
+
+        //sex box
+        HBox sexBox = MakeBox();
+        Label sex = MakeLable("SEX\t \t ");
+        RadioButton male = MakeMaleButton();
+        RadioButton female = MakeFemaleButton();
+        sexBox.getChildren().addAll(sex, male, female);
+        addToToggleSection(male, female);
+        
+        //area box
+        HBox areaBox = MakeBox();
+        Label area = MakeLable("Area       ");
+        ComboBox areaComboBox = new ComboBox();
+        FillAreaComboBox(areaComboBox);
+        areaBox.getChildren().addAll(area, areaComboBox);
+
+        //email box
+        HBox emailBox = MakeBox();
+        Label Email = MakeLable("Email       ");
+        TextField Email_field = MakeTextFeild("Officer Email  ");
+        emailBox.getChildren().addAll(Email, Email_field);
+
+        //phone box
+        HBox phoneBox = MakeBox();
+        Label phone = MakeLable("Phone       ");
+        TextField phone_field = MakeTextFeild("Officer Phone number  ");
+        phoneBox.getChildren().addAll(phone, phone_field);
+
+        //user name field
+        HBox usernameBox = MakeBox();
+        Label user_name = MakeLable("User Name");
+        TextField user_name_field = MakeTextFeild("Officer user name");
+        usernameBox.getChildren().addAll(user_name, user_name_field);
+
+        //password field
+        HBox passwordBox = MakeBox();
+        Label pass = MakeLable("password");
+        PasswordField pass_field = MakePasswordFeild("Officer Password");
+        passwordBox.getChildren().addAll(pass, pass_field);
+        
+//button field
+
+        HBox add_officer_btn_Box = new HBox(100);
+        add_officer_btn_Box.setPadding(new Insets(10, 0, 0, 190));
+        Button add_officer_btn = MakeButton("Add Officer");  
+        add_officer_btn_Box.getChildren().addAll(add_officer_btn);
+        
+        
+        setAddOfficerButtonAction(add_officer_btn, name_field, areaComboBox, Email_field, phone_field, user_name_field, pass_field, female, male);
+
+        //add All Sections to right section
+        rightSection.getChildren().addAll(rightSectionTitle, nameBox, sexBox, areaBox, emailBox, phoneBox, usernameBox, passwordBox, add_officer_btn_Box);
+    }
+
+    protected void addToToggleSection(RadioButton male, RadioButton female) {
+        ToggleGroup sexToggleSection = new ToggleGroup();
+        sexToggleSection.getToggles().addAll(male, female);
+    }
+
+    protected Button MakeButton(String name) {
+        // add officer btn
+        Button add_officer_btn = new Button(name);
+        add_officer_btn.setPrefSize(200, 50);
+        return add_officer_btn;
+    }
+
+    protected void setAddOfficerButtonAction(Button add_officer_btn, TextField name_field, ComboBox areaComboBox, TextField Email_field, TextField phone_field, TextField user_name_field, PasswordField pass_field, RadioButton female, RadioButton male) {
+        add_officer_btn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent even) {
+                String name = name_field.getText();
+                String sex = "male";
+                String area = areaComboBox.getSelectionModel().getSelectedItem().toString();
+                String email = Email_field.getText();
+                String phone = phone_field.getText();
+                String username = user_name_field.getText();
+                String password = pass_field.getText(); //we should add them later to the table of usernaems and passwords
+                if (female.isSelected()) {
+                    sex = "female";
+                }
+
+                resetAddOfficerForm();
+
+                adminController.addOfficer(phone, email, name, area, sex, username, password);
+            }
+
+            protected void resetAddOfficerForm() {
+                name_field.setText("");
+                Email_field.setText("");
+                user_name_field.setText("");
+                phone_field.setText("");
+                pass_field.setText("");
+                male.setSelected(false);
+                female.setSelected(false);
+            }
+        });
+    }
+
+    protected PasswordField MakePasswordFeild(String promptText) {
+        PasswordField pass_field = new PasswordField();
+        pass_field.setPrefSize(300, 40);
+        pass_field.setPromptText(promptText);
+        return pass_field;
+    }
+
+    protected void FillAreaComboBox(ComboBox areaComboBox) {
+        ArrayList<String> areaNames = adminController.getAreasForComboBox();
+        areaComboBox.setValue(areaNames.get(0));
+        for (int i = 0; i < areaNames.size(); i++) {
+            areaComboBox.getItems().add(areaNames.get(i));
+        }
+        areaComboBox.setPrefSize(300, 40);
+    }
+
+    protected RadioButton MakeFemaleButton() {
+        RadioButton female = new RadioButton("Female");
+        female.setFont(Font.font("arial", FontWeight.MEDIUM, 15));
+        female.setPadding(new Insets(0, 0, 0, 33));
+        return female;
+    }
+
+    protected RadioButton MakeMaleButton() {
+        RadioButton male = new RadioButton("Male");
+        male.setFont(Font.font("arial", FontWeight.MEDIUM, 15));
+        male.setPadding(new Insets(0, 60, 0, 60));
+        return male;
+    }
+
+    protected Label MakeLable(String title) {
+        Label sex = new Label(title);
+        sex.setFont(Font.font("arial", FontWeight.MEDIUM, 15));
+        sex.setLayoutX(10);
+        return sex;
+    }
+
+    protected TextField MakeTextFeild(String PromptText) {
+        TextField name_field = new TextField();
+        name_field.setPromptText(PromptText);
+        name_field.setPrefSize(300, 40);
+        return name_field;
+    }
+
+    protected HBox MakeBox() {
+        //name field
+        HBox h_name = new HBox();
+        h_name.setPadding(new Insets(30, 0, 0, 0));
+        h_name.setAlignment(Pos.CENTER);
+        return h_name;
+    }
+
+    protected Label setStageTitle() {
+        Label stage2_title = new Label("\tAdd Officer \n Officer information");
+        stage2_title.setFont(Font.font("Garamond", FontWeight.BOLD, 30));
+        return stage2_title;
+    }
+
+    protected void MakeSwitchTap(VBox leftSection) {
         Button Add_Officer = new Button("Add Officer");
         Button Officers_list = new Button("Officers list");
         Button Make_report = new Button("Make a report");
@@ -68,7 +268,7 @@ public class Admin_AddOfficer extends Application {
             @Override
             public void handle(ActionEvent even) {
                 Admin_AddOfficer c2 = new Admin_AddOfficer(adminID);
-                S1.close();
+                addOfficer.close();
                 c2.start(new Stage());
             }
         });
@@ -79,7 +279,7 @@ public class Admin_AddOfficer extends Application {
             @Override
             public void handle(ActionEvent even) {
                 Admin_OfficerList c2 = new Admin_OfficerList(adminID);
-                S1.close();
+                addOfficer.close();
                 c2.start(new Stage());
             }
         });
@@ -91,7 +291,7 @@ public class Admin_AddOfficer extends Application {
             @Override
             public void handle(ActionEvent even) {
                 Make_Report c2 = new Make_Report(adminID);
-                S1.close();
+                addOfficer.close();
                 c2.start(new Stage());
             }
         });
@@ -104,169 +304,12 @@ public class Admin_AddOfficer extends Application {
             @Override
             public void handle(ActionEvent even) {
                 Login c2 = new Login();
-                S1.close();
+                addOfficer.close();
                 c2.start(new Stage());
             }
         });
 
-        section1.getChildren().addAll(Add_Officer, Officers_list, Make_report, Logout);
-
-//second section
-        VBox section2 = new VBox();
-        section2.setAlignment(Pos.TOP_CENTER);
-        section2.setPrefSize(530, 500);
-
-        Label stage2_title = new Label("\tAdd Officer \n Officer information");
-        stage2_title.setFont(Font.font("Garamond", FontWeight.BOLD, 30));
-
-//user name field
-        HBox h_name = new HBox();
-        h_name.setPadding(new Insets(30, 0, 0, 0));
-        h_name.setAlignment(Pos.CENTER);
-
-        Label name = new Label("NAME       ");
-        name.setFont(Font.font("arial", FontWeight.MEDIUM, 15));
-
-        TextField name_field = new TextField();
-        name_field.setPromptText("Officer name  ");
-        name_field.setPrefSize(300, 40);
-
-        h_name.getChildren().addAll(name, name_field);
-
-//gender box
-        HBox gender = new HBox();
-        gender.setAlignment(Pos.CENTER);
-        gender.setPadding(new Insets(30, 0, 0, 0));
-        gender.setAlignment(Pos.CENTER);
-        ToggleGroup tg = new ToggleGroup();
-
-        Label sex = new Label("SEX\t \t ");
-
-        sex.setFont(Font.font("arial", FontWeight.MEDIUM, 15));
-        sex.setLayoutX(10);
-        RadioButton male = new RadioButton("Male");
-        male.setFont(Font.font("arial", FontWeight.MEDIUM, 15));
-        male.setPadding(new Insets(0, 60, 0, 60));
-        RadioButton female = new RadioButton("Female");
-        female.setFont(Font.font("arial", FontWeight.MEDIUM, 15));
-        female.setPadding(new Insets(0, 0, 0, 33));
-        gender.getChildren().addAll(sex, male, female);
-
-        tg.getToggles().addAll(male, female);
-//area box
-        HBox area_section = new HBox();
-        area_section.setPadding(new Insets(30, 0, 0, 0));
-        area_section.setAlignment(Pos.CENTER);
-
-        Label area = new Label("Area       ");
-        area.setFont(Font.font("arial", FontWeight.MEDIUM, 15));
-
-        ComboBox area_cbox = new ComboBox();
-
-        ArrayList<String> areaNames = adminController.getAreasForComboBox();
-        //add cities here
-        area_cbox.setValue(areaNames.get(0));
-        for (int i = 0; i < areaNames.size(); i++) {
-            area_cbox.getItems().add(areaNames.get(i));
-        }
-        area_cbox.setPrefSize(300, 40);
-        area_section.getChildren().addAll(area, area_cbox);
-
-//email box
-        HBox h_email = new HBox();
-        h_email.setPadding(new Insets(30, 0, 0, 0));
-        h_email.setAlignment(Pos.CENTER);
-
-        Label Email = new Label("Email       ");
-        Email.setFont(Font.font("arial", FontWeight.MEDIUM, 15));
-
-        TextField Email_field = new TextField();
-        Email_field.setPromptText("Officer Email  ");
-        Email_field.setPrefSize(300, 40);
-
-        h_email.getChildren().addAll(Email, Email_field);
-//phone box
-        HBox h_phone = new HBox();
-        h_phone.setPadding(new Insets(30, 0, 0, 0));
-        h_phone.setAlignment(Pos.CENTER);
-
-        Label phone = new Label("Phone       ");
-        phone.setFont(Font.font("arial", FontWeight.MEDIUM, 15));
-
-        TextField phone_field = new TextField();
-        phone_field.setPromptText("Officer Phone number  ");
-        phone_field.setPrefSize(300, 40);
-
-        h_phone.getChildren().addAll(phone, phone_field);
-
-//user name field
-        HBox h_user_name = new HBox();
-        h_user_name.setPadding(new Insets(30, 30, 0, 0));
-        h_user_name.setAlignment(Pos.CENTER);
-
-        Label user_name = new Label("User Name");
-        user_name.setPadding(new Insets(0, 20, 0, 0));
-        user_name.setFont(Font.font("arial", FontWeight.MEDIUM, 15));
-
-        TextField user_name_field = new TextField();
-        user_name_field.setPromptText("Officer user name");
-        user_name_field.setPrefSize(300, 40);
-
-        h_user_name.getChildren().addAll(user_name, user_name_field);
-
-//password field
-        HBox h_pass = new HBox();
-        h_pass.setPadding(new Insets(30, 30, 40, 0));
-        h_pass.setAlignment(Pos.CENTER);
-
-        Label pass = new Label("password");
-        pass.setPadding(new Insets(0, 30, 0, 0));
-        pass.setFont(Font.font("arial", FontWeight.MEDIUM, 15));
-
-        PasswordField pass_field = new PasswordField();
-        pass_field.setPrefSize(300, 40);
-        pass_field.setPromptText("Officer Password");
-        h_pass.getChildren().addAll(pass, pass_field);
-
-// add officer btn
-        Button add_officer_btn = new Button("Add Officer");
-        add_officer_btn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent even) {
-                String name = name_field.getText();
-                String sex = "male";
-                String area = area_cbox.getSelectionModel().getSelectedItem().toString();
-                String email = Email_field.getText();
-                String phone = phone_field.getText();
-                String username = user_name_field.getText();
-                String password = pass_field.getText(); //we should add them later to the table of usernaems and passwords
-                if (female.isSelected()) {
-                    sex = "female";
-                }
-
-                name_field.setText("");
-                Email_field.setText("");
-                user_name_field.setText("");
-                phone_field.setText("");
-                pass_field.setText("");
-                male.setSelected(false);
-                female.setSelected(false);
-                adminController.addOfficer(phone, email, name, area, sex, username, password);
-            }
-        });
-        add_officer_btn.setPrefSize(200, 50);
-
-        section2.getChildren().addAll(stage2_title, h_name, gender, area_section, h_email, h_phone, h_user_name, h_pass, add_officer_btn);
-
-        all.getChildren().addAll(section1, section2);
-        all.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.web("#a5cee5"), CornerRadii.EMPTY, Insets.EMPTY)));
-        Scene scene = new Scene(all, 800, 700);
-        stage.setScene(scene);
-        stage.setTitle("Admin Screen");
-        stage.setResizable(false);
-
-        stage.show();
-        S1 = stage;
+        leftSection.getChildren().addAll(Add_Officer, Officers_list, Make_report, Logout);
     }
 
 }

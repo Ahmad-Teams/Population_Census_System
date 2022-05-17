@@ -2,7 +2,7 @@ package Model.Entities;
 
 import java.util.ArrayList;
 
-public class Admin extends Person implements Observable{
+public class Admin extends Person{
 
     private int adminID;
     private int stateID;
@@ -75,16 +75,6 @@ public class Admin extends Person implements Observable{
 
     public void viewFamilyMember(ArrayList<FamilyMember> FamilyMembers) {
 
-    }
-
-    @Override
-    public void getObservers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void notifyUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
