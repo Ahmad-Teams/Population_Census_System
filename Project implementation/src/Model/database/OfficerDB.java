@@ -126,7 +126,6 @@ public class OfficerDB {
             p.setString(10, user.getUsername());
             p.setString(11, user.getPassword());
             p.setInt(12, user.getOfficerID());
-            System.out.println("adfdsa   "+user.getOfficerID());
             p.execute();
         } catch (SQLException ee) {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here

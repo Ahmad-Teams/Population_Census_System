@@ -200,11 +200,11 @@ public class AddUserView extends Application {
 
         Button reset_botton = makeResetButton();
 
-        Button makeRequest = makeMakeRequestButton();
+        Button AddButton = makeAddButton();
 
-        formButtons.getChildren().addAll(reset_botton, makeRequest);
+        formButtons.getChildren().addAll(reset_botton, AddButton);
 
-        setMakeRequestButtonAction(makeRequest, name_field, Occupation_field, address_field, education_cbox, calendar, Email_field, Phone_field, user_name_field, pass_field, Female, Male);
+        setAddRequestButtonAction(AddButton, name_field, Occupation_field, address_field, education_cbox, calendar, Email_field, Phone_field, user_name_field, pass_field, Female, Male);
 
         setResetButtonAction(reset_botton, name_field, Male, Female, Occupation_field, address_field, education_cbox, calendar, Email_field, Phone_field, user_name_field, pass_field);
 
@@ -247,7 +247,7 @@ public class AddUserView extends Application {
         });
     }
 
-    protected void setMakeRequestButtonAction(Button makeRequest, TextField name_field, TextField Occupation_field, TextField address_field, ComboBox education_cbox, DatePicker calendar, TextField Email_field, TextField Phone_field, TextField user_name_field, PasswordField pass_field, RadioButton Female, RadioButton Male) {
+    protected void setAddRequestButtonAction(Button makeRequest, TextField name_field, TextField Occupation_field, TextField address_field, ComboBox education_cbox, DatePicker calendar, TextField Email_field, TextField Phone_field, TextField user_name_field, PasswordField pass_field, RadioButton Female, RadioButton Male) {
         makeRequest.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
@@ -289,7 +289,7 @@ public class AddUserView extends Application {
         });
     }
 
-    protected Button makeMakeRequestButton() {
+    protected Button makeAddButton() {
         Button makeRequest = new Button(" Add ");
         makeRequest.setStyle("-fx-background-radius: 300px ;-fx-background-color:Orange;");
         makeRequest.setMinWidth(120);
