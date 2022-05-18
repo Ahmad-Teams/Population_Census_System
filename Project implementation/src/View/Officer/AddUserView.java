@@ -36,17 +36,17 @@ import View.login.Login;
  *
  * @author dell
  */
-public class AddUser extends Application {
+public class AddUserView extends Application {
 
     Stage addUser;
     int officerID;
     OfficerViewController officerController;
     TableView table = new TableView();
 
-    public AddUser() {
+    public AddUserView() {
     }
 
-    public AddUser(int OfficerID) {
+    public AddUserView(int OfficerID) {
         this.officerID = OfficerID;
         officerController = new OfficerViewController(OfficerID);
 
@@ -325,7 +325,7 @@ public class AddUser extends Application {
         View_my_family.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                AddUser c2 = new AddUser(officerID);
+                AddUserView c2 = new AddUserView(officerID);
                 addUser.close();
                 c2.start(new Stage());
             }
@@ -337,7 +337,7 @@ public class AddUser extends Application {
         View_Correction.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                ViewNewRequests c2 = new ViewNewRequests(officerID);
+                NewRequestsView c2 = new NewRequestsView(officerID);
                 addUser.close();
                 c2.start(new Stage());
             }

@@ -5,9 +5,9 @@ import Model.database.UserDB;
 import Model.Entities.CorrectionRequest;
 import Model.Entities.Member;
 import Model.Entities.UserRequest;
-import View.User.CorrectionRequestTableColumn;
-import View.User.MemberTableColumn;
-import View.User.UserRequestTableColumn;
+import View.Utilities.CorrectionRequestTableColumn;
+import View.Utilities.MemberTableColumn;
+import View.Utilities.UserRequestTableColumn;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,11 +41,11 @@ public class UserViewController {
     }
 
     public void addUserRequest(String name, String address, String education, String phone, String email, String date, String sex, String Occupation, int userID) {
-        UserDB.addUserRequest(new UserRequest("Pending", name, address, education, phone, email, date, UserDB.getAreaIDFromUserID(userID), sex, Occupation, userID));
+        UserDB.addUserRequest(new UserRequest("Pending", address, name, education, phone, email, date, UserDB.getAreaIDFromUserID(userID), sex, Occupation, userID));
     }
 
     public UserRequestTableColumn getUserRequestTableColumn(int userRequestID) {
-        UserRequest userRequest = UserDB.getUserRequest(userRequestID);
+        UserRequest userRequest = UserDB.getUserRequestForUser(userRequestID);
         return new UserRequestTableColumn(userRequest.getName(), AdminDB.getAreaName(userRequest.getAreaID()), userRequest.getRequestID(), userRequest.getRequestState(), userRequest.getAddress(), userRequest.getEducation(), userRequest.getPhone(), userRequest.getEmail(), userRequest.getMemberID(), userRequest.getDOB(), userRequest.getAreaID(), userRequest.getSex(), userRequest.getOccupation(), userRequest.getUserID());
     }
 

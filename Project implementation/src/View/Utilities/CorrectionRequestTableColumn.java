@@ -1,4 +1,4 @@
-package View.User;
+package View.Utilities;
 
 public class CorrectionRequestTableColumn {
 

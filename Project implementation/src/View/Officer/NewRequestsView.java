@@ -28,7 +28,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import View.login.Login;
-import View.User.UserRequestTableColumn;
+import View.Utilities.UserRequestTableColumn;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -37,7 +37,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
  *
  * @author user
  */
-public class ViewNewRequests extends Application {
+public class NewRequestsView extends Application {
 
     Stage viewNewRequests;
     int officerID;
@@ -53,10 +53,10 @@ public class ViewNewRequests extends Application {
     VBox SendButtonBox = new VBox(10);
     Button SendButton = new Button("Send");
 
-    public ViewNewRequests() {
+    public NewRequestsView() {
     }
 
-    public ViewNewRequests(int officerID) {
+    public NewRequestsView(int officerID) {
         this.officerID = officerID;
         officerController = new OfficerViewController(officerID);
     }
@@ -164,7 +164,7 @@ public class ViewNewRequests extends Application {
 
         Button reject = makeRejectButton();
         setRejectButtonAction(reject);
-        
+
         buttons.getChildren().addAll(reject, accept);
         RightSection.getChildren().addAll(rightSectionTitle, scrollPane, buttons, requestTitleLable, requestTitle, ruquestReasonLable, requestReason, SendButtonBox);
     }
@@ -220,7 +220,20 @@ public class ViewNewRequests extends Application {
 
             @Override
             public void handle(ActionEvent even) {
-                if (tableNotEmpty()) {
+
+                requestTitleLable.setVisible(false);
+                requestTitle.setVisible(false);
+                requestReason.setVisible(false);
+                ruquestReasonLable.setVisible(false);
+                SendButtonBox.setVisible(false);
+                t.setVisible(false);
+                SendButton.setVisible(false);
+                officerController.updateStateOfUserRequestToAccepted(selectedColumn.getRequestID());
+                tableClickeEvent();
+                table.setItems(officerController.getPendingUserRequests());
+                if (isSelectedColumnHasCorrectionRequest) {
+                    officerController.deleteCorrectionRequest(selectedColumn.getRequestID());
+
                     requestTitleLable.setVisible(false);
                     requestTitle.setVisible(false);
                     requestReason.setVisible(false);
@@ -228,13 +241,9 @@ public class ViewNewRequests extends Application {
                     SendButtonBox.setVisible(false);
                     t.setVisible(false);
                     SendButton.setVisible(false);
-                    officerController.updateStateOfUserRequestToAccepted(selectedColumn.getRequestID());
-                    tableClickeEvent();
-                    table.setItems(officerController.getPendingUserRequests());
-                    if (isSelectedColumnHasCorrectionRequest) {
-                        officerController.deleteCorrectionRequest(selectedColumn.getRequestID());
-                    }
                 }
+                officerController.acceptUserRequest(selectedColumn.getRequestID());
+
             }
         });
     }
@@ -362,7 +371,7 @@ public class ViewNewRequests extends Application {
         View_my_family.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                AddUser c2 = new AddUser(officerID);
+                AddUserView c2 = new AddUserView(officerID);
                 viewNewRequests.close();
                 c2.start(new Stage());
             }
@@ -373,7 +382,7 @@ public class ViewNewRequests extends Application {
         View_Correction.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                ViewNewRequests c2 = new ViewNewRequests(officerID);
+                NewRequestsView c2 = new NewRequestsView(officerID);
                 viewNewRequests.close();
                 c2.start(new Stage());
             }
@@ -396,30 +405,28 @@ public class ViewNewRequests extends Application {
     }
 
     private void tableClickeEvent() {
-        if (tableNotEmpty()) {
-            selectedColumn = (UserRequestTableColumn) table.getSelectionModel().getSelectedItems().get(0);
-            isSelectedColumnHasCorrectionRequest = officerController.checkSelectedColumnHasCorrectionRequest(selectedColumn.getRequestID());
-            if (isSelectedColumnHasCorrectionRequest) {
-                officerController.setTitleAndReasonOfCorrectionRequest(this.requestTitle, this.requestReason, selectedColumn.getRequestID());
-                requestTitleLable.setVisible(true);
-                requestTitle.setVisible(true);
-                requestReason.setVisible(true);
-                ruquestReasonLable.setVisible(true);
-                SendButtonBox.setVisible(true);
-                t.setVisible(false);
-                SendButton.setVisible(true);
-            } else {
-                officerController.setTitleAndReasonOfCorrectionRequest(this.requestTitle, this.requestReason, selectedColumn.getRequestID());
-                requestTitleLable.setVisible(false);
-                requestTitle.setVisible(false);
-                requestReason.setVisible(false);
-                ruquestReasonLable.setVisible(false);
-                SendButtonBox.setVisible(false);
-                t.setVisible(false);
-                SendButton.setVisible(false);
-                requestTitle.setText("");
-                requestReason.setText("");
-            }
+        selectedColumn = (UserRequestTableColumn) table.getSelectionModel().getSelectedItems().get(0);
+        isSelectedColumnHasCorrectionRequest = officerController.checkSelectedColumnHasCorrectionRequest(selectedColumn.getRequestID());
+        if (isSelectedColumnHasCorrectionRequest) {
+            officerController.setTitleAndReasonOfCorrectionRequest(this.requestTitle, this.requestReason, selectedColumn.getRequestID());
+            requestTitleLable.setVisible(true);
+            requestTitle.setVisible(true);
+            requestReason.setVisible(true);
+            ruquestReasonLable.setVisible(true);
+            SendButtonBox.setVisible(true);
+            t.setVisible(false);
+            SendButton.setVisible(true);
+        } else {
+            officerController.setTitleAndReasonOfCorrectionRequest(this.requestTitle, this.requestReason, selectedColumn.getRequestID());
+            requestTitleLable.setVisible(false);
+            requestTitle.setVisible(false);
+            requestReason.setVisible(false);
+            ruquestReasonLable.setVisible(false);
+            SendButtonBox.setVisible(false);
+            t.setVisible(false);
+            SendButton.setVisible(false);
+            requestTitle.setText("");
+            requestReason.setText("");
         }
     }
 

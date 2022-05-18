@@ -1,4 +1,4 @@
-package View.Admin;
+package View.Utilities;
 
 
 public class OfficerTableColumn {

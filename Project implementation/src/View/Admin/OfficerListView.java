@@ -1,5 +1,6 @@
 package View.Admin;
 
+import View.Utilities.OfficerTableColumn;
 import Controller.AdminViewController;
 import java.util.ArrayList;
 import javafx.application.Application;
@@ -38,7 +39,7 @@ import View.login.Login;
  *
  * @author email
  */
-public class Admin_OfficerList extends Application {
+public class OfficerListView extends Application {
 
     Stage officerList;
     TableView<OfficerTableColumn> table = new TableView();
@@ -54,10 +55,10 @@ public class Admin_OfficerList extends Application {
     int adminID;
     AdminViewController adminController;
 
-    public Admin_OfficerList() {
+    public OfficerListView() {
     }
 
-    public Admin_OfficerList(int adminID) {
+    public OfficerListView(int adminID) {
         this.adminID = adminID;
         adminController = new AdminViewController(adminID);
     }
@@ -186,9 +187,9 @@ public class Admin_OfficerList extends Application {
 
         buttons.getChildren().addAll(delete, update);
 
-        setDeleteButtonAction(delete, username, email);
+        setDeleteButtonAction(delete);
 
-        setUpdateButtonAction(update, email, username);
+        setUpdateButtonAction(update);
         
         
         formRightSection.getChildren().addAll(NameBox, areaBox, EmailBox, UsernameBox);
@@ -231,7 +232,7 @@ public class Admin_OfficerList extends Application {
         table.getColumns().addAll(ID, name, sex, email1, phone, areaName, username1, password);
     }
 
-    protected void setUpdateButtonAction(Button update, TableColumn<OfficerTableColumn, String> email1, TableColumn<OfficerTableColumn, String> username1) {
+    protected void setUpdateButtonAction(Button update) {
         update.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
@@ -239,13 +240,13 @@ public class Admin_OfficerList extends Application {
                 if (Female.isSelected()) {
                     Sex = "female";
                 }
-                adminController.updateOfficer(Phone.getText(), email1.getText(), selectedColumn.getOfficerID(), nameField.getText(), Area.getSelectionModel().getSelectedItem().toString(), Sex, username1.getText(), Password.getText(), adminID);
+                adminController.updateOfficer(Phone.getText(), email.getText(), selectedColumn.getOfficerID(), nameField.getText(), Area.getSelectionModel().getSelectedItem().toString(), Sex, username.getText(), Password.getText(), adminID);
                 setTableContent();
             }
         });
     }
 
-    protected void setDeleteButtonAction(Button delete, TableColumn<OfficerTableColumn, String> username1, TableColumn<OfficerTableColumn, String> email1) {
+    protected void setDeleteButtonAction(Button delete) {
         delete.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
@@ -259,8 +260,8 @@ public class Admin_OfficerList extends Application {
 
             protected void resetUpdateOfficerForm() {
                 nameField.setText("");
-                username1.setText("");
-                email1.setText("");
+                username.setText("");
+                email.setText("");
                 Password.setText("");
                 Phone.setText("");
                 Male.setSelected(false);
@@ -373,7 +374,7 @@ public class Admin_OfficerList extends Application {
         Add_Officer.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                Admin_AddOfficer c2 = new Admin_AddOfficer(adminID);
+                AddOfficerView c2 = new AddOfficerView(adminID);
                 officerList.close();
                 c2.start(new Stage());
             }
@@ -384,7 +385,7 @@ public class Admin_OfficerList extends Application {
         Officers_list.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                Admin_OfficerList c2 = new Admin_OfficerList(adminID);
+                OfficerListView c2 = new OfficerListView(adminID);
                 officerList.close();
                 c2.start(new Stage());
             }
@@ -396,7 +397,7 @@ public class Admin_OfficerList extends Application {
         Make_report.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                Make_Report c2 = new Make_Report(adminID);
+                MakeReportView c2 = new MakeReportView(adminID);
                 officerList.close();
                 c2.start(new Stage());
             }
@@ -439,6 +440,7 @@ public class Admin_OfficerList extends Application {
         for (int i = 0; i < areaNames.size(); i++) {
             Area.getItems().add(areaNames.get(i));
         }
+        Area.setValue(areaNames.get(0));
     }
 
 }

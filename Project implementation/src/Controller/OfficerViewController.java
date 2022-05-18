@@ -3,9 +3,11 @@ package Controller;
 import Model.database.AdminDB;
 import Model.database.OfficerDB;
 import Model.Entities.CorrectionRequest;
+import Model.Entities.Member;
 import Model.Entities.User;
 import Model.Entities.UserRequest;
-import View.User.UserRequestTableColumn;
+import Model.database.UserDB;
+import View.Utilities.UserRequestTableColumn;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -45,7 +47,7 @@ public class OfficerViewController {
     }
 
     public void updateCorrectionRequest(int requestID, String title, String content) {
-        OfficerDB.updateCorrectionRequest(new CorrectionRequest(requestID, title, content));
+        OfficerDB.updateCorrectionRequest(new CorrectionRequest(OfficerDB.getCorrectionRequest(requestID).getRequestID(), title, content));
     }
 
     public void makeCorrectionRequest(int userRequestID, int userID, int officerID, String title, String content) {
@@ -62,5 +64,10 @@ public class OfficerViewController {
 
     public void deleteCorrectionRequest(int userRequestID) {
         OfficerDB.deleteCorrectionRequestByUserRequestID(userRequestID);
+    }
+
+    public void acceptUserRequest(int requestID) {
+        UserRequest userRequest = UserDB.getUserRequestForUser(requestID);
+        UserDB.addMember(new Member(userRequest.getMemberID(),userRequest.getUserID(),userRequest.getAddress(),userRequest.getEducation(),userRequest.getEmail(),userRequest.getSex(),userRequest.getOccupation(),userRequest.getDOB(),userRequest.getAreaID(),userRequest.getName(),userRequest.getPhone()));
     }
 }

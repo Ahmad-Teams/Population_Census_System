@@ -1,8 +1,9 @@
-package View.User;
+package View.Utilities;
 
-public class UserTableColumn {
+public class MemberTableColumn {
 
     private String areaName;
+    private int memberID;
     private int userID;
     private String address;
     private String education;
@@ -12,10 +13,12 @@ public class UserTableColumn {
     private int areaID;
     private String name;
     private String phone;
+
     private String Email;
 
-    public UserTableColumn(String areaName, int userID, String address, String education, String sex, String occupation, String DOB, int areaID, String name, String phone, String Email) {
+    public MemberTableColumn(String areaName, int memberID, int userID, String address, String education, String sex, String occupation, String DOB, int areaID, String name, String phone, String Email) {
         this.areaName = areaName;
+        this.memberID = memberID;
         this.userID = userID;
         this.address = address;
         this.education = education;
@@ -34,6 +37,14 @@ public class UserTableColumn {
 
     public void setAreaName(String areaName) {
         this.areaName = areaName;
+    }
+
+    public int getMemberID() {
+        return memberID;
+    }
+
+    public void setMemberID(int memberID) {
+        this.memberID = memberID;
     }
 
     public int getUserID() {

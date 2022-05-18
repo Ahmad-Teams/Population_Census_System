@@ -35,17 +35,17 @@ import View.login.Login;
  *
  * @author dell
  */
-public class Make_Request extends Application {
+public class MakeRequestView extends Application {
 
     Stage make_Request;
     int userID = 1;
     UserViewController userController;
     TableView table = new TableView();
 
-    public Make_Request() {
+    public MakeRequestView() {
     }
 
-    public Make_Request(int userID) {
+    public MakeRequestView(int userID) {
         this.userID = userID;
         userController = new UserViewController(userID);
     }
@@ -372,7 +372,7 @@ Phone_field.setText("");
         View_my_family.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                View_Family_Members c2 = new View_Family_Members(userID);
+                FamilyMembersView c2 = new FamilyMembersView(userID);
                 make_Request.close();
                 c2.start(new Stage());
             }
@@ -383,7 +383,7 @@ Phone_field.setText("");
         Make_request.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                Make_Request c2 = new Make_Request(userID);
+                MakeRequestView c2 = new MakeRequestView(userID);
                 make_Request.close();
                 c2.start(new Stage());
             }
@@ -395,7 +395,7 @@ Phone_field.setText("");
         view_request.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                View_Your_Request c2 = new View_Your_Request(userID);
+                YourRequestView c2 = new YourRequestView(userID);
                 make_Request.close();
                 c2.start(new Stage());
             }
@@ -407,7 +407,7 @@ Phone_field.setText("");
         View_Correction.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                View_Correction c2 = new View_Correction(userID);
+                CorrectionRequestsView c2 = new CorrectionRequestsView(userID);
                 make_Request.close();
                 c2.start(new Stage());
             }

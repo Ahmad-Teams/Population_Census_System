@@ -1,5 +1,6 @@
 package View.User;
 
+import View.Utilities.MemberTableColumn;
 import Controller.UserViewController;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -30,17 +31,17 @@ import View.login.Login;
  *
  * @author dell
  */
-public class View_Family_Members extends Application {
+public class FamilyMembersView extends Application {
 
     Stage View_Family_Members;
     TableView<MemberTableColumn> table = new TableView();
     int userID;
     UserViewController userController;
 
-    public View_Family_Members() {
+    public FamilyMembersView() {
     }
 
-    public View_Family_Members(int userID) {
+    public FamilyMembersView(int userID) {
         this.userID = userID;
         userController = new UserViewController(userID);
 
@@ -175,7 +176,7 @@ public class View_Family_Members extends Application {
         View_my_family.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                View_Family_Members c2 = new View_Family_Members(userID);
+                FamilyMembersView c2 = new FamilyMembersView(userID);
                 View_Family_Members.close();
                 c2.start(new Stage());
             }
@@ -187,7 +188,7 @@ public class View_Family_Members extends Application {
         Make_request.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                Make_Request c2 = new Make_Request(userID);
+                MakeRequestView c2 = new MakeRequestView(userID);
                 View_Family_Members.close();
                 c2.start(new Stage());
             }
@@ -199,7 +200,7 @@ public class View_Family_Members extends Application {
         view_request.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                View_Your_Request c2 = new View_Your_Request(userID);
+                YourRequestView c2 = new YourRequestView(userID);
                 View_Family_Members.close();
                 c2.start(new Stage());
             }
@@ -211,7 +212,7 @@ public class View_Family_Members extends Application {
         View_Correction.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                View_Correction c2 = new View_Correction(userID);
+                CorrectionRequestsView c2 = new CorrectionRequestsView(userID);
                 View_Family_Members.close();
                 c2.start(new Stage());
             }

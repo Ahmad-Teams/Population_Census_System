@@ -112,20 +112,21 @@ public class OfficerDB {
 
     public static void addUser(User user) {
         try (
-                Connection con = connect(); PreparedStatement p = con.prepareStatement("insert into User(Address,Education,Phone,Email,userID,DOB,Name,AreaID,Sex,Occupation,Username,Password,officerID) values(?,?,?,?,?,?,?,?,?,?,?,?,?)"); PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("insert into User(Address,Education,Phone,Email,DOB,Name,AreaID,Sex,Occupation,Username,Password,officerID) values(?,?,?,?,?,?,?,?,?,?,?,?)"); PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setString(1, user.getAddress());
             p.setString(2, user.getEducation());
             p.setString(3, user.getPhone());
             p.setString(4, user.getEmail());
-            p.setInt(5, user.getUserID());
-            p.setString(6, user.getDOB());
-            p.setString(7, user.getName());
-            p.setInt(8, user.getAreaID());
-            p.setString(9, user.getSex());
-            p.setString(10, user.getOccupation());
-            p.setString(11, user.getUsername());
-            p.setString(12, user.getPassword());
+            p.setString(5, user.getDOB());
+            p.setString(6, user.getName());
+            p.setInt(7, user.getAreaID());
+            p.setString(8, user.getSex());
+            p.setString(9, user.getOccupation());
+            p.setString(10, user.getUsername());
+            p.setString(11, user.getPassword());
+            p.setInt(12, user.getOfficerID());
+            System.out.println("adfdsa   "+user.getOfficerID());
             p.execute();
         } catch (SQLException ee) {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here

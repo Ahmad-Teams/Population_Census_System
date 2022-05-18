@@ -1,7 +1,8 @@
 package View.Admin;
 
+import View.Utilities.OfficerTableColumn;
 import Controller.AdminViewController;
-import View.User.UserTableColumn;
+import View.Utilities.UserTableColumn;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -34,7 +35,7 @@ import View.login.Login;
  *
  * @author user
  */
-public class Make_Report extends Application {
+public class MakeReportView extends Application {
 
     Stage makeReport;
     int adminID;
@@ -46,10 +47,10 @@ public class Make_Report extends Application {
     ScrollPane scrollPane = new ScrollPane();
     AdminViewController adminController;
 
-    public Make_Report() {
+    public MakeReportView() {
     }
 
-    public Make_Report(int adminID) {
+    public MakeReportView(int adminID) {
         this.adminID = adminID;
         adminController = new AdminViewController(adminID);
     }
@@ -322,7 +323,7 @@ public class Make_Report extends Application {
         Add_Officer.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                Admin_AddOfficer c2 = new Admin_AddOfficer(adminID);
+                AddOfficerView c2 = new AddOfficerView(adminID);
                 makeReport.close();
                 c2.start(new Stage());
             }
@@ -334,7 +335,7 @@ public class Make_Report extends Application {
         Officers_list.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                Admin_OfficerList c2 = new Admin_OfficerList(adminID);
+                OfficerListView c2 = new OfficerListView(adminID);
                 makeReport.close();
                 c2.start(new Stage());
             }
@@ -345,7 +346,7 @@ public class Make_Report extends Application {
         Make_report.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                Make_Report c2 = new Make_Report(adminID);
+                MakeReportView c2 = new MakeReportView(adminID);
                 makeReport.close();
                 c2.start(new Stage());
             }

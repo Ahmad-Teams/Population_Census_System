@@ -33,16 +33,16 @@ import View.login.Login;
  *
  * @author user
  */
-public class Admin_AddOfficer extends Application {
+public class AddOfficerView extends Application {
 
     Stage addOfficer;
     int adminID;
     AdminViewController adminController;
 
-    public Admin_AddOfficer() {
+    public AddOfficerView() {
     }
 
-    public Admin_AddOfficer(int adminID) {
+    public AddOfficerView(int adminID) {
         this.adminID = adminID;
         adminController = new AdminViewController(adminID);
     }
@@ -267,7 +267,7 @@ public class Admin_AddOfficer extends Application {
         Add_Officer.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                Admin_AddOfficer c2 = new Admin_AddOfficer(adminID);
+                AddOfficerView c2 = new AddOfficerView(adminID);
                 addOfficer.close();
                 c2.start(new Stage());
             }
@@ -278,7 +278,7 @@ public class Admin_AddOfficer extends Application {
         Officers_list.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                Admin_OfficerList c2 = new Admin_OfficerList(adminID);
+                OfficerListView c2 = new OfficerListView(adminID);
                 addOfficer.close();
                 c2.start(new Stage());
             }
@@ -290,7 +290,7 @@ public class Admin_AddOfficer extends Application {
         Make_report.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                Make_Report c2 = new Make_Report(adminID);
+                MakeReportView c2 = new MakeReportView(adminID);
                 addOfficer.close();
                 c2.start(new Stage());
             }

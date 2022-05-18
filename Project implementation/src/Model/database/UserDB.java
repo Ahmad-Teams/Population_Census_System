@@ -29,19 +29,20 @@ public class UserDB {
 
     public static void addMember(Member member) {
         try (
-                Connection con = connect(); PreparedStatement p = con.prepareStatement("insert into Member(Address,Education,Phone,Email,DOB,Name,AreaID,Sex,Occupation,userID) values(?,?,?,?,?,?,?,?,?,?)");
+                Connection con = connect(); PreparedStatement p = con.prepareStatement("insert into Member(Address,Education,Phone,Email,memberID,DOB,Name,AreaID,Sex,Occupation,userID) values(?,?,?,?,?,?,?,?,?,?,?)");
                 PreparedStatement p1 = con.prepareStatement("PRAGMA foreign_keys = ON;");) {
             p1.execute();
             p.setString(1, member.getAddress());
             p.setString(2, member.getEducation());
             p.setString(3, member.getPhone());
             p.setString(4, member.getEmail());
-            p.setString(5, member.getDOB());
-            p.setString(6, member.getName());
-            p.setInt(7, member.getAreaID());
-            p.setString(8, member.getSex());
-            p.setString(9, member.getOccupation());
-            p.setInt(10, member.getUserID());
+            p.setInt(5, getNewIDForMember());
+            p.setString(6, member.getDOB());
+            p.setString(7, member.getName());
+            p.setInt(8, member.getAreaID());
+            p.setString(9, member.getSex());
+            p.setString(10, member.getOccupation());
+            p.setInt(11, member.getUserID());
             p.execute();
         } catch (SQLException ee) {
             System.out.println(ee.getMessage());// we will put out custimize exption massages here
@@ -243,7 +244,7 @@ public class UserDB {
         return OfficerDB.check(username, password);
     }
 
-    public static UserRequest getUserRequest(int userRequestID) {
+    public static UserRequest getUserRequestForUser(int userRequestID) {
         UserRequest userRequest = new UserRequest();
         try (
                 Connection con = connect();

@@ -3,9 +3,9 @@ package Controller;
 import Model.database.AdminDB;
 import Model.database.OfficerDB;
 import Model.Entities.System_user;
-import View.Admin.Admin_AddOfficer;
-import View.Officer.AddUser;
-import View.User.View_Family_Members;
+import View.Admin.AddOfficerView;
+import View.Officer.AddUserView;
+import View.User.FamilyMembersView;
 import java.util.ArrayList;
 import javafx.stage.Stage;
 
@@ -23,15 +23,15 @@ public class LoginViewController {
         String accountType = getAccountType(username, password);
         if (accountType.equals("Admin")) {
             int adminID = AdminDB.getAdminIDfromUsername(username);
-            Admin_AddOfficer c1 = new Admin_AddOfficer(adminID);
+            AddOfficerView c1 = new AddOfficerView(adminID);
             c1.start(new Stage());
         } else if (accountType.equals("Officer")) {
             int officerID = AdminDB.getOfficerIDfromUsername(username);
-            AddUser c1 = new AddUser(officerID);
+            AddUserView c1 = new AddUserView(officerID);
             c1.start(new Stage());
         } else if (accountType.equals("User")) {
             int userID = AdminDB.getUserIDfromUsername(username);
-            View_Family_Members c1 = new View_Family_Members(userID);
+            FamilyMembersView c1 = new FamilyMembersView(userID);
             c1.start(new Stage());
         }
     }
