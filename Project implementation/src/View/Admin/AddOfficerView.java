@@ -171,14 +171,14 @@ public class AddOfficerView extends Application {
             @Override
             public void handle(ActionEvent even) {
                 String name = name_field.getText();
-                String sex = "male";
+                String sex = "Male";
                 String area = areaComboBox.getSelectionModel().getSelectedItem().toString();
                 String email = Email_field.getText();
                 String phone = phone_field.getText();
                 String username = user_name_field.getText();
                 String password = pass_field.getText(); //we should add them later to the table of usernaems and passwords
                 if (female.isSelected()) {
-                    sex = "female";
+                    sex = "Female";
                 }
 
                 resetAddOfficerForm();

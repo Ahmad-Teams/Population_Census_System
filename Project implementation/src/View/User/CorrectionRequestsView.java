@@ -366,9 +366,9 @@ public class CorrectionRequestsView extends Application {
                 String date = Date.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
                 String email = email_field.getText();
                 String phone = Phone.getText();
-                String Sex = "male";
+                String Sex = "Male";
                 if (Female.isSelected()) {
-                    Sex = "female";
+                    Sex = "Female";
                 }
 
                 userController.updateUserRequest(UserRequest, name, sex, Occupation, address, education, date, email, phone, Sex);
@@ -515,7 +515,7 @@ public class CorrectionRequestsView extends Application {
         address_field.setText(UserRequest.getAddress());
         Date.setValue(LocalDate.parse(UserRequest.getDOB(), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
 
-        if (UserRequest.getSex().equals("male")) {
+        if (UserRequest.getSex().equals("Male")) {
             Male.setSelected(true);
         } else {
             Female.setSelected(true);

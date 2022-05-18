@@ -236,9 +236,9 @@ public class OfficerListView extends Application {
         update.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent even) {
-                String Sex = "male";
+                String Sex = "Male";
                 if (Female.isSelected()) {
-                    Sex = "female";
+                    Sex = "Female";
                 }
                 adminController.updateOfficer(Phone.getText(), email.getText(), selectedColumn.getOfficerID(), nameField.getText(), Area.getSelectionModel().getSelectedItem().toString(), Sex, username.getText(), Password.getText(), adminID);
                 setTableContent();
@@ -427,7 +427,7 @@ public class OfficerListView extends Application {
         Password.setText(selectedColumn.getPassword());
         Phone.setText(selectedColumn.getPhone());
 
-        if (selectedColumn.getSex().equals("male")) {
+        if (selectedColumn.getSex().equals("Male")) {
             Male.setSelected(true);
         } else {
             Female.setSelected(true);
